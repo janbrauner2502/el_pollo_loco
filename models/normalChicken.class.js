@@ -19,7 +19,7 @@ class NormalChicken extends MovableObject {
 
         this.loadImages(this.WALKING_IMAGES);
 
-        this.animate(this.WALKING_IMAGES);
+        this.animate();
         
         this.x = 200 + Math.random() * 500;
         this.speed = 0.2 + Math.random() * 0.25;
@@ -29,5 +29,15 @@ class NormalChicken extends MovableObject {
     
     animation() {
         this.moveLeft()
+    }
+
+    animate() {
+
+        setInterval(() => {
+            let i = this.currentImage % this.WALKING_IMAGES.length;
+            let path = this.WALKING_IMAGES[i];
+            this.img = this.imageCache[path];
+            this.currentImage++;
+        }, 150)
     }
 }

@@ -1,21 +1,29 @@
 class World {
     character = new Character();
     enemies = [new NormalChicken(), new NormalChicken(), new NormalChicken(),new SmallChickenClass(), new SmallChickenClass(), new SmallChickenClass()];
-    clouds = [new Cloud(), new Cloud(), new Cloud()]
+    clouds = [new Cloud(), new Cloud(), new Cloud()];
     backgroundObjects = [
         new BackgroundObject("img/5_background/layers/air.png", 0),
         new BackgroundObject("img/5_background/layers/3_third_layer/1.png", 0),
         new BackgroundObject("img/5_background/layers/2_second_layer/1.png", 0),
         new BackgroundObject("img/5_background/layers/1_first_layer/1.png", 0)
-    ]
+    ];
     canvas;
     ctx;
+    keyboard;
 
 
-    constructor(canvas) {
+    constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
-        this.draw()
+        this.keyboard = keyboard;
+        this.setWorld();           
+        
+        this.draw();
+    }
+    
+    setWorld() {
+        this.character.world = this;
     }
 
     draw() {
