@@ -11,6 +11,7 @@ class World {
     canvas;
     ctx;
     keyboard;
+    camera_x = 0;
 
 
     constructor(canvas, keyboard) {
@@ -28,10 +29,13 @@ class World {
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.translate(this.camera_x, 0);
         this.addObjectsToCanvas(this.backgroundObjects);
         this.addToCanvas(this.character);
         this.addObjectsToCanvas(this.enemies);
         this.addObjectsToCanvas(this.clouds);
+        this.ctx.translate(-this.camera_x, 0);
+
 
 
         //draw() wird immer wieder aufgerufen, was die GraKa hergibt
@@ -48,7 +52,18 @@ class World {
     }
 
     addToCanvas(object) {
+        if (object.otherDirection) {
+            this.ctx.save();
+            this.ctx.translate(object.x + object.width / 2, 0);
+            this.ctx.scale(-1, 1);
+            this.ctx.translate(-object.x - object.width / 2, 0);
+        }       
+        
         this.ctx.drawImage(object.img, object.x, object.y, object.width, object.height)
+        
+        if(object.otherDirection) {
+            this.ctx.restore();
+        }
     }
 
 }
