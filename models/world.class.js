@@ -2,24 +2,32 @@ class World {
     character = new Character();
     enemies = [new NormalChicken(), new NormalChicken(), new NormalChicken(),new SmallChickenClass(), new SmallChickenClass(), new SmallChickenClass()];
     clouds = [new Cloud(), new Cloud(), new Cloud()];
-    backgroundObjects = [
-        new BackgroundObject("img/5_background/layers/air.png", 0),
-        new BackgroundObject("img/5_background/layers/3_third_layer/1.png", 0),
-        new BackgroundObject("img/5_background/layers/2_second_layer/1.png", 0),
-        new BackgroundObject("img/5_background/layers/1_first_layer/1.png", 0)
-    ];
+    backgroundObjects = (() => {
+        let objects = [];
+        [1, 2, 3, 4].forEach(index => {
+            let xValue = (index - 1) * 720;
+            let imgIndex = index % 2 === 0 ? '2' : '1';
+            objects.push(new BackgroundObject("img/5_background/layers/air.png", xValue));
+            objects.push(new BackgroundObject(`img/5_background/layers/3_third_layer/${imgIndex}.png`, xValue));
+            objects.push(new BackgroundObject(`img/5_background/layers/2_second_layer/${imgIndex}.png`, xValue));
+            objects.push(new BackgroundObject(`img/5_background/layers/1_first_layer/${imgIndex}.png`, xValue));
+        });
+        return objects;
+    })();
     canvas;
     ctx;
     keyboard;
     camera_x = 0;
+    
+    
 
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
-        this.setWorld();           
-        
+        this.setWorld();
+
         this.draw();
     }
     
