@@ -29,10 +29,7 @@ class SmallChickenClass extends NormalChicken {
     animate() {
 
         setInterval(() => {
-            let i = this.currentImage % this.WALKING_IMAGES.length;
-            let path = this.WALKING_IMAGES[i];
-            this.img = this.imageCache[path];
-            this.currentImage++;
+            this.playAnimation(this.WALKING_IMAGES);
         }, 150)
     }
 }

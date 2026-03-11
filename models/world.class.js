@@ -1,19 +1,6 @@
 class World {
     character = new Character();
-    enemies = [new NormalChicken(), new NormalChicken(), new NormalChicken(),new SmallChickenClass(), new SmallChickenClass(), new SmallChickenClass()];
-    clouds = [new Cloud(), new Cloud(), new Cloud()];
-    backgroundObjects = (() => {
-        let objects = [];
-        [1, 2, 3, 4].forEach(index => {
-            let xValue = (index - 1) * 720;
-            let imgIndex = index % 2 === 0 ? '2' : '1';
-            objects.push(new BackgroundObject("img/5_background/layers/air.png", xValue));
-            objects.push(new BackgroundObject(`img/5_background/layers/3_third_layer/${imgIndex}.png`, xValue));
-            objects.push(new BackgroundObject(`img/5_background/layers/2_second_layer/${imgIndex}.png`, xValue));
-            objects.push(new BackgroundObject(`img/5_background/layers/1_first_layer/${imgIndex}.png`, xValue));
-        });
-        return objects;
-    })();
+    level = level1;
     canvas;
     ctx;
     keyboard;
@@ -38,10 +25,10 @@ class World {
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(this.camera_x, 0);
-        this.addObjectsToCanvas(this.backgroundObjects);
+        this.addObjectsToCanvas(this.level.backgroundObjects);
         this.addToCanvas(this.character);
-        this.addObjectsToCanvas(this.enemies);
-        this.addObjectsToCanvas(this.clouds);
+        this.addObjectsToCanvas(this.level.enemies);
+        this.addObjectsToCanvas(this.level.clouds);
         this.ctx.translate(-this.camera_x, 0);
 
 
