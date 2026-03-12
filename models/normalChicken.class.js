@@ -28,7 +28,9 @@ class NormalChicken extends MovableObject {
     }
     
     animation() {
-        this.moveLeft()
+        setInterval(() => {
+            this.moveLeft()
+        }, 1000 / 60);
     }
 
     animate() {

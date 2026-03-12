@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('My character is', world.character);
     console.log('My enemies are', world.enemies);
     console.log(world.character.width, world.character.height);
-    console.log(world.enemies[0].width, world.enemies[0].height);
     console.log(keyboard)
 
 
@@ -27,7 +26,7 @@ window.addEventListener('keydown', (event) => {
     }
     if (event.code === 'Space') {
         keyboard.UP = true;
-    }
+    }     
     if (event.code === 'KeyF') {
         keyboard.THROW = true;
     }

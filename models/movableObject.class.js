@@ -6,6 +6,7 @@ class MovableObject {
     currentImage = 0;
     speed = 0.2;
     otherDirection = false;
+    speedY;
 
     loadImage(path) {
         this.img = new Image();
@@ -21,7 +22,8 @@ class MovableObject {
     }
 
     moveRight() {
-        console.log('movieRight');
+        this.x += this.speed;
+        this.otherDirection = false;
     };
     
     playAnimation(images) {
@@ -33,8 +35,10 @@ class MovableObject {
 
     
     moveLeft() {
-        setInterval(() => {
-            this.x -= this.speed;
-        }, 1000 / 60);
+        this.x -= this.speed;
+    }
+
+    jump() {
+        return this.speedY = 30;
     }
 }
