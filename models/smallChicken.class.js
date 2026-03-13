@@ -21,16 +21,4 @@ class SmallChicken extends NormalChicken {
 
     this.animation();
   }
-
-  animation() {
-    setInterval(() => {
-      this.moveLeft();
-    }, 1000 / 60);
-  }
-
-  animate() {
-    setInterval(() => {
-      this.playAnimation(this.WALKING_IMAGES);
-    }, 150);
-  }
 }
