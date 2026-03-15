@@ -8,10 +8,10 @@ document.addEventListener("DOMContentLoaded", () => {
   canvas.height = 480;
   world = new World(canvas, keyboard);
 
-  console.log("My character is", world.character);
-  console.log("My enemies are", world.enemies);
-  console.log(world.character.width, world.character.height);
-  console.log(keyboard);
+  // console.log("My character is", world.character);
+  // console.log("My enemies are", world.enemies);
+  // console.log(world.character.width, world.character.height);
+  // console.log(keyboard);
 });
 
 window.addEventListener("keydown", (event) => {
@@ -44,5 +44,4 @@ window.addEventListener("keyup", (event) => {
   if (event.code === "KeyF") {
     keyboard.THROW = false;
   }
-  // console.log(keyboard);
 });

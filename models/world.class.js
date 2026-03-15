@@ -1,41 +1,100 @@
 class World {
   character = new Character();
+  statusBarHealth = new StatusBar();
+  statusBarCoin = new StatusBar();
+  statusBarBottle = new StatusBar();
+  bottle = [];
   level = level1;
   canvas;
   ctx;
   keyboard;
   camera_x = 0;
 
+  /**
+   * Creates the game world, initializes canvas, keyboard, drawing and game logic.
+   * @param {HTMLCanvasElement} canvas - The canvas element used for rendering.
+   * @param {Keyboard} keyboard - The keyboard object used for input handling.
+   */
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
     this.draw();
     this.setWorld();
-    this.checkCollisions();
+    this.run();
   }
 
+  /**
+   * Sets the world reference on the character object so it can access game state.
+   */
   setWorld() {
     this.character.world = this;
   }
 
-  checkCollisions() {
+  /**
+   * Starts the main game loop, running collision checks and throw object checks at a fixed interval.
+   */
+  run() {
     setInterval(() => {
-      this.level.enemies.forEach((enemy) => {
-        if (this.character.isColliding(enemy)) {
-          console.log(`Collision with ${enemy.constructor.name}!`);
-        }
-      });
-    }, 500);
+      this.checkCollisions();
+      this.checkThrowObject();
+    }, 100);
   }
 
+  /**
+   * Checks whether the throw key is pressed and creates a new ThrowableObject if so.
+   */
+  checkThrowObject() {
+    if (this.keyboard.THROW) {
+      let bottle = new ThrowableObject(
+        this.character.x + this.character.width / 2,
+        this.character.y + this.character.height / 2,
+      );
+      // bottle.throw(this.character.otherDirection);
+      this.bottle.push(bottle);
+    }
+  }
+
+  /**
+   * Checks for collisions between the character and all enemies.
+   * Reduces character energy and updates the health status bar on hit.
+   */
+  checkCollisions() {
+    this.level.enemies.forEach((enemy) => {
+      if (this.character.isColliding(enemy)) {
+        this.character.hit();
+        this.statusBarHealth.setPercentage(this.character.energy);
+      }
+    });
+
+    // this.level.collectables.forEach((collectable) => {
+    //   if (this.character.isColliding(collectable)) {
+    //     collectable.collected = true;
+    //
+    //   }
+    // });
+  }
+
+  /**
+   * Clears and redraws all game objects onto the canvas each frame.
+   * Calls itself recursively via requestAnimationFrame.
+   */
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.translate(this.camera_x, 0);
     this.addObjectsToCanvas(this.level.backgroundObjects);
+
+    this.ctx.translate(-this.camera_x, 0);
+    // this.addToCanvas(this.statusBarCoin);
+    this.addToCanvas(this.statusBarHealth);
+    // this.addToCanvas(this.statusBarBottle);
+    this.ctx.translate(this.camera_x, 0);
+
     this.addToCanvas(this.character);
+    this.addObjectsToCanvas(this.bottle);
     this.addObjectsToCanvas(this.level.enemies);
     this.addObjectsToCanvas(this.level.clouds);
+    // this.addObjectsToCanvas(this.level.collectables);
     this.ctx.translate(-this.camera_x, 0);
 
     //draw() wird immer wieder aufgerufen, was die GraKa hergibt
@@ -45,12 +104,20 @@ class World {
     });
   }
 
+  /**
+   * Adds an array of drawable objects to the canvas.
+   * @param {DrawableObject[]} objects - The objects to be drawn.
+   */
   addObjectsToCanvas(objects) {
     objects.forEach((object) => {
       this.addToCanvas(object);
     });
   }
 
+  /**
+   * Adds a single drawable object to the canvas, applying mirroring if needed.
+   * @param {DrawableObject} object - The object to be drawn.
+   */
   addToCanvas(object) {
     if (object.otherDirection) {
       this.mirrorImage(object);
@@ -63,6 +130,10 @@ class World {
     }
   }
 
+  /**
+   * Mirrors an object's image horizontally by applying a canvas transformation.
+   * @param {DrawableObject} object - The object whose image should be mirrored.
+   */
   mirrorImage(object) {
     this.ctx.save();
     this.ctx.translate(object.x + object.width / 2, 0);

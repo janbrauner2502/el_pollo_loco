@@ -30,19 +30,46 @@ class Character extends MovableObject {
     "img/2_character_pepe/3_jump/J-39.png",
   ];
 
+  HURT_IMAGES = [
+    "img/2_character_pepe/4_hurt/H-41.png",
+    "img/2_character_pepe/4_hurt/H-42.png",
+    "img/2_character_pepe/4_hurt/H-43.png",
+  ];
+
+  DEAD_IMAGES = [
+    "img/2_character_pepe/5_dead/D-51.png",
+    "img/2_character_pepe/5_dead/D-52.png",
+    "img/2_character_pepe/5_dead/D-53.png",
+    "img/2_character_pepe/5_dead/D-54.png",
+    "img/2_character_pepe/5_dead/D-55.png",
+    "img/2_character_pepe/5_dead/D-56.png",
+    "img/2_character_pepe/5_dead/D-57.png",
+  ];
+
   world;
 
   // currentImage = 0;
 
+  /**
+   * Initializes the character by loading all animation images and starting
+   * the animation and gravity loops.
+   */
   constructor() {
     super().loadImage("img/2_character_pepe/1_idle/idle/I-1.png");
     this.loadImages(this.WALKING_IMAGES);
     this.loadImages(this.JUMPING_IMAGES);
+    this.loadImages(this.HURT_IMAGES);
+    this.loadImages(this.DEAD_IMAGES);
 
     this.animate();
     this.applyGravity();
   }
 
+  /**
+   * Starts the movement and animation loops for the character.
+   * Handles keyboard input (left, right, jump) and updates the camera position.
+   * Selects the appropriate animation based on the current state (dead, hurt, walking, jumping).
+   */
   animate() {
     setInterval(() => {
       if (this.world) {
@@ -70,28 +97,19 @@ class Character extends MovableObject {
 
     setInterval(() => {
       if (this.world) {
-        if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+        if (this.isDead()) {
+          //DEAD
+          this.playAnimation(this.DEAD_IMAGES);
+        } else if (this.isHurt()) {
+          //HURT
+          this.playAnimation(this.HURT_IMAGES);
+        } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
           //WALK ANIMATION
           this.playAnimation(this.WALKING_IMAGES);
-        }
-
-        if (this.isAboveGround()) {
+        } else if (this.isAboveGround()) {
           this.playAnimation(this.JUMPING_IMAGES);
         }
       }
     }, 150);
-  }
-
-  applyGravity() {
-    setInterval(() => {
-      if (this.isAboveGround() || this.speedY > 0) {
-        this.y -= this.speedY;
-        this.speedY -= this.acceleration;
-      }
-    }, 1000 / 25);
-  }
-
-  isAboveGround() {
-    return this.y < 230;
   }
 }

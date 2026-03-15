@@ -9,6 +9,10 @@ class NormalChicken extends MovableObject {
     "img/3_enemies_chicken/chicken_normal/1_walk/3_w.png",
   ];
 
+  /**
+   * Creates a new NormalChicken, loads its images, sets a random x-position and speed,
+   * and starts the movement and animation loops.
+   */
   constructor() {
     const imgNormalChicken =
       "img/3_enemies_chicken/chicken_normal/1_walk/1_w.png";
@@ -27,12 +31,18 @@ class NormalChicken extends MovableObject {
     this.animation();
   }
 
+  /**
+   * Starts an interval that continuously moves the chicken to the left.
+   */
   animation() {
     setInterval(() => {
       this.moveLeft();
     }, 1000 / 60);
   }
 
+  /**
+   * Starts an interval that plays the walking animation.
+   */
   animate() {
     setInterval(() => {
       this.playAnimation(this.WALKING_IMAGES);

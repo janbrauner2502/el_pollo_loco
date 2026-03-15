@@ -16,12 +16,18 @@ class Endboss extends MovableObject {
     "img/4_enemie_boss_chicken/2_alert/G12.png",
   ];
 
+  /**
+   * Creates a new Endboss, loads its alert animation images, and starts the animation loop.
+   */
   constructor() {
     super().loadImage(this.ENDBOSS_IMAGES[0]);
     this.loadImages(this.ENDBOSS_IMAGES);
     this.animate();
   }
 
+  /**
+   * Starts an interval that plays the alert animation of the endboss.
+   */
   animate() {
     setInterval(() => {
       this.playAnimation(this.ENDBOSS_IMAGES);
