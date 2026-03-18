@@ -10,6 +10,7 @@ class MovableObject extends DrawableObject {
   energy = 100;
   lastHit = 0;
   imageCache = {};
+  lastKey;
 
   /**
    * Moves the object to the right by its speed and resets the direction flag.
@@ -52,10 +53,10 @@ class MovableObject extends DrawableObject {
    */
   isColliding(object) {
     return (
-      this.x + this.width > object.x &&
-      this.y + this.height > object.y &&
-      this.x < object.x + object.width &&
-      this.y < object.y + object.height
+      this.x + this.width - this.offsetRight > object.x + object.offsetLeft &&
+      this.y + this.height - this.offsetBottom > object.y + object.offsetTop &&
+      this.x + this.offsetLeft < object.x + object.width - object.offsetRight &&
+      this.y + this.offsetTop < object.y + object.height - object.offsetBottom
     );
   }
 
@@ -113,4 +114,23 @@ class MovableObject extends DrawableObject {
       return true;
     } else return this.y < 230;
   }
+
+  /**
+   * Records the current timestamp as the time of the last key press.
+   * Used to track idle duration.
+   */
+  setLastKeyTime() {
+    this.lastKey = new Date().getTime();
+  }
+
+  /**
+   * Checks whether the object has been idle (no key press) for more than 10 seconds.
+   * @returns {boolean} True if the last key press was more than 10 seconds ago.
+   */
+  longIdle() {
+    let timePassed = (new Date().getTime() - this.lastKey) / 1000;
+    return timePassed > 10;
+  }
+
+
 }

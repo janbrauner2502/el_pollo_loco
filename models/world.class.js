@@ -38,7 +38,7 @@ class World {
     setInterval(() => {
       this.checkCollisions();
       this.checkThrowObject();
-    }, 100);
+    }, 1000);
   }
 
   /**
@@ -46,6 +46,7 @@ class World {
    */
   checkThrowObject() {
     if (this.keyboard.THROW) {
+      this.character.setLastKeyTime();
       let bottle = new ThrowableObject(
         this.character.x + this.character.width / 2,
         this.character.y + this.character.height / 2,
@@ -60,11 +61,21 @@ class World {
    * Reduces character energy and updates the health status bar on hit.
    */
   checkCollisions() {
+    //Character vs. Enemies
     this.level.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy)) {
         this.character.hit();
         this.statusBarHealth.setPercentage(this.character.energy);
       }
+    });
+    // Bootle vs. Enemies
+    this.bottle.forEach((bottle) => {
+      this.level.enemies.forEach((enemy) => {
+        if (bottle.isColliding(enemy)) {
+          enemy.hit();
+          bottle.bottleSplash();
+        }
+      });
     });
 
     // this.level.collectables.forEach((collectable) => {
@@ -119,11 +130,13 @@ class World {
    * @param {DrawableObject} object - The object to be drawn.
    */
   addToCanvas(object) {
+    object.otherDirection = undefined;
     if (object.otherDirection) {
       this.mirrorImage(object);
     }
     object.draw(this.ctx);
     object.drawFrame(this.ctx);
+    object.drawHitBox(this.ctx);
 
     if (object.otherDirection) {
       this.ctx.restore();
