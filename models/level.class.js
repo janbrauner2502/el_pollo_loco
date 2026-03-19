@@ -10,9 +10,8 @@ class Level {
    * @param {MovableObject[]} enemies - Array of enemy objects in the level.
    * @param {Cloud[]} clouds - Array of cloud objects in the level.
    * @param {BackgroundObject[]} backgroundObjects - Array of background layer objects.
-   * @param {DrawableObject[]} collectables - Array of collectable objects (coins, bottles).
    */
-  constructor(enemies, clouds, backgroundObjects, collectables) {
+  constructor(enemies, clouds, backgroundObjects) {
     this.enemies = enemies;
     this.clouds = clouds;
     this.backgroundObjects = backgroundObjects;

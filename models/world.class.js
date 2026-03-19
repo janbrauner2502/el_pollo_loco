@@ -1,8 +1,7 @@
 class World {
   character = new Character();
-  statusBarHealth = new StatusBar();
-  statusBarCoin = new StatusBar();
-  statusBarBottle = new StatusBar();
+  endboss = new Endboss();
+  statusBar = {};
   bottle = [];
   level = level1;
   canvas;
@@ -19,6 +18,11 @@ class World {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
+    ["BOTTLE", "COIN", "HEART"].forEach((type, index) => {
+      this.statusBar[type] = new StatusBar(type);
+      this.statusBar[type].y = index * 40;
+      console.log(this.statusBar[type]);
+    });
     this.draw();
     this.setWorld();
     this.run();
@@ -29,6 +33,7 @@ class World {
    */
   setWorld() {
     this.character.world = this;
+    this.endboss.world = this;
   }
 
   /**
@@ -65,7 +70,7 @@ class World {
     this.level.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy)) {
         this.character.hit();
-        this.statusBarHealth.setPercentage(this.character.energy);
+        this.statusBar["HEART"].setPercentage(this.character.energy);
       }
     });
     // Bootle vs. Enemies
@@ -94,19 +99,16 @@ class World {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.translate(this.camera_x, 0);
     this.addObjectsToCanvas(this.level.backgroundObjects);
-
-    this.ctx.translate(-this.camera_x, 0);
-    // this.addToCanvas(this.statusBarCoin);
-    this.addToCanvas(this.statusBarHealth);
-    // this.addToCanvas(this.statusBarBottle);
-    this.ctx.translate(this.camera_x, 0);
-
+    this.addObjectsToCanvas(this.level.enemies);
     this.addToCanvas(this.character);
     this.addObjectsToCanvas(this.bottle);
-    this.addObjectsToCanvas(this.level.enemies);
     this.addObjectsToCanvas(this.level.clouds);
     // this.addObjectsToCanvas(this.level.collectables);
     this.ctx.translate(-this.camera_x, 0);
+
+    this.addToCanvas(this.statusBar["BOTTLE"]);
+    this.addToCanvas(this.statusBar["HEART"]);
+    this.addToCanvas(this.statusBar["COIN"]);
 
     //draw() wird immer wieder aufgerufen, was die GraKa hergibt
     let self = this;
@@ -130,7 +132,6 @@ class World {
    * @param {DrawableObject} object - The object to be drawn.
    */
   addToCanvas(object) {
-    object.otherDirection = undefined;
     if (object.otherDirection) {
       this.mirrorImage(object);
     }

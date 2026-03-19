@@ -8,7 +8,7 @@ const level1 = new Level(
     new SmallChicken(),
     new Endboss(),
   ],
-  [new Cloud(), new Cloud(), new Cloud()],
+  [new Cloud(), new Cloud(), new Cloud(), new Cloud()],
   (function () {
     let objects = [];
     [1, 2, 3, 4].forEach((index) => {

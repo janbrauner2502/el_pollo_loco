@@ -3,8 +3,11 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-image: url("img/background/ankurrabha-desert.png");
 }
 
 canvas {
   background-color: black;
+  border: 1px solid black;
+  border-radius: 1rem;
 }

@@ -16,7 +16,7 @@ class Cloud extends MovableObject {
     super(randomCloud);
     this.loadImage(randomCloud);
 
-    this.x = 20 + Math.random() * 720;
+    this.x = 20 + Math.random() * 2160;
     // console.log(this.x);
 
     this.animation();

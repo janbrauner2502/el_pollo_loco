@@ -4,10 +4,11 @@ class StatusBar extends DrawableObject {
   width = 200;
   height = 60;
   percentage = 100;
+  collected = 0;
 
   STATUSBAR_COIN_IMAGES = [
-    "img/7_statusbars/1_statusbar/1_statusbar_coin/green/20.png",
     "img/7_statusbars/1_statusbar/1_statusbar_coin/green/0.png",
+    "img/7_statusbars/1_statusbar/1_statusbar_coin/green/20.png",
     "img/7_statusbars/1_statusbar/1_statusbar_coin/green/40.png",
     "img/7_statusbars/1_statusbar/1_statusbar_coin/green/60.png",
     "img/7_statusbars/1_statusbar/1_statusbar_coin/green/80.png",
@@ -33,16 +34,33 @@ class StatusBar extends DrawableObject {
   ];
 
   /**
-   * Creates a new StatusBar, loads all status bar images, and sets the initial percentage to 100.
-   * @param {string} [type] - The type of status bar (e.g. 'health', 'coin', 'bottle').
+   * Creates a new StatusBar, loads all images for the given type and sets the initial display.
+   * @param {string} type - The type of status bar. Must be 'HEART', 'COIN' or 'BOTTLE'.
    */
   constructor(type) {
     super();
+    this.type = type;
+    this.loadImages(this[`STATUSBAR_${type}_IMAGES`]);
+    this.setStatusbar(type);
+    if (type === "HEART") {
+      this.setPercentage(100);
+    } else if (this.type === "BOTTLE" || this.type === "COIN") {
+      this.setCollected(0);
+    }
+  }
 
-    this.loadImages(this.STATUSBAR_COIN_IMAGES);
-    this.loadImages(this.STATUSBAR_HEART_IMAGES);
-    this.loadImages(this.STATUSBAR_BOTTLE_IMAGES);
-    this.setPercentage(100);
+  /**
+   * Initializes the status bar image based on the given type.
+   * For 'HEART' the percentage is used; for 'BOTTLE' and 'COIN' the collected count is used.
+   * @param {string} type - The type of status bar ('HEART', 'COIN' or 'BOTTLE').
+   */
+  setStatusbar(type) {
+    this.type = type;
+    if (type === "HEART") {
+      this.setPercentage(this.percentage);
+    } else if (this.type === "BOTTLE" || this.type === "BOTTLE") {
+      this.setCollected(this.collected);
+    }
   }
 
   /**
@@ -51,12 +69,24 @@ class StatusBar extends DrawableObject {
    */
   setPercentage(percentage) {
     this.percentage = percentage;
-    let path = this.STATUSBAR_HEART_IMAGES[this.resolveImageIndex(percentage)];
+    let path =
+      this[`STATUSBAR_${this.type}_IMAGES`][this.resolveImageIndex(percentage)];
     this.img = this.imageCache[path];
   }
 
   /**
-   * Returns the image index corresponding to the given percentage value.
+   * Sets the number of collected items and updates the displayed image accordingly.
+   * @param {number} collected - The number of collected items (0–100).
+   */
+  setCollected(collected) {
+    this.collected = collected;
+    let path =
+      this[`STATUSBAR_${this.type}_IMAGES`][this.resolveImageIndex(collected)];
+    this.img = this.imageCache[path];
+  }
+
+  /**
+   * Returns the image index (0–5) corresponding to the given percentage value.
    * @param {number} percentage - The current percentage value (0–100).
    * @returns {number} An index from 0 to 5 representing the appropriate status bar image.
    */
