@@ -21,7 +21,6 @@ class World {
     ["BOTTLE", "COIN", "HEART"].forEach((type, index) => {
       this.statusBar[type] = new StatusBar(type);
       this.statusBar[type].y = index * 40;
-      console.log(this.statusBar[type]);
     });
     this.draw();
     this.setWorld();
@@ -73,7 +72,7 @@ class World {
         this.statusBar["HEART"].setPercentage(this.character.energy);
       }
     });
-    // Bootle vs. Enemies
+    // Bottle vs. Enemies
     this.bottle.forEach((bottle) => {
       this.level.enemies.forEach((enemy) => {
         if (bottle.isColliding(enemy)) {
@@ -103,7 +102,7 @@ class World {
     this.addToCanvas(this.character);
     this.addObjectsToCanvas(this.bottle);
     this.addObjectsToCanvas(this.level.clouds);
-    // this.addObjectsToCanvas(this.level.collectables);
+    this.addObjectsToCanvas(this.level.collectables);
     this.ctx.translate(-this.camera_x, 0);
 
     this.addToCanvas(this.statusBar["BOTTLE"]);

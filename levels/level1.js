@@ -38,4 +38,12 @@ const level1 = new Level(
     });
     return objects;
   })(),
+
+  [
+    new Collectables(),
+    new Collectables(),
+    new Collectables(),
+    new Collectables(),
+    new Collectables(),
+  ],
 );

@@ -36,7 +36,13 @@ class DrawableObject {
    * @param {CanvasRenderingContext2D} ctx - The 2D rendering context of the canvas.
    */
   draw(ctx) {
-    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    try {
+      ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    } catch (error) {
+      console.error("Error drawing image:", error);
+      console.log(`This image could not be drawn ${this.img.src}`);
+    }
+    
   }
 
   /**
@@ -49,7 +55,8 @@ class DrawableObject {
       this instanceof Character ||
       this instanceof NormalChicken ||
       this instanceof SmallChicken ||
-      this instanceof Endboss
+      this instanceof Endboss ||
+      this instanceof Collectables
     ) {
       ctx.beginPath();
       ctx.lineWidth = 2;
@@ -69,7 +76,8 @@ class DrawableObject {
       this instanceof Character ||
       this instanceof NormalChicken ||
       this instanceof SmallChicken ||
-      this instanceof Endboss
+      this instanceof Endboss ||
+      this instanceof Collectables
     ) {
       ctx.beginPath();
       ctx.lineWidth = 2;

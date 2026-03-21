@@ -43,7 +43,7 @@ class MovableObject extends DrawableObject {
    * @returns {number} The new value of speedY (30).
    */
   jump() {
-    return (this.speedY = 30);
+    return (this.speedY = 25);
   }
 
   /**

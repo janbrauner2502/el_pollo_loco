@@ -5,16 +5,21 @@ class Cloud extends MovableObject {
   width = 300;
   height = 200;
 
+  CLOUD_IMAGES = [
+    "img/5_background/layers/4_clouds/1.png",
+    "img/5_background/layers/4_clouds/2.png",
+  ];
+
+  randomCloud =
+    Math.random() > 0.5 ? this.CLOUD_IMAGES[0] : this.CLOUD_IMAGES[1];
+
   /**
    * Creates a new Cloud, loads a random cloud image, sets a random x-position,
    * and starts the movement loop.
    */
   constructor() {
-    const imgCloud1 = "img/5_background/layers/4_clouds/1.png";
-    const imgCloud2 = "img/5_background/layers/4_clouds/1.png";
-    const randomCloud = Math.random() > 0.5 ? imgCloud1 : imgCloud2;
-    super(randomCloud);
-    this.loadImage(randomCloud);
+    super();
+    this.loadImage(this.randomCloud);
 
     this.x = 20 + Math.random() * 2160;
     // console.log(this.x);
