@@ -2,7 +2,8 @@ class World {
   character = new Character();
   endboss = new Endboss();
   statusBar = {};
-  bottle = [];
+  bottles = [];
+  coins = [];
   level = level1;
   canvas;
   ctx;
@@ -55,8 +56,8 @@ class World {
         this.character.x + this.character.width / 2,
         this.character.y + this.character.height / 2,
       );
-      // bottle.throw(this.character.otherDirection);
-      this.bottle.push(bottle);
+      // bottles.throw(this.character.otherDirection);
+      this.bottles.push(bottle);
     }
   }
 
@@ -73,7 +74,7 @@ class World {
       }
     });
     // Bottle vs. Enemies
-    this.bottle.forEach((bottle) => {
+    this.bottles.forEach((bottle) => {
       this.level.enemies.forEach((enemy) => {
         if (bottle.isColliding(enemy)) {
           enemy.hit();
@@ -100,7 +101,8 @@ class World {
     this.addObjectsToCanvas(this.level.backgroundObjects);
     this.addObjectsToCanvas(this.level.enemies);
     this.addToCanvas(this.character);
-    this.addObjectsToCanvas(this.bottle);
+    this.addObjectsToCanvas(this.bottles);
+    this.addObjectsToCanvas(this.level.coins);
     this.addObjectsToCanvas(this.level.clouds);
     this.addObjectsToCanvas(this.level.collectables);
     this.ctx.translate(-this.camera_x, 0);

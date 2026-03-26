@@ -179,7 +179,7 @@ World             (standalone)
 ---
 
 ## ThrowableObject `extends MovableObject`
-> A throwable salsa bottle launched by the character.
+> A throwable salsa bottles launched by the character.
 
 ### Properties
 | Name | Type | Default |
@@ -193,7 +193,7 @@ World             (standalone)
 ### Methods
 | Method | Parameters | Returns | Description |
 |---|---|---|---|
-| `constructor(x, y)` | `x: number, y: number` | – | Sets position and immediately throws the bottle |
+| `constructor(x, y)` | `x: number, y: number` | – | Sets position and immediately throws the bottles |
 | `throw()` | – | `void` | Sets speedY, applies gravity, moves right in a loop |
 
 ---
@@ -217,7 +217,7 @@ World             (standalone)
 ---
 
 ## StatusBar `extends DrawableObject`
-> Displays a percentage-based status bar (health, coin, bottle).
+> Displays a percentage-based status bar (health, coin, bottles).
 
 ### Properties
 | Name | Type | Default |
@@ -282,7 +282,7 @@ World             (standalone)
 | `statusBarHealth` | `StatusBar` | Health status bar |
 | `statusBarCoin` | `StatusBar` | Coin status bar |
 | `statusBarBottle` | `StatusBar` | Bottle status bar |
-| `bottle` | `ThrowableObject[]` | Active thrown bottles |
+| `bottles` | `ThrowableObject[]` | Active thrown bottles |
 | `level` | `Level` | The current level |
 | `canvas` | `HTMLCanvasElement` | The game canvas |
 | `ctx` | `CanvasRenderingContext2D` | The canvas 2D context |
@@ -295,7 +295,7 @@ World             (standalone)
 | `constructor(canvas, keyboard)` | `canvas: HTMLCanvasElement, keyboard: Keyboard` | – | Initializes and starts the game |
 | `setWorld()` | – | `void` | Passes world reference to the character |
 | `run()` | – | `void` | Starts the main game loop |
-| `checkThrowObject()` | – | `void` | Creates a bottle if THROW key is pressed |
+| `checkThrowObject()` | – | `void` | Creates a bottles if THROW key is pressed |
 | `checkCollisions()` | – | `void` | Checks enemy collisions and updates health bar |
 | `draw()` | – | `void` | Redraws all objects every frame |
 | `addObjectsToCanvas(objects)` | `objects: DrawableObject[]` | `void` | Draws an array of objects |

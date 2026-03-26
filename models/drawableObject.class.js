@@ -9,6 +9,7 @@ class DrawableObject {
   offsetBottom;
   offsetLeft;
   offsetRight;
+  currentImage = 0;
 
   /**
    * Loads a single image and sets it as the current image of the object.
@@ -42,7 +43,6 @@ class DrawableObject {
       console.error("Error drawing image:", error);
       console.log(`This image could not be drawn ${this.img.src}`);
     }
-    
   }
 
   /**
@@ -82,8 +82,24 @@ class DrawableObject {
       ctx.beginPath();
       ctx.lineWidth = 2;
       ctx.strokeStyle = "blue";
-      ctx.rect(this.x + this.offsetLeft, this.y + this.offsetTop, this.width - this.offsetRight * 2, this.height - this.offsetBottom * 2);
+      ctx.rect(
+        this.x + this.offsetLeft,
+        this.y + this.offsetTop,
+        this.width - this.offsetRight * 2,
+        this.height - this.offsetBottom * 2,
+      );
       ctx.stroke();
     }
+  }
+
+  /**
+   * Plays an animation by cycling through the provided image array.
+   * @param {string[]} images - Array of image paths for the animation.
+   */
+  playAnimation(images) {
+    let i = this.currentImage % images.length;
+    let path = images[i];
+    this.img = this.imageCache[path];
+    this.currentImage++;
   }
 }

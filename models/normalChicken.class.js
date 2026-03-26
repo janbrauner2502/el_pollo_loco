@@ -26,10 +26,9 @@ class NormalChicken extends MovableObject {
     super().loadImage(imgNormalChicken);
 
     this.loadImages(this.WALKING_IMAGES);
-
     this.animate();
 
-    this.x = 200 + Math.random() * 500;
+    this.x = 300 + Math.random() * 500;
     this.speed = 0.2 + Math.random() * 0.25;
 
     this.animation();

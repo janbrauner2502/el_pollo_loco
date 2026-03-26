@@ -13,14 +13,22 @@ class Collectables extends DrawableObject {
   offsetLeft = 15;
   offsetRight = 15;
 
-  randomCloud =
-    Math.random() > 0.5
-      ? this.BOTTLES_GROUND_IMAGES[0]
-      : this.BOTTLES_GROUND_IMAGES[1];
+  // randomCloud =
+  //   Math.random() > 0.5
+  //     ? this.BOTTLES_GROUND_IMAGES[0]
+  //     : this.BOTTLES_GROUND_IMAGES[1];
 
   constructor() {
     super();
-    this.loadImage(this.randomCloud);
-    this.x = 20 + Math.random() * 2160;
+    this.loadImage(this.BOTTLES_GROUND_IMAGES[0]);
+    this.loadImages(this.BOTTLES_GROUND_IMAGES);
+    this.x = 300 + Math.random() * 2160;
+    this.animate();
+  }
+
+  animate() {
+    setInterval(() => {
+      this.playAnimation(this.BOTTLES_GROUND_IMAGES);
+    }, 500);
   }
 }

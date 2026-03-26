@@ -19,8 +19,8 @@ class ThrowableObject extends MovableObject {
 
   /**
    * Creates a new ThrowableObject at the given position and immediately throws it.
-   * @param {number} x - The initial x-position of the bottle.
-   * @param {number} y - The initial y-position of the bottle.
+   * @param {number} x - The initial x-position of the bottles.
+   * @param {number} y - The initial y-position of the bottles.
    */
   constructor(x, y) {
     super();
@@ -36,7 +36,7 @@ class ThrowableObject extends MovableObject {
   }
 
   /**
-   * Throws the bottle by setting the initial vertical speed, applying gravity,
+   * Throws the bottles by setting the initial vertical speed, applying gravity,
    * and continuously moving it to the right.
    */
   throw() {
@@ -51,7 +51,7 @@ class ThrowableObject extends MovableObject {
   }
 
   /**
-   * Triggers the bottle splash animation when the bottle hits an enemy.
+   * Triggers the bottles splash animation when the bottles hits an enemy.
    * Stops the flying animation and plays the splash frames instead.
    */
   bottleSplash() {

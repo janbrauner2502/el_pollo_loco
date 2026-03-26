@@ -20,7 +20,7 @@ class SmallChicken extends NormalChicken {
 
     this.animate();
 
-    this.x = 200 + Math.random() * 500;
+    this.x = 300 + Math.random() * 500;
 
     this.animation();
   }
