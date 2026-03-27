@@ -4,8 +4,8 @@ class Endboss extends MovableObject {
   height = 400;
   width = 300;
   speed = 0.15;
-  offsetTop = 20;
-  offsetBottom = 20;
+  offsetTop = 70;
+  offsetBottom = 50;
   offsetLeft = 20;
   offsetRight = 20;
 
@@ -55,7 +55,11 @@ class Endboss extends MovableObject {
    */
   constructor() {
     super().loadImage(this.ENDBOSS_ALERT_IMAGES[0]);
+    this.loadImages(this.ENDBOSS_WALK_IMAGES);
     this.loadImages(this.ENDBOSS_ALERT_IMAGES);
+    this.loadImages(this.ENDBOSS_ATTACK_IMAGES);
+    this.loadImages(this.ENDBOSS_HURT_IMAGES);
+    this.loadImages(this.ENDBOSS_DEAD_IMAGES);
     this.animate();
   }
 
@@ -65,6 +69,11 @@ class Endboss extends MovableObject {
   animate() {
     setInterval(() => {
       this.playAnimation(this.ENDBOSS_ALERT_IMAGES);
+    }, 150);
+  }
+  getHitByBottle() {
+    setInterval(() => {
+      this.playAnimation(this.ENDBOSS_HURT_IMAGES);
     }, 150);
   }
 }

@@ -22,7 +22,7 @@ class Collectables extends DrawableObject {
     super();
     this.loadImage(this.BOTTLES_GROUND_IMAGES[0]);
     this.loadImages(this.BOTTLES_GROUND_IMAGES);
-    this.x = 300 + Math.random() * 2160;
+    this.x = 300 + Math.random() * 2000;
     this.animate();
   }
 

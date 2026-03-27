@@ -4,6 +4,7 @@ class World {
   statusBar = {};
   bottles = [];
   coins = [];
+  collectables = [];
   level = level1;
   canvas;
   ctx;
@@ -33,7 +34,7 @@ class World {
    */
   setWorld() {
     this.character.world = this;
-    this.endboss.world = this;
+    // this.endboss.world = this;
   }
 
   /**
@@ -43,21 +44,23 @@ class World {
     setInterval(() => {
       this.checkCollisions();
       this.checkThrowObject();
-    }, 1000);
+    }, 200);
   }
 
   /**
    * Checks whether the throw key is pressed and creates a new ThrowableObject if so.
    */
   checkThrowObject() {
-    if (this.keyboard.THROW) {
+    if (this.keyboard.THROW && this.character.collectedBottles > 0) {
       this.character.setLastKeyTime();
       let bottle = new ThrowableObject(
         this.character.x + this.character.width / 2,
         this.character.y + this.character.height / 2,
       );
-      // bottles.throw(this.character.otherDirection);
       this.bottles.push(bottle);
+      this.character.collectedBottles -= 20;
+      this.statusBar["BOTTLE"].setCollected(this.character.collectedBottles);
+      console.log(`Bottles thrown: ${this.bottles.length}`);
     }
   }
 
@@ -81,14 +84,33 @@ class World {
           bottle.bottleSplash();
         }
       });
+      if (bottle.isColliding(this.endboss)) {
+        this.endboss.hit();
+        bottle.bottleSplash();
+        this.endboss.getHitByBottle();
+      }
+      this.bottles = this.bottles.filter((bottle) => !bottle.splashDone);
     });
+    //Character vs. Bottles
+    this.level.collectables.forEach((collectable) => {
+      if (
+        this.character.isColliding(collectable) &&
+        this.character.collectedBottles < 100 &&
+        !collectable.collected
+      ) {
+        collectable.collected = true;
+        this.character.collectedBottles += 20;
+        console.log(`Bottles collected: ${this.character.collectedBottles}`);
+        this.statusBar["BOTTLE"].setCollected(this.character.collectedBottles);
 
-    // this.level.collectables.forEach((collectable) => {
-    //   if (this.character.isColliding(collectable)) {
-    //     collectable.collected = true;
-    //
-    //   }
-    // });
+        this.level.collectables = this.level.collectables.filter(
+          (c) => c !== collectable,
+        );
+        console.log(
+          `Remaining collectables: ${this.level.collectables.length}`,
+        );
+      }
+    });
   }
 
   /**
@@ -101,6 +123,7 @@ class World {
     this.addObjectsToCanvas(this.level.backgroundObjects);
     this.addObjectsToCanvas(this.level.enemies);
     this.addToCanvas(this.character);
+    this.addToCanvas(this.endboss);
     this.addObjectsToCanvas(this.bottles);
     this.addObjectsToCanvas(this.level.coins);
     this.addObjectsToCanvas(this.level.clouds);

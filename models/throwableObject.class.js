@@ -33,6 +33,10 @@ class ThrowableObject extends MovableObject {
     this.x = x;
     this.throw();
     this.isSplashing = false;
+    this.offsetTop = 0;
+    this.offsetBottom = 0;
+    this.offsetLeft = 0;
+    this.offsetRight = 0;
   }
 
   /**
@@ -55,9 +59,16 @@ class ThrowableObject extends MovableObject {
    * Stops the flying animation and plays the splash frames instead.
    */
   bottleSplash() {
+    if (this.isSplashing) return;
     this.isSplashing = true;
-    setInterval(() => {
+    this.speedY = 0;
+    this.acceleration = 0;
+    let splashInterval = setInterval(() => {
       this.playAnimation(this.BOTTLE_SPLASH_IMAGES);
-    }, 500);
+    }, 100);
+    setTimeout(() => {
+      clearInterval(splashInterval);
+      this.splashDone = true;
+    }, 700);
   }
 }
