@@ -1,15 +1,22 @@
-class Coin extends DrawableObject {
-  COIN_IMAGES = ["img/8_coin/coin_1.png", "img/8_coin/coin_2.png"];
-
+/**
+ * Represents a collectible coin in the game world.
+ * @extends CollectableObject
+ */
+class Coin extends CollectableObject {
   y = 300;
   x = 0;
   width = 100;
   height = 100;
-  // offsetTop = 10;
-  // offsetBottom = 10;
-  // offsetLeft = 15;
-  // offsetRight = 15;
+  offsetTop = 35;
+  offsetBottom = 35;
+  offsetLeft = 35;
+  offsetRight = 35;
 
+  COIN_IMAGES = ["img/8_coin/coin_1.png", "img/8_coin/coin_2.png"];
+
+  /**
+   * Creates a new Coin, loads its images, sets a random x-position and starts the animation loop.
+   */
   constructor() {
     super();
     this.loadImage(this.COIN_IMAGES[0]);
@@ -18,6 +25,9 @@ class Coin extends DrawableObject {
     this.animate();
   }
 
+  /**
+   * Starts an interval that cycles through the coin animation images.
+   */
   animate() {
     setInterval(() => {
       this.playAnimation(this.COIN_IMAGES);

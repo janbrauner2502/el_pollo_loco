@@ -1,8 +1,11 @@
+/**
+ * Represents the playable character Pepe with idle, walking, jumping, hurt and dead animations.
+ * Handles keyboard-based movement and camera tracking.
+ * @extends MovableObject
+ */
 class Character extends MovableObject {
   x = 100;
-  // y = 230;
   y = 74;
-
   height = 200;
   width = 120;
   speed = 5;
@@ -15,7 +18,7 @@ class Character extends MovableObject {
   
   collectedBottles = 0;
   collectedCoins = 0;
-
+  
   IDLE_IMAGES = [
     "img/2_character_pepe/1_idle/idle/I-1.png",
     "img/2_character_pepe/1_idle/idle/I-2.png",
@@ -43,7 +46,6 @@ class Character extends MovableObject {
   ];
 
   WALKING_IMAGES = [
-    "img/2_character_pepe/2_walk/W-21.png",
     "img/2_character_pepe/2_walk/W-22.png",
     "img/2_character_pepe/2_walk/W-23.png",
     "img/2_character_pepe/2_walk/W-24.png",
@@ -80,9 +82,8 @@ class Character extends MovableObject {
     "img/2_character_pepe/5_dead/D-57.png",
   ];
 
+  /** @type {World} Reference to the game world this character belongs to. */
   world;
-
-  // currentImage = 0;
 
   /**
    * Initializes the character by loading all animation images and starting

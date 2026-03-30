@@ -1,10 +1,12 @@
+/**
+ * Represents the game world. Manages all game objects, collision detection,
+ * rendering and the main game loop.
+ */
 class World {
   character = new Character();
   endboss = new Endboss();
   statusBar = {};
   bottles = [];
-  coins = [];
-  collectables = [];
   level = level1;
   canvas;
   ctx;
@@ -56,6 +58,7 @@ class World {
       let bottle = new ThrowableObject(
         this.character.x + this.character.width / 2,
         this.character.y + this.character.height / 2,
+        this.character.otherDirection,
       );
       this.bottles.push(bottle);
       this.character.collectedBottles -= 20;
@@ -65,8 +68,11 @@ class World {
   }
 
   /**
-   * Checks for collisions between the character and all enemies.
-   * Reduces character energy and updates the health status bar on hit.
+   * Checks all collisions in the game:
+   * - Character vs. enemies (reduces character energy).
+   * - Thrown bottles vs. enemies and endboss (damages enemy, triggers splash).
+   * - Character vs. collectable bottles (collects bottle, updates bottle status bar).
+   * - Character vs. coins (collects coin, updates coin status bar).
    */
   checkCollisions() {
     //Character vs. Enemies
@@ -87,28 +93,42 @@ class World {
       if (bottle.isColliding(this.endboss)) {
         this.endboss.hit();
         bottle.bottleSplash();
-        this.endboss.getHitByBottle();
+        console.log(`Endboss energy: ${this.endboss.energy}`);
       }
       this.bottles = this.bottles.filter((bottle) => !bottle.splashDone);
     });
-    //Character vs. Bottles
+    //Character vs. CollectableObject
     this.level.collectables.forEach((collectable) => {
-      if (
-        this.character.isColliding(collectable) &&
-        this.character.collectedBottles < 100 &&
-        !collectable.collected
-      ) {
-        collectable.collected = true;
-        this.character.collectedBottles += 20;
-        console.log(`Bottles collected: ${this.character.collectedBottles}`);
-        this.statusBar["BOTTLE"].setCollected(this.character.collectedBottles);
+      if (this.character.isColliding(collectable)) {
+        //Bottles
+        if (
+          collectable instanceof GroundBottle &&
+          this.character.collectedBottles < 100 &&
+          !collectable.collected
+        ) {
+          this.character.collectedBottles += 20;
+          console.log(`Bottles collected: ${this.character.collectedBottles}`);
+          this.statusBar["BOTTLE"].setCollected(
+            this.character.collectedBottles,
+          );
 
-        this.level.collectables = this.level.collectables.filter(
-          (c) => c !== collectable,
-        );
-        console.log(
-          `Remaining collectables: ${this.level.collectables.length}`,
-        );
+          this.level.collectables = this.level.collectables.filter(
+            (c) => c !== collectable,
+          );
+        }
+        //Coins
+        if (
+          collectable instanceof Coin &&
+          this.character.collectedCoins < 100
+        ) {
+          this.character.collectedCoins += 20;
+          console.log(`Coins collected: ${this.character.collectedCoins}`);
+          this.statusBar["COIN"].setCollected(this.character.collectedCoins);
+
+          this.level.collectables = this.level.collectables.filter(
+            (c) => c !== collectable,
+          );
+        }
       }
     });
   }
@@ -125,7 +145,6 @@ class World {
     this.addToCanvas(this.character);
     this.addToCanvas(this.endboss);
     this.addObjectsToCanvas(this.bottles);
-    this.addObjectsToCanvas(this.level.coins);
     this.addObjectsToCanvas(this.level.clouds);
     this.addObjectsToCanvas(this.level.collectables);
     this.ctx.translate(-this.camera_x, 0);

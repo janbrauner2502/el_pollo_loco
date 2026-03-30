@@ -1,15 +1,30 @@
+/**
+ * Represents a movable game object that can move, animate, collide and be affected by gravity.
+ * @extends DrawableObject
+ */
 class MovableObject extends DrawableObject {
+  /**
+   * Creates a new MovableObject by calling the parent constructor.
+   */
   constructor() {
     super();
   }
 
+  /** @type {number} The index of the current animation frame. */
   currentImage = 0;
+  /** @type {number} The horizontal movement speed of the object. */
   speed = 0.2;
+  /** @type {boolean} Whether the object is facing the opposite (left) direction. */
   otherDirection = false;
+  /** @type {number} The vertical speed used for jumping and gravity. */
   speedY;
+  /** @type {number} The current energy/health of the object (0–100). */
   energy = 100;
+  /** @type {number} Timestamp (ms) of the last time the object was hit. */
   lastHit = 0;
+  /** @type {Object<string, HTMLImageElement>} Cache mapping image paths to preloaded Image objects. */
   imageCache = {};
+  /** @type {number} Timestamp (ms) of the last key press (used for idle detection). */
   lastKey;
 
   /**
@@ -39,25 +54,11 @@ class MovableObject extends DrawableObject {
   }
 
   /**
-   * Makes the object jump by setting speedY to 30.
-   * @returns {number} The new value of speedY (30).
+   * Makes the object jump by setting speedY to 25.
+   * @returns {number} The new value of speedY (25).
    */
   jump() {
     return (this.speedY = 25);
-  }
-
-  /**
-   * Checks whether this object is colliding with another object using AABB collision detection.
-   * @param {DrawableObject} object - The object to check collision against.
-   * @returns {boolean} True if the objects are colliding, false otherwise.
-   */
-  isColliding(object) {
-    return (
-      this.x + this.width - this.offsetRight > object.x + object.offsetLeft &&
-      this.y + this.height - this.offsetBottom > object.y + object.offsetTop &&
-      this.x + this.offsetLeft < object.x + object.width - object.offsetRight &&
-      this.y + this.offsetTop < object.y + object.height - object.offsetBottom
-    );
   }
 
   /**
@@ -66,6 +67,15 @@ class MovableObject extends DrawableObject {
    */
   hit() {
     this.energy -= 5;
+    if (this.energy < 0) {
+      this.energy = 0;
+    } else {
+      this.lastHit = new Date().getTime();
+    }
+  }
+  
+  hitByBottle() {
+    this.energy -=20;
     if (this.energy < 0) {
       this.energy = 0;
     } else {

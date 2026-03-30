@@ -1,3 +1,7 @@
+/**
+ * Level 1 configuration. Creates enemies, clouds, background layers, collectable bottles and coins.
+ * @type {Level}
+ */
 const level1 = new Level(
   [
     new NormalChicken(),
@@ -6,6 +10,7 @@ const level1 = new Level(
     new SmallChicken(),
     new SmallChicken(),
     new SmallChicken(),
+    new Endboss(),
   ],
   [new Cloud(), new Cloud(), new Cloud(), new Cloud()],
   (function () {
@@ -39,14 +44,11 @@ const level1 = new Level(
   })(),
 
   [
-    new Collectables(),
-    new Collectables(),
-    new Collectables(),
-    new Collectables(),
-    new Collectables(),
-  ],
-
-  [
+    new GroundBottle(),
+    new GroundBottle(),
+    new GroundBottle(),
+    new GroundBottle(),
+    new GroundBottle(),
     new Coin(),
     new Coin(),
     new Coin(),

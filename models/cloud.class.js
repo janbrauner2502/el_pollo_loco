@@ -1,15 +1,18 @@
+/**
+ * Represents a cloud in the background that slowly drifts to the left.
+ * @extends MovableObject
+ */
 class Cloud extends MovableObject {
   x = 20;
   y = 20;
-
   width = 300;
   height = 200;
-
+  
   CLOUD_IMAGES = [
     "img/5_background/layers/4_clouds/1.png",
     "img/5_background/layers/4_clouds/2.png",
   ];
-
+  
   randomCloud =
     Math.random() > 0.5 ? this.CLOUD_IMAGES[0] : this.CLOUD_IMAGES[1];
 

@@ -2,18 +2,21 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 
+/**
+ * Initializes the game once the DOM is fully loaded.
+ * Sets up the canvas dimensions and creates a new World instance.
+ */
 document.addEventListener("DOMContentLoaded", () => {
   canvas = document.getElementById("canvas");
   canvas.width = 720;
   canvas.height = 480;
   world = new World(canvas, keyboard);
-
-  // console.log("My character is", world.character);
-  // console.log("My enemies are", world.enemies);
-  // console.log(world.character.width, world.character.height);
-  // console.log(keyboard);
 });
 
+/**
+ * Listens for keydown events and sets the corresponding keyboard flags to true.
+ * Mapped keys: A (LEFT), D (RIGHT), Space (UP/Jump), F (THROW).
+ */
 window.addEventListener("keydown", (event) => {
   if (event.code === "KeyA") {
     keyboard.LEFT = true;
@@ -31,6 +34,10 @@ window.addEventListener("keydown", (event) => {
   // console.log(keyboard);
 });
 
+/**
+ * Listens for keyup events and sets the corresponding keyboard flags to false.
+ * Mapped keys: A (LEFT), D (RIGHT), Space (UP/Jump), F (THROW).
+ */
 window.addEventListener("keyup", (event) => {
   if (event.code === "KeyA") {
     keyboard.LEFT = false;

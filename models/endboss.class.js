@@ -1,3 +1,7 @@
+/**
+ * Represents the end boss enemy chicken with alert, attack, hurt and dead animations.
+ * @extends MovableObject
+ */
 class Endboss extends MovableObject {
   x = 2000;
   y = 50;
@@ -8,6 +12,7 @@ class Endboss extends MovableObject {
   offsetBottom = 50;
   offsetLeft = 20;
   offsetRight = 20;
+  energy = 125;
 
   ENDBOSS_WALK_IMAGES = [
     "img/4_enemie_boss_chicken/1_walk/G1.png",
@@ -64,16 +69,18 @@ class Endboss extends MovableObject {
   }
 
   /**
-   * Starts an interval that plays the alert animation of the endboss.
+   * Starts the animation loop for the endboss.
+   * Selects the appropriate animation based on the current state (dead, hurt or alert).
    */
   animate() {
     setInterval(() => {
-      this.playAnimation(this.ENDBOSS_ALERT_IMAGES);
-    }, 150);
-  }
-  getHitByBottle() {
-    setInterval(() => {
-      this.playAnimation(this.ENDBOSS_HURT_IMAGES);
+      if (this.world) {
+        this.playAnimation(this.ENDBOSS_ALERT_IMAGES);
+      } else if (this.isDead()) {
+        this.playAnimation(this.ENDBOSS_DEAD_IMAGES);
+      } else if (this.isHurt()) {
+        this.playAnimation(this.ENDBOSS_HURT_IMAGES);
+      } else this.playAnimation(this.ENDBOSS_ALERT_IMAGES);
     }, 150);
   }
 }

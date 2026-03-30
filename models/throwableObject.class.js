@@ -1,3 +1,7 @@
+/**
+ * Represents a throwable salsa bottle that can be thrown by the character and splashes on impact.
+ * @extends MovableObject
+ */
 class ThrowableObject extends MovableObject {
   acceleration = 3;
 
@@ -19,10 +23,11 @@ class ThrowableObject extends MovableObject {
 
   /**
    * Creates a new ThrowableObject at the given position and immediately throws it.
-   * @param {number} x - The initial x-position of the bottles.
-   * @param {number} y - The initial y-position of the bottles.
+   * @param {number} x - The initial x-position of the bottle.
+   * @param {number} y - The initial y-position of the bottle.
+   * @param {boolean} otherDirection - If true, the bottle is thrown to the left; otherwise to the right.
    */
-  constructor(x, y) {
+  constructor(x, y, otherDirection) {
     super();
     this.loadImage("img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png");
     this.loadImages(this.THROW_IMAGES);
@@ -37,11 +42,14 @@ class ThrowableObject extends MovableObject {
     this.offsetBottom = 0;
     this.offsetLeft = 0;
     this.offsetRight = 0;
+    otherDirection
+      ? (this.otherDirection = true)
+      : (this.otherDirection = false);
   }
 
   /**
-   * Throws the bottles by setting the initial vertical speed, applying gravity,
-   * and continuously moving it to the right.
+   * Throws the bottle by setting the initial vertical speed, applying gravity,
+   * and continuously moving it horizontally based on the throw direction.
    */
   throw() {
     this.speedY = 30;
@@ -49,14 +57,15 @@ class ThrowableObject extends MovableObject {
     setInterval(() => {
       if (!this.isSplashing) {
         this.playAnimation(this.THROW_IMAGES);
-        return (this.x += 10);
+        return (this.x += this.otherDirection ? -10 : 10);
       }
     }, 20);
   }
 
   /**
-   * Triggers the bottles splash animation when the bottles hits an enemy.
+   * Triggers the bottle splash animation when the bottle hits an enemy.
    * Stops the flying animation and plays the splash frames instead.
+   * After the splash animation completes, the bottle is marked for removal.
    */
   bottleSplash() {
     if (this.isSplashing) return;

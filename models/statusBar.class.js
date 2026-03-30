@@ -1,3 +1,7 @@
+/**
+ * Represents a status bar (health, bottles or coins) displayed at the top of the screen.
+ * @extends DrawableObject
+ */
 class StatusBar extends DrawableObject {
   x = 20;
   y = 0;
@@ -5,7 +9,7 @@ class StatusBar extends DrawableObject {
   height = 60;
   percentage = 100;
   collected = 0;
-
+  
   STATUSBAR_COIN_IMAGES = [
     "img/7_statusbars/1_statusbar/1_statusbar_coin/green/0.png",
     "img/7_statusbars/1_statusbar/1_statusbar_coin/green/20.png",
@@ -14,7 +18,7 @@ class StatusBar extends DrawableObject {
     "img/7_statusbars/1_statusbar/1_statusbar_coin/green/80.png",
     "img/7_statusbars/1_statusbar/1_statusbar_coin/green/100.png",
   ];
-
+  
   STATUSBAR_HEART_IMAGES = [
     "img/7_statusbars/1_statusbar/2_statusbar_health/green/0.png",
     "img/7_statusbars/1_statusbar/2_statusbar_health/green/20.png",

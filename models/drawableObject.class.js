@@ -1,15 +1,44 @@
+/**
+ * Represents a drawable game object that can be rendered on the canvas.
+ * Serves as the base class for all visible objects in the game.
+ */
 class DrawableObject {
+  /** @type {HTMLImageElement} The current image to be drawn. */
   img;
+  /** @type {Object<string, HTMLImageElement>} Cache mapping image paths to preloaded Image objects. */
   imageCache = {};
+  /** @type {number} The height of the object in pixels. */
   height = 150;
+  /** @type {number} The width of the object in pixels. */
   width = 100;
+  /** @type {number} The x-position of the object on the canvas. */
   x;
+  /** @type {number} The y-position of the object on the canvas. */
   y;
+  /** @type {number} The top offset for hitbox collision detection. */
   offsetTop;
+  /** @type {number} The bottom offset for hitbox collision detection. */
   offsetBottom;
+  /** @type {number} The left offset for hitbox collision detection. */
   offsetLeft;
+  /** @type {number} The right offset for hitbox collision detection. */
   offsetRight;
+  /** @type {number} The index of the current animation frame. */
   currentImage = 0;
+
+  /**
+   * Checks whether this object is colliding with another object using AABB collision detection with offsets.
+   * @param {CollectableObject} object - The other movable object to check collision against.
+   * @returns {boolean} True if the objects' hitboxes are overlapping, false otherwise.
+   */
+  isColliding(object) {
+    return (
+      this.x + this.width - this.offsetRight > object.x + object.offsetLeft &&
+      this.y + this.height - this.offsetBottom > object.y + object.offsetTop &&
+      this.x + this.offsetLeft < object.x + object.width - object.offsetRight &&
+      this.y + this.offsetTop < object.y + object.height - object.offsetBottom
+    );
+  }
 
   /**
    * Loads a single image and sets it as the current image of the object.
@@ -47,7 +76,7 @@ class DrawableObject {
 
   /**
    * Draws a red debug frame around the object.
-   * Only applies to instances of Character, NormalChicken, and SmallChicken.
+   * Only applies to instances of Character, NormalChicken, SmallChicken, Endboss and CollectableObject.
    * @param {CanvasRenderingContext2D} ctx - The 2D rendering context of the canvas.
    */
   drawFrame(ctx) {
@@ -56,7 +85,7 @@ class DrawableObject {
       this instanceof NormalChicken ||
       this instanceof SmallChicken ||
       this instanceof Endboss ||
-      this instanceof Collectables
+      this instanceof CollectableObject
     ) {
       ctx.beginPath();
       ctx.lineWidth = 2;
@@ -68,7 +97,7 @@ class DrawableObject {
 
   /**
    * Draws a blue debug hitbox around the object based on its offset values.
-   * Only applies to instances of Character, NormalChicken, SmallChicken, and Endboss.
+   * Only applies to instances of Character, NormalChicken, SmallChicken, Endboss and CollectableObject.
    * @param {CanvasRenderingContext2D} ctx - The 2D rendering context of the canvas.
    */
   drawHitBox(ctx) {
@@ -77,7 +106,7 @@ class DrawableObject {
       this instanceof NormalChicken ||
       this instanceof SmallChicken ||
       this instanceof Endboss ||
-      this instanceof Collectables
+      this instanceof CollectableObject
     ) {
       ctx.beginPath();
       ctx.lineWidth = 2;

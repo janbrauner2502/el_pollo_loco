@@ -13,8 +13,9 @@ DrawableObject
 │   └── ThrowableObject
 ├── BackgroundObject
 ├── StatusBar
-├── Collectables
-└── Coin
+└── CollectableObject
+    ├── GroundBottle
+    └── Coin
 
 Keyboard          (standalone)
 Level             (standalone)
@@ -44,11 +45,12 @@ World             (standalone)
 ### Methods
 | Method | Parameters | Returns | Description |
 |---|---|---|---|
+| `isColliding(object)` | `object: MovableObject` | `boolean` | Offset-based AABB collision detection |
 | `loadImage(path)` | `path: string` | `void` | Loads a single image and sets it as current image |
 | `loadImages(arr)` | `arr: string[]` | `void` | Loads multiple images into the imageCache |
 | `draw(ctx)` | `ctx: CanvasRenderingContext2D` | `void` | Draws the object onto the canvas |
-| `drawFrame(ctx)` | `ctx: CanvasRenderingContext2D` | `void` | Draws a red debug frame (Character, NormalChicken, SmallChicken, Endboss, Collectables only) |
-| `drawHitBox(ctx)` | `ctx: CanvasRenderingContext2D` | `void` | Draws a blue debug hitbox based on offset values (Character, NormalChicken, SmallChicken, Endboss, Collectables only) |
+| `drawFrame(ctx)` | `ctx: CanvasRenderingContext2D` | `void` | Draws a red debug frame (Character, NormalChicken, SmallChicken, Endboss, CollectableObject only) |
+| `drawHitBox(ctx)` | `ctx: CanvasRenderingContext2D` | `void` | Draws a blue debug hitbox based on offset values (Character, NormalChicken, SmallChicken, Endboss, CollectableObject only) |
 | `playAnimation(images)` | `images: string[]` | `void` | Cycles through the given image array |
 
 ---
@@ -74,8 +76,7 @@ World             (standalone)
 | `moveRight()` | – | `void` | Moves the object right by its speed and resets `otherDirection` |
 | `moveLeft()` | – | `void` | Moves the object left by its speed |
 | `jump()` | – | `number` | Sets speedY to 25 to initiate a jump |
-| `playAnimation(images)` | `images: string[]` | `void` | Cycles through the given image array |
-| `isColliding(object)` | `object: DrawableObject` | `boolean` | Offset-based AABB collision detection |
+| `playAnimation(images)` | `images: string[]` | `void` | Cycles through the given image array (overrides DrawableObject) |
 | `hit()` | – | `void` | Reduces energy by 5 and records the hit time |
 | `isDead()` | – | `boolean` | Returns true if energy equals 0 |
 | `isHurt()` | – | `boolean` | Returns true if last hit was less than 1s ago |
@@ -103,6 +104,8 @@ World             (standalone)
 | `offsetBottom` | `number` | `40` |
 | `offsetLeft` | `number` | `20` |
 | `offsetRight` | `number` | `20` |
+| `collectedBottles` | `number` | `0` |
+| `collectedCoins` | `number` | `0` |
 | `world` | `World` | – |
 | `IDLE_IMAGES` | `string[]` | 10 frames |
 | `LONG_IDLE_IMAGES` | `string[]` | 10 frames |
@@ -135,6 +138,7 @@ World             (standalone)
 | `offsetLeft` | `number` | `5` |
 | `offsetRight` | `number` | `5` |
 | `WALKING_IMAGES` | `string[]` | 3 frames |
+| `DEAD_IMAGE` | `string[]` | 1 frame |
 
 ### Methods
 | Method | Parameters | Returns | Description |
@@ -152,6 +156,7 @@ World             (standalone)
 | Name | Type | Default |
 |---|---|---|
 | `WALKING_IMAGES` | `string[]` | 3 frames (small chicken) |
+| `DEAD_IMAGE` | `string[]` | 1 frame (small chicken) |
 
 ### Methods
 | Method | Parameters | Returns | Description |
@@ -171,8 +176,8 @@ World             (standalone)
 | `height` | `number` | `400` |
 | `width` | `number` | `300` |
 | `speed` | `number` | `0.15` |
-| `offsetTop` | `number` | `20` |
-| `offsetBottom` | `number` | `20` |
+| `offsetTop` | `number` | `70` |
+| `offsetBottom` | `number` | `50` |
 | `offsetLeft` | `number` | `20` |
 | `offsetRight` | `number` | `20` |
 | `ENDBOSS_WALK_IMAGES` | `string[]` | 4 frames |
@@ -184,8 +189,8 @@ World             (standalone)
 ### Methods
 | Method | Parameters | Returns | Description |
 |---|---|---|---|
-| `constructor()` | – | – | Loads alert images and starts the animation |
-| `animate()` | – | `void` | Plays the alert animation in a loop |
+| `constructor()` | – | – | Loads all animation images and starts the animation loop |
+| `animate()` | – | `void` | Selects animation based on state (dead, hurt or alert) |
 
 ---
 
@@ -222,15 +227,21 @@ World             (standalone)
 | `width` | `number` | `50` |
 | `height` | `number` | `50` |
 | `isSplashing` | `boolean` | `false` |
+| `splashDone` | `boolean` | `false` |
+| `otherDirection` | `boolean` | passed in constructor |
+| `offsetTop` | `number` | `0` |
+| `offsetBottom` | `number` | `0` |
+| `offsetLeft` | `number` | `0` |
+| `offsetRight` | `number` | `0` |
 | `THROW_IMAGES` | `string[]` | 4 frames |
 | `BOTTLE_SPLASH_IMAGES` | `string[]` | 6 frames |
 
 ### Methods
 | Method | Parameters | Returns | Description |
 |---|---|---|---|
-| `constructor(x, y)` | `x: number, y: number` | – | Sets position, loads images, and immediately throws the bottle |
-| `throw()` | – | `void` | Sets speedY to 30, applies gravity, moves right and plays rotation animation in a loop |
-| `bottleSplash()` | – | `void` | Triggers the splash animation when the bottle hits an enemy |
+| `constructor(x, y, otherDirection)` | `x: number, y: number, otherDirection: boolean` | – | Sets position, loads images, sets direction and immediately throws the bottle |
+| `throw()` | – | `void` | Sets speedY to 30, applies gravity, moves left or right based on `otherDirection` and plays rotation animation in a loop |
+| `bottleSplash()` | – | `void` | Triggers the splash animation when the bottle hits an enemy; sets `splashDone` after completion |
 
 ---
 
@@ -252,14 +263,24 @@ World             (standalone)
 
 ---
 
-## Collectables `extends DrawableObject`
+## CollectableObject `extends DrawableObject`
+> Base class for all collectable items (bottles and coins).
+
+### Methods
+| Method | Parameters | Returns | Description |
+|---|---|---|---|
+| `constructor()` | – | – | Calls parent constructor |
+
+---
+
+## GroundBottle `extends CollectableObject`
 > A collectable salsa bottle lying on the ground.
 
 ### Properties
 | Name | Type | Default |
 |---|---|---|
 | `y` | `number` | `370` |
-| `x` | `number` | `300 + random * 2160` |
+| `x` | `number` | `300 + random * 2000` |
 | `width` | `number` | `60` |
 | `height` | `number` | `60` |
 | `offsetTop` | `number` | `10` |
@@ -276,7 +297,7 @@ World             (standalone)
 
 ---
 
-## Coin `extends DrawableObject`
+## Coin `extends CollectableObject`
 > A collectable coin.
 
 ### Properties
@@ -286,6 +307,10 @@ World             (standalone)
 | `x` | `number` | `300 + random * 2160` |
 | `width` | `number` | `100` |
 | `height` | `number` | `100` |
+| `offsetTop` | `number` | `35` |
+| `offsetBottom` | `number` | `35` |
+| `offsetLeft` | `number` | `35` |
+| `offsetRight` | `number` | `35` |
 | `COIN_IMAGES` | `string[]` | 2 images |
 
 ### Methods
@@ -346,14 +371,13 @@ World             (standalone)
 | `enemies` | `MovableObject[]` | All enemy objects |
 | `clouds` | `Cloud[]` | All cloud objects |
 | `backgroundObjects` | `BackgroundObject[]` | All background layers |
-| `collectables` | `Collectables[]` | Collectable bottles on the ground |
-| `coins` | `Coin[]` | Collectable coins |
+| `collectables` | `CollectableObject[]` | Collectable bottles and coins |
 | `level_end_x` | `number` | X-position of level end (`720 * 3`) |
 
 ### Methods
 | Method | Parameters | Returns | Description |
 |---|---|---|---|
-| `constructor(enemies, clouds, backgroundObjects, collectables, coins)` | arrays | – | Assigns all level data |
+| `constructor(enemies, clouds, backgroundObjects, collectables)` | arrays | – | Assigns all level data |
 
 ---
 
@@ -367,7 +391,7 @@ World             (standalone)
 | `endboss` | `Endboss` | The final boss enemy |
 | `statusBar` | `Object` | Object holding StatusBar instances keyed by type (`BOTTLE`, `COIN`, `HEART`) |
 | `bottles` | `ThrowableObject[]` | Active thrown bottles |
-| `coins` | `Coin[]` | (unused, coins are in level) |
+| `collectables` | `CollectableObject[]` | (unused, collectables are in level) |
 | `level` | `Level` | The current level |
 | `canvas` | `HTMLCanvasElement` | The game canvas |
 | `ctx` | `CanvasRenderingContext2D` | The canvas 2D context |
@@ -378,10 +402,10 @@ World             (standalone)
 | Method | Parameters | Returns | Description |
 |---|---|---|---|
 | `constructor(canvas, keyboard)` | `canvas: HTMLCanvasElement, keyboard: Keyboard` | – | Initializes status bars, drawing, world reference and game loop |
-| `setWorld()` | – | `void` | Passes world reference to the character and endboss |
+| `setWorld()` | – | `void` | Passes world reference to the character |
 | `run()` | – | `void` | Starts the main game loop (collisions and throw checks) |
-| `checkThrowObject()` | – | `void` | Creates a bottle if THROW key is pressed |
-| `checkCollisions()` | – | `void` | Checks character vs. enemies and bottle vs. enemies collisions |
+| `checkThrowObject()` | – | `void` | Creates a bottle if THROW key is pressed and character has collected bottles |
+| `checkCollisions()` | – | `void` | Checks character vs. enemies, bottle vs. enemies/endboss, and character vs. collectables (GroundBottle, Coin) |
 | `draw()` | – | `void` | Redraws all objects every frame via `requestAnimationFrame` |
 | `addObjectsToCanvas(objects)` | `objects: DrawableObject[]` | `void` | Draws an array of objects |
 | `addToCanvas(object)` | `object: DrawableObject` | `void` | Draws one object with optional mirroring, debug frame and hitbox |
