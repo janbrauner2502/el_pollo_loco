@@ -4,7 +4,7 @@
  */
 class World {
   character = new Character();
-  endboss = new Endboss();
+  // endboss = new Endboss();
   statusBar = {};
   bottles = [];
   level = level1;
@@ -46,7 +46,7 @@ class World {
     setInterval(() => {
       this.checkCollisions();
       this.checkThrowObject();
-    }, 200);
+    }, 30);
   }
 
   /**
@@ -78,22 +78,31 @@ class World {
     //Character vs. Enemies
     this.level.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy)) {
-        this.character.hit();
-        this.statusBar["HEART"].setPercentage(this.character.energy);
+        if (this.character.speedY < 0) {
+          if (!enemy.isDead()) {
+            this.character.speedY = 15;
+          }
+          enemy.hit();
+          setTimeout(() => {
+            this.level.enemies = this.level.enemies.filter((e) => e !== enemy);
+          }, 1500);
+        } else if (!enemy.isDead()) {
+          this.character.hit();
+          this.statusBar["HEART"].setPercentage(this.character.energy);
+        }
       }
     });
     // Bottle vs. Enemies
     this.bottles.forEach((bottle) => {
       this.level.enemies.forEach((enemy) => {
         if (bottle.isColliding(enemy)) {
-          enemy.hit();
           bottle.bottleSplash();
         }
       });
-      if (bottle.isColliding(this.endboss)) {
-        this.endboss.hit();
+      if (bottle.isColliding(this.level.endboss)) {
+        this.level.endboss.hit();
         bottle.bottleSplash();
-        console.log(`Endboss energy: ${this.endboss.energy}`);
+        console.log(`Endboss energy: ${this.level.endboss.energy}`);
       }
       this.bottles = this.bottles.filter((bottle) => !bottle.splashDone);
     });
@@ -143,7 +152,7 @@ class World {
     this.addObjectsToCanvas(this.level.backgroundObjects);
     this.addObjectsToCanvas(this.level.enemies);
     this.addToCanvas(this.character);
-    this.addToCanvas(this.endboss);
+    this.addToCanvas(this.level.endboss);
     this.addObjectsToCanvas(this.bottles);
     this.addObjectsToCanvas(this.level.clouds);
     this.addObjectsToCanvas(this.level.collectables);
@@ -153,7 +162,6 @@ class World {
     this.addToCanvas(this.statusBar["HEART"]);
     this.addToCanvas(this.statusBar["COIN"]);
 
-    //draw() wird immer wieder aufgerufen, was die GraKa hergibt
     let self = this;
     requestAnimationFrame(function () {
       self.draw();
@@ -162,7 +170,7 @@ class World {
 
   /**
    * Adds an array of drawable objects to the canvas.
-   * @param {DrawableObject[]} objects - The objects to be drawn.
+   * @param {Endboss} objects - The objects to be drawn.
    */
   addObjectsToCanvas(objects) {
     objects.forEach((object) => {

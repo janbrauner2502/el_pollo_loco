@@ -3,13 +3,6 @@
  * @extends DrawableObject
  */
 class MovableObject extends DrawableObject {
-  /**
-   * Creates a new MovableObject by calling the parent constructor.
-   */
-  constructor() {
-    super();
-  }
-
   /** @type {number} The index of the current animation frame. */
   currentImage = 0;
   /** @type {number} The horizontal movement speed of the object. */
@@ -28,22 +21,18 @@ class MovableObject extends DrawableObject {
   lastKey;
 
   /**
+   * Creates a new MovableObject by calling the parent constructor.
+   */
+  constructor() {
+    super();
+  }
+
+  /**
    * Moves the object to the right by its speed and resets the direction flag.
    */
   moveRight() {
     this.x += this.speed;
     this.otherDirection = false;
-  }
-
-  /**
-   * Plays an animation by cycling through the provided image array.
-   * @param {string[]} images - Array of image paths for the animation.
-   */
-  playAnimation(images) {
-    let i = this.currentImage % images.length;
-    let path = images[i];
-    this.img = this.imageCache[path];
-    this.currentImage++;
   }
 
   /**
@@ -73,9 +62,9 @@ class MovableObject extends DrawableObject {
       this.lastHit = new Date().getTime();
     }
   }
-  
+
   hitByBottle() {
-    this.energy -=20;
+    this.energy -= 20;
     if (this.energy < 0) {
       this.energy = 0;
     } else {
@@ -110,6 +99,8 @@ class MovableObject extends DrawableObject {
       if (this.isAboveGround() || this.speedY > 0) {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;
+      } else {
+        return (this.speedY = 0);
       }
     }, 1000 / 25);
   }
@@ -141,6 +132,4 @@ class MovableObject extends DrawableObject {
     let timePassed = (new Date().getTime() - this.lastKey) / 1000;
     return timePassed > 10;
   }
-
-
 }

@@ -2,6 +2,7 @@
  * Represents a game level containing all enemies, clouds, background objects, collectables and coins.
  */
 class Level {
+  endboss;
   enemies;
   clouds;
   backgroundObjects;
@@ -15,7 +16,8 @@ class Level {
    * @param {BackgroundObject[]} backgroundObjects - Array of background layer objects.
    * @param {CollectableObject[]} collectables - Array of bottles on the ground and coins in the level.
    */
-  constructor(enemies, clouds, backgroundObjects, collectables) {
+  constructor(endboss, enemies, clouds, backgroundObjects, collectables) {
+    this.endboss = endboss;
     this.enemies = enemies;
     this.clouds = clouds;
     this.backgroundObjects = backgroundObjects;

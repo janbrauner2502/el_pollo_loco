@@ -28,7 +28,7 @@ class DrawableObject {
 
   /**
    * Checks whether this object is colliding with another object using AABB collision detection with offsets.
-   * @param {CollectableObject} object - The other movable object to check collision against.
+   * @param {Endboss} object - The other movable object to check collision against.
    * @returns {boolean} True if the objects' hitboxes are overlapping, false otherwise.
    */
   isColliding(object) {

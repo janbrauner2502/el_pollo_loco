@@ -3,7 +3,14 @@
  * @extends MovableObject
  */
 class ThrowableObject extends MovableObject {
+  height = 50;
+  width = 50;
+  offsetTop = 0;
+  offsetBottom = 0;
+  offsetLeft = 0;
+  offsetRight = 0;
   acceleration = 3;
+  isSplashing = false;
 
   THROW_IMAGES = [
     "img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png",
@@ -32,16 +39,9 @@ class ThrowableObject extends MovableObject {
     this.loadImage("img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png");
     this.loadImages(this.THROW_IMAGES);
     this.loadImages(this.BOTTLE_SPLASH_IMAGES);
-    this.height = 50;
-    this.width = 50;
     this.y = y;
     this.x = x;
     this.throw();
-    this.isSplashing = false;
-    this.offsetTop = 0;
-    this.offsetBottom = 0;
-    this.offsetLeft = 0;
-    this.offsetRight = 0;
     otherDirection
       ? (this.otherDirection = true)
       : (this.otherDirection = false);

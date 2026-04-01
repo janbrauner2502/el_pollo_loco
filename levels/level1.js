@@ -3,6 +3,7 @@
  * @type {Level}
  */
 const level1 = new Level(
+  new Endboss,
   [
     new NormalChicken(),
     new NormalChicken(),
@@ -10,7 +11,6 @@ const level1 = new Level(
     new SmallChicken(),
     new SmallChicken(),
     new SmallChicken(),
-    new Endboss(),
   ],
   [new Cloud(), new Cloud(), new Cloud(), new Cloud()],
   (function () {
