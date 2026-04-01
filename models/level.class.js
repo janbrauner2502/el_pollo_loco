@@ -11,6 +11,7 @@ class Level {
 
   /**
    * Creates a new Level with the given game objects.
+   * @param {Endboss} endboss - The endboss object of the level.
    * @param {MovableObject[]} enemies - Array of enemy objects in the level.
    * @param {Cloud[]} clouds - Array of cloud objects in the level.
    * @param {BackgroundObject[]} backgroundObjects - Array of background layer objects.
