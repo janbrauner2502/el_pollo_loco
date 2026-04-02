@@ -30,8 +30,6 @@ window.addEventListener("keydown", (event) => {
   if (event.code === "KeyF") {
     keyboard.THROW = true;
   }
-
-  // console.log(keyboard);
 });
 
 /**

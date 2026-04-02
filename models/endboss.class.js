@@ -12,7 +12,7 @@ class Endboss extends MovableObject {
   offsetBottom = 50;
   offsetLeft = 20;
   offsetRight = 20;
-  energy = 125;
+  energy = 100;
 
   ENDBOSS_WALK_IMAGES = [
     "img/4_enemie_boss_chicken/1_walk/G1.png",

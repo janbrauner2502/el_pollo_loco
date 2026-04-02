@@ -21,13 +21,6 @@ class MovableObject extends DrawableObject {
   lastKey;
 
   /**
-   * Creates a new MovableObject by calling the parent constructor.
-   */
-  constructor() {
-    super();
-  }
-
-  /**
    * Moves the object to the right by its speed and resets the direction flag.
    */
   moveRight() {
@@ -47,7 +40,7 @@ class MovableObject extends DrawableObject {
    * @returns {number} The new value of speedY (25).
    */
   jump() {
-    return (this.speedY = 25);
+    return this.speedY = 25;
   }
 
   /**
@@ -100,7 +93,7 @@ class MovableObject extends DrawableObject {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;
       } else {
-        return (this.speedY = 0);
+        return this.speedY = 0;
       }
     }, 1000 / 25);
   }

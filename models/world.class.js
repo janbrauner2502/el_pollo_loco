@@ -4,7 +4,6 @@
  */
 class World {
   character = new Character();
-  // endboss = new Endboss();
   statusBar = {};
   bottles = [];
   level = level1;
@@ -12,6 +11,7 @@ class World {
   ctx;
   keyboard;
   camera_x = 0;
+  canThrow = true;
 
   /**
    * Creates the game world, initializes canvas, keyboard, drawing and game logic.
@@ -53,7 +53,12 @@ class World {
    * Checks whether the throw key is pressed and creates a new ThrowableObject if so.
    */
   checkThrowObject() {
-    if (this.keyboard.THROW && this.character.collectedBottles > 0) {
+    if (
+      this.keyboard.THROW &&
+      this.character.collectedBottles > 0 &&
+      this.canThrow
+    ) {
+      this.canThrow = false;
       this.character.setLastKeyTime();
       let bottle = new ThrowableObject(
         this.character.x + this.character.width / 2,
@@ -64,6 +69,9 @@ class World {
       this.character.collectedBottles -= 20;
       this.statusBar["BOTTLE"].setCollected(this.character.collectedBottles);
       console.log(`Bottles thrown: ${this.bottles.length}`);
+    }
+    if (!this.keyboard.THROW) {
+      this.canThrow = true;
     }
   }
 
@@ -99,8 +107,8 @@ class World {
           bottle.bottleSplash();
         }
       });
-      if (bottle.isColliding(this.level.endboss)) {
-        this.level.endboss.hit();
+      if (bottle.isColliding(this.level.endboss) && !bottle.isSplashing) {
+        this.level.endboss.hitByBottle();
         bottle.bottleSplash();
         console.log(`Endboss energy: ${this.level.endboss.energy}`);
       }

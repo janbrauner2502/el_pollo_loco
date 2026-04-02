@@ -57,10 +57,4 @@ class NormalChicken extends MovableObject {
       } else this.playAnimation(this.WALKING_IMAGES);
     }, 150);
   }
-
-  // animate() {
-  //   setInterval(() => {
-  //     this.playAnimation(this.WALKING_IMAGES);
-  //   }, 150);
-  // }
 }
