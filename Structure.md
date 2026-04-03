@@ -137,6 +137,7 @@ World             (standalone)
 | `offsetBottom` | `number` | `5` |
 | `offsetLeft` | `number` | `5` |
 | `offsetRight` | `number` | `5` |
+| `energy` | `number` | `4` |
 | `WALKING_IMAGES` | `string[]` | 3 frames |
 | `DEAD_IMAGE` | `string[]` | 1 frame |
 
@@ -180,6 +181,7 @@ World             (standalone)
 | `offsetBottom` | `number` | `50` |
 | `offsetLeft` | `number` | `20` |
 | `offsetRight` | `number` | `20` |
+| `energy` | `number` | `100` |
 | `ENDBOSS_WALK_IMAGES` | `string[]` | 4 frames |
 | `ENDBOSS_ALERT_IMAGES` | `string[]` | 8 frames |
 | `ENDBOSS_ATTACK_IMAGES` | `string[]` | 8 frames |
@@ -228,6 +230,7 @@ World             (standalone)
 | `height` | `number` | `50` |
 | `isSplashing` | `boolean` | `false` |
 | `splashDone` | `boolean` | `false` |
+| `throwInterval` | `number` | – |
 | `otherDirection` | `boolean` | passed in constructor |
 | `offsetTop` | `number` | `0` |
 | `offsetBottom` | `number` | `0` |
@@ -368,6 +371,7 @@ World             (standalone)
 ### Properties
 | Name | Type | Description |
 |---|---|---|
+| `endboss` | `Endboss` | The final boss enemy |
 | `enemies` | `MovableObject[]` | All enemy objects |
 | `clouds` | `Cloud[]` | All cloud objects |
 | `backgroundObjects` | `BackgroundObject[]` | All background layers |
@@ -377,7 +381,7 @@ World             (standalone)
 ### Methods
 | Method | Parameters | Returns | Description |
 |---|---|---|---|
-| `constructor(enemies, clouds, backgroundObjects, collectables)` | arrays | – | Assigns all level data |
+| `constructor(endboss, enemies, clouds, backgroundObjects, collectables)` | arrays | – | Assigns all level data |
 
 ---
 
@@ -388,15 +392,14 @@ World             (standalone)
 | Name | Type | Description |
 |---|---|---|
 | `character` | `Character` | The player character |
-| `endboss` | `Endboss` | The final boss enemy |
 | `statusBar` | `Object` | Object holding StatusBar instances keyed by type (`BOTTLE`, `COIN`, `HEART`) |
 | `bottles` | `ThrowableObject[]` | Active thrown bottles |
-| `collectables` | `CollectableObject[]` | (unused, collectables are in level) |
 | `level` | `Level` | The current level |
 | `canvas` | `HTMLCanvasElement` | The game canvas |
 | `ctx` | `CanvasRenderingContext2D` | The canvas 2D context |
 | `keyboard` | `Keyboard` | The keyboard input handler |
 | `camera_x` | `number` | Horizontal camera offset |
+| `canThrow` | `boolean` | Flags if a bottle can be thrown |
 
 ### Methods
 | Method | Parameters | Returns | Description |
@@ -406,7 +409,4 @@ World             (standalone)
 | `run()` | – | `void` | Starts the main game loop (collisions and throw checks) |
 | `checkThrowObject()` | – | `void` | Creates a bottle if THROW key is pressed and character has collected bottles |
 | `checkCollisions()` | – | `void` | Checks character vs. enemies, bottle vs. enemies/endboss, and character vs. collectables (GroundBottle, Coin) |
-| `draw()` | – | `void` | Redraws all objects every frame via `requestAnimationFrame` |
-| `addObjectsToCanvas(objects)` | `objects: DrawableObject[]` | `void` | Draws an array of objects |
-| `addToCanvas(object)` | `object: DrawableObject` | `void` | Draws one object with optional mirroring, debug frame and hitbox |
-| `mirrorImage(object)` | `object: DrawableObject` | `void` | Applies horizontal canvas mirror transform |
+| `draw()`

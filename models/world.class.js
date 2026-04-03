@@ -85,21 +85,29 @@ class World {
   checkCollisions() {
     //Character vs. Enemies
     this.level.enemies.forEach((enemy) => {
-      if (this.character.isColliding(enemy)) {
-        if (this.character.speedY < 0) {
-          if (!enemy.isDead()) {
-            this.character.speedY = 15;
-          }
+      if (this.character.isColliding(enemy) && !this.character.isDead()) {
+        if (this.character.speedY < 0 && !enemy.isDead()) {
+          this.character.speedY = 15;
           enemy.hit();
           setTimeout(() => {
             this.level.enemies = this.level.enemies.filter((e) => e !== enemy);
           }, 1500);
         } else if (!enemy.isDead()) {
           this.character.hit();
+          console.log(`Pepe energy: ${this.character.energy}`);
           this.statusBar["HEART"].setPercentage(this.character.energy);
         }
       }
     });
+    // Character vs. Endboss
+    if (
+      this.character.isColliding(this.level.endboss) &&
+      !this.level.endboss.isDead()
+    ) {
+      console.log(this.level.endboss.isDead() === false);
+      this.character.hit();
+      this.statusBar["HEART"].setPercentage(this.character.energy);
+    }
     // Bottle vs. Enemies
     this.bottles.forEach((bottle) => {
       this.level.enemies.forEach((enemy) => {

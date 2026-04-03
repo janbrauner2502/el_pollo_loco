@@ -40,7 +40,7 @@ class MovableObject extends DrawableObject {
    * @returns {number} The new value of speedY (25).
    */
   jump() {
-    return this.speedY = 25;
+    return (this.speedY = 25);
   }
 
   /**
@@ -48,7 +48,8 @@ class MovableObject extends DrawableObject {
    * Energy cannot drop below 0.
    */
   hit() {
-    this.energy -= 5;
+    if (this.isHurt()) return;
+    this.energy -= 10;
     if (this.energy < 0) {
       this.energy = 0;
     } else {
@@ -89,7 +90,7 @@ class MovableObject extends DrawableObject {
    */
   applyGravity() {
     setInterval(() => {
-      if (this.isAboveGround() || this.speedY > 0) {
+      if (this.isAboveGround() || this.speedY > 0 || this.isDead()) {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;
       } else {
