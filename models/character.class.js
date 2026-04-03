@@ -15,10 +15,10 @@ class Character extends MovableObject {
   offsetBottom = 40;
   offsetLeft = 20;
   offsetRight = 20;
-  
+
   collectedBottles = 0;
   collectedCoins = 0;
-  
+
   IDLE_IMAGES = [
     "img/2_character_pepe/1_idle/idle/I-1.png",
     "img/2_character_pepe/1_idle/idle/I-2.png",
@@ -90,7 +90,7 @@ class Character extends MovableObject {
    * the animation and gravity loops.
    */
   constructor() {
-    super().loadImage("img/2_character_pepe/1_idle/idle/I-1.png");
+    super().loadImage(this.IDLE_IMAGES[0]);
     this.loadImages(this.WALKING_IMAGES);
     this.loadImages(this.JUMPING_IMAGES);
     this.loadImages(this.HURT_IMAGES);

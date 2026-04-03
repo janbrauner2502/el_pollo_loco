@@ -15,7 +15,7 @@ const level1 = new Level(
   [new Cloud(), new Cloud(), new Cloud(), new Cloud()],
   (function () {
     let objects = [];
-    [1, 2, 3, 4].forEach((index) => {
+    [1, 2, 3, 4, 5].forEach((index) => {
       let xValue = (index - 1) * 720;
       let imgIndex = index % 2 === 0 ? "2" : "1";
       objects.push(

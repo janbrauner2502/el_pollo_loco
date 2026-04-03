@@ -3,11 +3,11 @@
  * @extends MovableObject
  */
 class Endboss extends MovableObject {
-  x = 2000;
+  x = 2180;
   y = 50;
   height = 400;
   width = 300;
-  speed = 0.15;
+  speed;
   offsetTop = 70;
   offsetBottom = 50;
   offsetLeft = 20;
@@ -59,7 +59,8 @@ class Endboss extends MovableObject {
    * Creates a new Endboss, loads its alert animation images, and starts the animation loop.
    */
   constructor() {
-    super().loadImage(this.ENDBOSS_ALERT_IMAGES[0]);
+    super();
+    this.loadImage(this.ENDBOSS_ALERT_IMAGES[0]);
     this.loadImages(this.ENDBOSS_WALK_IMAGES);
     this.loadImages(this.ENDBOSS_ALERT_IMAGES);
     this.loadImages(this.ENDBOSS_ATTACK_IMAGES);
@@ -75,12 +76,57 @@ class Endboss extends MovableObject {
   animate() {
     setInterval(() => {
       if (this.world) {
-        this.playAnimation(this.ENDBOSS_ALERT_IMAGES);
-      } else if (this.isDead()) {
-        this.playAnimation(this.ENDBOSS_DEAD_IMAGES);
-      } else if (this.isHurt()) {
-        this.playAnimation(this.ENDBOSS_HURT_IMAGES);
-      } else this.playAnimation(this.ENDBOSS_ALERT_IMAGES);
+        this.speed = 7;
+        let distance =
+          this.x - (this.world.character.x + this.world.character.width);
+        console.log(`Distance to character: ${distance}`);
+        if (distance < 400 && distance > -250) {
+          this.bossMovesLeft(distance);
+        } else if (distance < -250) {
+          this.bossMovesRight(distance);
+        } else this.playAnimation(this.ENDBOSS_ALERT_IMAGES);
+      }
     }, 150);
+  }
+
+  /**
+   * Handles endboss behavior when the character is to the left (boss moves left).
+   * @param {number} distance - The distance between endboss and character.
+   */
+  bossMovesLeft(distance) {
+    this.otherDirection = false;
+    if (this.isDead()) {
+      this.speed = 0;
+      this.playAnimation(this.ENDBOSS_DEAD_IMAGES);
+    } else if (this.isHurt()) {
+      this.speed = 0;
+      this.playAnimation(this.ENDBOSS_HURT_IMAGES);
+    } else if (distance < 200) {
+      this.speed = 15;
+      this.playAnimation(this.ENDBOSS_ATTACK_IMAGES);
+    } else {
+      this.playAnimation(this.ENDBOSS_WALK_IMAGES);
+    }
+    this.moveLeft();
+  }
+
+  /**
+   * Handles endboss behavior when the character is to the right (boss moves right).
+   * @param {number} distance - The distance between endboss and character.
+   */
+  bossMovesRight(distance) {
+    console.log(this.otherDirection);
+    if (this.isDead()) {
+      this.speed = 0;
+      this.playAnimation(this.ENDBOSS_DEAD_IMAGES);
+    } else if (this.isHurt()) {
+      this.speed = 0;
+      this.playAnimation(this.ENDBOSS_HURT_IMAGES);
+    } else {
+      this.speed = 15;
+      this.playAnimation(this.ENDBOSS_ATTACK_IMAGES);
+    }
+    this.moveRight();
+    this.otherDirection = true;
   }
 }

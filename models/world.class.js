@@ -36,7 +36,7 @@ class World {
    */
   setWorld() {
     this.character.world = this;
-    // this.endboss.world = this;
+    this.level.endboss.world = this;
   }
 
   /**
@@ -68,7 +68,6 @@ class World {
       this.bottles.push(bottle);
       this.character.collectedBottles -= 20;
       this.statusBar["BOTTLE"].setCollected(this.character.collectedBottles);
-      console.log(`Bottles thrown: ${this.bottles.length}`);
     }
     if (!this.keyboard.THROW) {
       this.canThrow = true;
@@ -87,14 +86,13 @@ class World {
     this.level.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy) && !this.character.isDead()) {
         if (this.character.speedY < 0 && !enemy.isDead()) {
-          this.character.speedY = 15;
           enemy.hit();
+          this.character.speedY = 15;
           setTimeout(() => {
             this.level.enemies = this.level.enemies.filter((e) => e !== enemy);
           }, 1500);
         } else if (!enemy.isDead()) {
           this.character.hit();
-          console.log(`Pepe energy: ${this.character.energy}`);
           this.statusBar["HEART"].setPercentage(this.character.energy);
         }
       }
@@ -104,7 +102,6 @@ class World {
       this.character.isColliding(this.level.endboss) &&
       !this.level.endboss.isDead()
     ) {
-      console.log(this.level.endboss.isDead() === false);
       this.character.hit();
       this.statusBar["HEART"].setPercentage(this.character.energy);
     }
@@ -118,7 +115,6 @@ class World {
       if (bottle.isColliding(this.level.endboss) && !bottle.isSplashing) {
         this.level.endboss.hitByBottle();
         bottle.bottleSplash();
-        console.log(`Endboss energy: ${this.level.endboss.energy}`);
       }
       this.bottles = this.bottles.filter((bottle) => !bottle.splashDone);
     });
@@ -132,13 +128,12 @@ class World {
           !collectable.collected
         ) {
           this.character.collectedBottles += 20;
-          console.log(`Bottles collected: ${this.character.collectedBottles}`);
           this.statusBar["BOTTLE"].setCollected(
             this.character.collectedBottles,
           );
 
           this.level.collectables = this.level.collectables.filter(
-            (c) => c !== collectable,
+            (collected) => collected !== collectable,
           );
         }
         //Coins
@@ -147,11 +142,10 @@ class World {
           this.character.collectedCoins < 100
         ) {
           this.character.collectedCoins += 20;
-          console.log(`Coins collected: ${this.character.collectedCoins}`);
           this.statusBar["COIN"].setCollected(this.character.collectedCoins);
 
           this.level.collectables = this.level.collectables.filter(
-            (c) => c !== collectable,
+            (collected) => collected !== collectable,
           );
         }
       }
