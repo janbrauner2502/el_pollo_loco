@@ -9,7 +9,7 @@ class StatusBar extends DrawableObject {
   height = 60;
   percentage = 100;
   collected = 0;
-  
+
   STATUSBAR_COIN_IMAGES = [
     "img/7_statusbars/1_statusbar/1_statusbar_coin/green/0.png",
     "img/7_statusbars/1_statusbar/1_statusbar_coin/green/20.png",
@@ -18,23 +18,32 @@ class StatusBar extends DrawableObject {
     "img/7_statusbars/1_statusbar/1_statusbar_coin/green/80.png",
     "img/7_statusbars/1_statusbar/1_statusbar_coin/green/100.png",
   ];
-  
+
   STATUSBAR_HEART_IMAGES = [
-    "img/7_statusbars/1_statusbar/2_statusbar_health/green/0.png",
-    "img/7_statusbars/1_statusbar/2_statusbar_health/green/20.png",
-    "img/7_statusbars/1_statusbar/2_statusbar_health/green/40.png",
+    "img/7_statusbars/1_statusbar/2_statusbar_health/orange/0.png",
+    "img/7_statusbars/1_statusbar/2_statusbar_health/orange/20.png",
+    "img/7_statusbars/1_statusbar/2_statusbar_health/orange/40.png",
     "img/7_statusbars/1_statusbar/2_statusbar_health/green/60.png",
     "img/7_statusbars/1_statusbar/2_statusbar_health/green/80.png",
     "img/7_statusbars/1_statusbar/2_statusbar_health/green/100.png",
   ];
 
   STATUSBAR_BOTTLE_IMAGES = [
-    "img/7_statusbars/1_statusbar/3_statusbar_bottle/green/0.png",
-    "img/7_statusbars/1_statusbar/3_statusbar_bottle/green/20.png",
-    "img/7_statusbars/1_statusbar/3_statusbar_bottle/green/40.png",
+    "img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/0.png",
+    "img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/20.png",
+    "img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/40.png",
     "img/7_statusbars/1_statusbar/3_statusbar_bottle/green/60.png",
     "img/7_statusbars/1_statusbar/3_statusbar_bottle/green/80.png",
     "img/7_statusbars/1_statusbar/3_statusbar_bottle/green/100.png",
+  ];
+
+  STATUSBAR_ENDBOSS_IMAGES = [
+    "img/7_statusbars/2_statusbar_endboss/orange/orange0.png",
+    "img/7_statusbars/2_statusbar_endboss/orange/orange20.png",
+    "img/7_statusbars/2_statusbar_endboss/orange/orange40.png",
+    "img/7_statusbars/2_statusbar_endboss/green/green60.png",
+    "img/7_statusbars/2_statusbar_endboss/green/green80.png",
+    "img/7_statusbars/2_statusbar_endboss/green/green100.png",
   ];
 
   /**
@@ -46,7 +55,7 @@ class StatusBar extends DrawableObject {
     this.type = type;
     this.loadImages(this[`STATUSBAR_${type}_IMAGES`]);
     this.setStatusbar(type);
-    if (type === "HEART") {
+    if (type === "HEART" || type === "ENDBOSS") {
       this.setPercentage(100);
     } else if (this.type === "BOTTLE" || this.type === "COIN") {
       this.setCollected(0);
@@ -60,7 +69,7 @@ class StatusBar extends DrawableObject {
    */
   setStatusbar(type) {
     this.type = type;
-    if (type === "HEART") {
+    if (type === "HEART" || type === "ENDBOSS") {
       this.setPercentage(this.percentage);
     } else if (this.type === "BOTTLE" || this.type === "BOTTLE") {
       this.setCollected(this.collected);
@@ -97,13 +106,13 @@ class StatusBar extends DrawableObject {
   resolveImageIndex(percentage) {
     if (percentage === 100) {
       return 5;
-    } else if (percentage > 80) {
+    } else if (percentage >= 80) {
       return 4;
-    } else if (percentage > 60) {
+    } else if (percentage >= 60) {
       return 3;
-    } else if (percentage > 40) {
+    } else if (percentage >= 40) {
       return 2;
-    } else if (percentage > 20) {
+    } else if (percentage >= 20) {
       return 1;
     } else {
       return 0;

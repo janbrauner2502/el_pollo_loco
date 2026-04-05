@@ -13,6 +13,8 @@ class Endboss extends MovableObject {
   offsetLeft = 20;
   offsetRight = 20;
   energy = 100;
+  statusBar = new StatusBar("ENDBOSS");
+  bossFirstSeen = false;
 
   ENDBOSS_WALK_IMAGES = [
     "img/4_enemie_boss_chicken/1_walk/G1.png",
@@ -81,9 +83,12 @@ class Endboss extends MovableObject {
           this.x - (this.world.character.x + this.world.character.width);
         console.log(`Distance to character: ${distance}`);
         if (distance < 400 && distance > -250) {
+          this.bossFirstSeen = true;
+          this.statusBar.x = 700 - this.statusBar.width;
+          this.statusBar.y = 10;
           this.bossMovesLeft(distance);
         } else if (distance < -250) {
-          this.bossMovesRight(distance);
+          this.bossMovesRight();
         } else this.playAnimation(this.ENDBOSS_ALERT_IMAGES);
       }
     }, 150);
@@ -95,6 +100,7 @@ class Endboss extends MovableObject {
    */
   bossMovesLeft(distance) {
     this.otherDirection = false;
+    this.statusBar.setPercentage(this.energy);
     if (this.isDead()) {
       this.speed = 0;
       this.playAnimation(this.ENDBOSS_DEAD_IMAGES);
@@ -112,10 +118,9 @@ class Endboss extends MovableObject {
 
   /**
    * Handles endboss behavior when the character is to the right (boss moves right).
-   * @param {number} distance - The distance between endboss and character.
    */
-  bossMovesRight(distance) {
-    console.log(this.otherDirection);
+  bossMovesRight() {
+    this.statusBar.setPercentage(this.energy);
     if (this.isDead()) {
       this.speed = 0;
       this.playAnimation(this.ENDBOSS_DEAD_IMAGES);

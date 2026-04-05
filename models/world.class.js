@@ -171,6 +171,9 @@ class World {
     this.addToCanvas(this.statusBar["BOTTLE"]);
     this.addToCanvas(this.statusBar["HEART"]);
     this.addToCanvas(this.statusBar["COIN"]);
+    if (this.level.endboss.bossFirstSeen === true) {
+      this.addToCanvas(this.level.endboss.statusBar);
+    }
 
     let self = this;
     requestAnimationFrame(function () {
