@@ -15,6 +15,7 @@ class Character extends MovableObject {
   offsetBottom = 40;
   offsetLeft = 20;
   offsetRight = 20;
+  endPosition = this.width + this.x;
 
   collectedBottles = 0;
   collectedCoins = 0;
@@ -82,9 +83,6 @@ class Character extends MovableObject {
     "img/2_character_pepe/5_dead/D-57.png",
   ];
 
-  /** @type {World} Reference to the game world this character belongs to. */
-  world;
-
   /**
    * Initializes the character by loading all animation images and starting
    * the animation and gravity loops.
@@ -113,8 +111,11 @@ class Character extends MovableObject {
         //WALKS RIGHT
         if (
           this.world.keyboard.RIGHT &&
-          this.x < this.world.level.level_end_x
+          this.x + this.endPosition < this.world.level.level_end_x
         ) {
+          console.log(
+            `Character X: ${this.x}, World End X: ${this.world.level.level_end_x}`,
+          );
           this.moveRight();
           this.setLastKeyTime();
         }
@@ -123,6 +124,9 @@ class Character extends MovableObject {
           this.moveLeft();
           this.otherDirection = true;
           this.setLastKeyTime();
+          console.log(
+            `Character X: ${this.x}, World End X: ${this.world.level.level_end_x}`,
+          );
         }
         //JUMP
         if (this.world.keyboard.UP && !this.isAboveGround()) {
@@ -130,7 +134,7 @@ class Character extends MovableObject {
           this.setLastKeyTime();
         }
 
-        this.world.camera_x = -this.x + 100;
+        this.world.camera_x = Math.max(-this.x + 100, -(3600 - 720));
       }
     }, 1000 / 60);
 

@@ -6,7 +6,7 @@ class Level {
   enemies;
   clouds;
   backgroundObjects;
-  level_end_x = 720 * 4;
+  level_end_x = 720 * 5;
   collectables;
 
   /**
