@@ -3,8 +3,8 @@
  * @extends CollectableObject
  */
 class Coin extends CollectableObject {
-  y = 300;
-  x = 0;
+  y;
+  x;
   width = 100;
   height = 100;
   offsetTop = 35;
@@ -22,6 +22,7 @@ class Coin extends CollectableObject {
     this.loadImage(this.COIN_IMAGES[0]);
     this.loadImages(this.COIN_IMAGES);
     this.x = 300 + Math.random() * 2160;
+    this.y = 300 - Math.random() * 200;
     this.animate();
   }
 

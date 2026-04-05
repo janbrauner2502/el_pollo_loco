@@ -78,6 +78,7 @@ class Endboss extends MovableObject {
   animate() {
     setInterval(() => {
       if (this.world) {
+        this.statusBar.setPercentage(this.energy);
         this.speed = 7;
         let distance =
           this.x - (this.world.character.x + this.world.character.width);
@@ -89,6 +90,10 @@ class Endboss extends MovableObject {
           this.bossMovesLeft(distance);
         } else if (distance < -250) {
           this.bossMovesRight();
+        } else if (this.isHurt()) {
+          this.playAnimation(this.ENDBOSS_HURT_IMAGES);
+        } else if (this.isDead()) {
+          this.playAnimation(this.ENDBOSS_DEAD_IMAGES);
         } else this.playAnimation(this.ENDBOSS_ALERT_IMAGES);
       }
     }, 150);
@@ -100,7 +105,6 @@ class Endboss extends MovableObject {
    */
   bossMovesLeft(distance) {
     this.otherDirection = false;
-    this.statusBar.setPercentage(this.energy);
     if (this.isDead()) {
       this.speed = 0;
       this.playAnimation(this.ENDBOSS_DEAD_IMAGES);
@@ -120,7 +124,6 @@ class Endboss extends MovableObject {
    * Handles endboss behavior when the character is to the right (boss moves right).
    */
   bossMovesRight() {
-    this.statusBar.setPercentage(this.energy);
     if (this.isDead()) {
       this.speed = 0;
       this.playAnimation(this.ENDBOSS_DEAD_IMAGES);

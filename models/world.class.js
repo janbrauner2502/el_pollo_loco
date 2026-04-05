@@ -5,6 +5,7 @@
 class World {
   character = new Character();
   statusBar = {};
+  statusBarType = ["BOTTLE", "COIN", "HEART"];
   bottles = [];
   level = level1;
   canvas;
@@ -22,7 +23,7 @@ class World {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
-    ["BOTTLE", "COIN", "HEART"].forEach((type, index) => {
+    this.statusBarType.forEach((type, index) => {
       this.statusBar[type] = new StatusBar(type);
       this.statusBar[type].y = index * 40;
     });
