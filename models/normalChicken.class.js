@@ -11,6 +11,7 @@ class NormalChicken extends MovableObject {
   offsetLeft = 5;
   offsetRight = 5;
   energy = 4;
+  movesRight = false;
 
   WALKING_IMAGES = [
     "img/3_enemies_chicken/chicken_normal/1_walk/1_w.png",
@@ -31,7 +32,7 @@ class NormalChicken extends MovableObject {
     this.loadImages(this.WALKING_IMAGES);
     this.loadImages(this.DEAD_IMAGE);
     this.animate();
-    this.x = 300 + Math.random() * 500;
+    this.x = 300 + Math.random() * 3600;
     this.speed = 0.2 + Math.random() * 0.25;
     this.animation();
   }
@@ -41,8 +42,21 @@ class NormalChicken extends MovableObject {
    */
   animation() {
     setInterval(() => {
-      if (!this.isDead()) {
-        this.moveLeft();
+      if (this.isDead()) return;
+      else if (this.movesRight) {
+        if (this.x >= (3500 - this.width)) {
+          this.movesRight = false;
+        } else {
+          this.moveRight();
+          this.otherDirection = true;
+        }
+      } else {
+        if (this.x < 100) {
+          this.movesRight = true;
+        } else {
+          this.otherDirection = false;
+          this.moveLeft();
+        }
       }
     }, 1000 / 60);
   }

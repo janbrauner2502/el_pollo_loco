@@ -82,7 +82,6 @@ class Endboss extends MovableObject {
         this.speed = 7;
         let distance =
           this.x - (this.world.character.x + this.world.character.width);
-        console.log(`Distance to character: ${distance}`);
         if (distance < 400 && distance > -250) {
           this.bossFirstSeen = true;
           this.statusBar.x = 700 - this.statusBar.width;
