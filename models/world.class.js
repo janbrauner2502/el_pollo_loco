@@ -44,10 +44,20 @@ class World {
    * Starts the main game loop, running collision checks and throw object checks at a fixed interval.
    */
   run() {
-    setInterval(() => {
+    intervalManager.setInterval(() => {
       this.checkCollisions();
       this.checkThrowObject();
+      this.checkGameOver();
     }, 30);
+  }
+
+  checkGameOver() {
+    if (this.character.isDead() || this.level.endboss.isDead()) {
+      setTimeout(() => {
+        intervalManager.clearAllIntervals();
+      }, 500);
+      // this.showGameOverScreen();
+    }
   }
 
   /**

@@ -25,6 +25,7 @@ class DrawableObject {
   offsetRight;
   /** @type {number} The index of the current animation frame. */
   currentImage = 0;
+  intervalManager = intervalManager;
 
   /**
    * Checks whether this object is colliding with another object using AABB collision detection with offsets.

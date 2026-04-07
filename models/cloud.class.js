@@ -34,7 +34,7 @@ class Cloud extends MovableObject {
    * Starts an interval that continuously moves the cloud to the left.
    */
   animation() {
-    setInterval(() => {
+    this.intervalManager.setInterval(() => {
       this.moveLeft();
     }, 1000 / 60);
   }

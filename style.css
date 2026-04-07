@@ -1,4 +1,10 @@
+@font-face {
+    font-family: "Le-Cow-Boy-Ivre";
+    src: url("font/Le-Cow-Boy-Ivre.ttf") format("truetype");
+}
+
 body {
+  font-family: "Le-Cow-Boy-Ivre", sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -6,6 +12,10 @@ body {
   min-height: 100vh;
   margin: 0;
   background-image: url("img/background/ankurrabha-desert.png");
+}
+
+h1 {
+  font-size: 4rem;
 }
 
 canvas {

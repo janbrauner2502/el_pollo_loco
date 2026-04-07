@@ -70,13 +70,15 @@ class Endboss extends MovableObject {
     this.loadImages(this.ENDBOSS_DEAD_IMAGES);
     this.animate();
   }
+  
+  
 
   /**
    * Starts the animation loop for the endboss.
    * Selects the appropriate animation based on the current state (dead, hurt or alert).
    */
   animate() {
-    setInterval(() => {
+    this.intervalManager.setInterval(() => {
       if (this.world) {
         this.statusBar.setPercentage(this.energy);
         this.speed = 7;

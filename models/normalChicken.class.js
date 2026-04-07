@@ -41,10 +41,10 @@ class NormalChicken extends MovableObject {
    * Starts an interval that continuously moves the chicken to the left.
    */
   animation() {
-    setInterval(() => {
+    this.intervalManager.setInterval(() => {
       if (this.isDead()) return;
       else if (this.movesRight) {
-        if (this.x >= (3500 - this.width)) {
+        if (this.x >= 3500 - this.width) {
           this.movesRight = false;
         } else {
           this.moveRight();
@@ -65,7 +65,7 @@ class NormalChicken extends MovableObject {
    * Starts an interval that plays the walking animation.
    */
   animate() {
-    setInterval(() => {
+    this.intervalManager.setInterval(() => {
       if (this.isDead()) {
         this.playAnimation(this.DEAD_IMAGE);
       } else this.playAnimation(this.WALKING_IMAGES);

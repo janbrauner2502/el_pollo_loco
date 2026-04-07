@@ -106,7 +106,7 @@ class Character extends MovableObject {
    * Selects the appropriate animation based on the current state (dead, hurt, walking, jumping).
    */
   animate() {
-    setInterval(() => {
+    this.intervalManager.setInterval(() => {
       if (this.world) {
         //WALKS RIGHT
         if (
@@ -138,7 +138,7 @@ class Character extends MovableObject {
       }
     }, 1000 / 60);
 
-    setInterval(() => {
+    this.intervalManager.setInterval(() => {
       if (this.world) {
         if (this.isDead()) {
           //DEAD

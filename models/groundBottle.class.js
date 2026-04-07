@@ -33,7 +33,7 @@ class GroundBottle extends CollectableObject {
    * Starts an interval that cycles through the bottle ground animation images.
    */
   animate() {
-    setInterval(() => {
+    this.intervalManager.setInterval(() => {
       this.playAnimation(this.BOTTLES_GROUND_IMAGES);
     }, 500);
   }

@@ -55,13 +55,13 @@ class ThrowableObject extends MovableObject {
   throw() {
     this.speedY = 30;
     this.applyGravity();
-    this.throwInterval = setInterval(() => {
+    this.throwInterval = this.intervalManager.setInterval(() => {
       if (!this.isSplashing) {
         this.playAnimation(this.THROW_IMAGES);
         return (this.x += this.otherDirection ? -10 : 10);
       }
       if (!this.isAboveGround()) {
-        clearInterval(this.throwInterval);
+        this.intervalManager.clearInterval(this.throwInterval);
       }
     }, 20);
   }
@@ -76,12 +76,11 @@ class ThrowableObject extends MovableObject {
     this.isSplashing = true;
     this.speedY = 0;
     this.acceleration = 0;
-    let splashInterval = setInterval(() => {
+    let splashInterval = this.intervalManager.setInterval(() => {
       this.playAnimation(this.BOTTLE_SPLASH_IMAGES);
     }, 100);
     setTimeout(() => {
-      clearInterval(splashInterval);
-      // clearInterval(this.throwInterval);
+      this.intervalManager.clearInterval(splashInterval);
       this.splashDone = true;
     }, 700);
   }

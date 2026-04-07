@@ -89,7 +89,7 @@ class MovableObject extends DrawableObject {
    * Uses the object's acceleration property to decrease speedY over time.
    */
   applyGravity() {
-    setInterval(() => {
+    this.intervalManager.setInterval(() => {
       if (this.isAboveGround() || this.speedY > 0 || this.isDead()) {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;

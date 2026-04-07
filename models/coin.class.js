@@ -30,7 +30,7 @@ class Coin extends CollectableObject {
    * Starts an interval that cycles through the coin animation images.
    */
   animate() {
-    setInterval(() => {
+    this.intervalManager.setInterval(() => {
       this.playAnimation(this.COIN_IMAGES);
     }, 300);
   }
