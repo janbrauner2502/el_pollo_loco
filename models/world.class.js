@@ -1,10 +1,10 @@
-import { Character } from './character.class.js';
-import { StatusBar } from './statusBar.class.js';
-import { ThrowableObject } from './throwableObject.class.js';
-import { GroundBottle } from './groundBottle.class.js';
-import { Coin } from './coin.class.js';
-import { intervalManager } from './intervalManager.class.js';
-import { level1 } from '../levels/level1.js';
+import { Character } from "./character.class.js";
+import { StatusBar } from "./statusBar.class.js";
+import { ThrowableObject } from "./throwableObject.class.js";
+import { GroundBottle } from "./groundBottle.class.js";
+import { Coin } from "./coin.class.js";
+import { intervalManager } from "./intervalManager.class.js";
+import { level1 } from "../levels/level1.js";
 
 /**
  * Represents the game world. Manages all game objects, collision detection,
@@ -60,11 +60,16 @@ export class World {
   }
 
   checkGameOver() {
-    if (this.character.isDead() || this.level.endboss.isDead()) {
+    if (this.character.isDead()) {
       setTimeout(() => {
         intervalManager.clearAllIntervals();
       }, 500);
       // this.showGameOverScreen();
+    } else if (this.level.endboss.isDead()) {
+      setTimeout(() => {
+        intervalManager.clearAllIntervals();
+      }, 1300);
+      // this.showWinScreen();
     }
   }
 
@@ -101,10 +106,11 @@ export class World {
    * - Character vs. coins (collects coin, updates coin status bar).
    */
   checkCollisions() {
+    const isFallingDown = this.character.speedY;
     //Character vs. Enemies
     this.level.enemies.forEach((enemy) => {
       if (this.character.isColliding(enemy) && !this.character.isDead()) {
-        if (this.character.speedY < 0 && !enemy.isDead()) {
+        if (isFallingDown < 0 && !enemy.isDead()) {
           enemy.hit();
           this.character.speedY = 15;
           setTimeout(() => {
