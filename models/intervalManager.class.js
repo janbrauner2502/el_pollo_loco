@@ -1,5 +1,5 @@
-class IntervalManager {
-  
+export class IntervalManager {
+
   constructor() {
     this.intervals = new Set();
   }
@@ -21,4 +21,4 @@ class IntervalManager {
   }
 }
 
-let intervalManager = new IntervalManager();
+export const intervalManager = new IntervalManager();

@@ -1,9 +1,11 @@
+import { MovableObject } from './movableObject.class.js';
+
 /**
  * Represents the playable character Pepe with idle, walking, jumping, hurt and dead animations.
  * Handles keyboard-based movement and camera tracking.
  * @extends MovableObject
  */
-class Character extends MovableObject {
+export class Character extends MovableObject {
   x = 100;
   y = 74;
   height = 200;

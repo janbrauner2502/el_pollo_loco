@@ -1,8 +1,10 @@
+import { intervalManager } from './intervalManager.class.js';
+
 /**
  * Represents a drawable game object that can be rendered on the canvas.
  * Serves as the base class for all visible objects in the game.
  */
-class DrawableObject {
+export class DrawableObject {
   /** @type {HTMLImageElement} The current image to be drawn. */
   img;
   /** @type {Object<string, HTMLImageElement>} Cache mapping image paths to preloaded Image objects. */
@@ -72,53 +74,6 @@ class DrawableObject {
     } catch (error) {
       console.error("Error drawing image:", error);
       console.log(`This image could not be drawn ${this.img.src}`);
-    }
-  }
-
-  /**
-   * Draws a red debug frame around the object.
-   * Only applies to instances of Character, NormalChicken, SmallChicken, Endboss and CollectableObject.
-   * @param {CanvasRenderingContext2D} ctx - The 2D rendering context of the canvas.
-   */
-  drawFrame(ctx) {
-    if (
-      this instanceof Character ||
-      this instanceof NormalChicken ||
-      this instanceof SmallChicken ||
-      this instanceof Endboss ||
-      this instanceof CollectableObject
-    ) {
-      ctx.beginPath();
-      ctx.lineWidth = 2;
-      ctx.strokeStyle = "red";
-      ctx.rect(this.x, this.y, this.width, this.height);
-      ctx.stroke();
-    }
-  }
-
-  /**
-   * Draws a blue debug hitbox around the object based on its offset values.
-   * Only applies to instances of Character, NormalChicken, SmallChicken, Endboss and CollectableObject.
-   * @param {CanvasRenderingContext2D} ctx - The 2D rendering context of the canvas.
-   */
-  drawHitBox(ctx) {
-    if (
-      this instanceof Character ||
-      this instanceof NormalChicken ||
-      this instanceof SmallChicken ||
-      this instanceof Endboss ||
-      this instanceof CollectableObject
-    ) {
-      ctx.beginPath();
-      ctx.lineWidth = 2;
-      ctx.strokeStyle = "blue";
-      ctx.rect(
-        this.x + this.offsetLeft,
-        this.y + this.offsetTop,
-        this.width - this.offsetRight * 2,
-        this.height - this.offsetBottom * 2,
-      );
-      ctx.stroke();
     }
   }
 

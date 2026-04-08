@@ -1,8 +1,10 @@
+import { DrawableObject } from './drawableObject.class.js';
+
 /**
  * Represents a movable game object that can move, animate, collide and be affected by gravity.
  * @extends DrawableObject
  */
-class MovableObject extends DrawableObject {
+export class MovableObject extends DrawableObject {
   /** @type {number} The index of the current animation frame. */
   currentImage = 0;
   /** @type {number} The horizontal movement speed of the object. */
@@ -19,6 +21,8 @@ class MovableObject extends DrawableObject {
   imageCache = {};
   /** @type {number} Timestamp (ms) of the last key press (used for idle detection). */
   lastKey;
+  /** @type {number} The ground level y-position for gravity calculations. */
+  groundLevel = 230;
 
   /**
    * Moves the object to the right by its speed and resets the direction flag.
@@ -101,13 +105,10 @@ class MovableObject extends DrawableObject {
 
   /**
    * Checks whether the object is above the ground level.
-   * ThrowableObjects are always considered above the ground.
    * @returns {boolean} True if the object is above the ground.
    */
   isAboveGround() {
-    if (this instanceof ThrowableObject) {
-      return true;
-    } else return this.y < 230;
+    return this.y < this.groundLevel;
   }
 
   /**

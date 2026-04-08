@@ -1,8 +1,11 @@
+import { MovableObject } from './movableObject.class.js';
+import { StatusBar } from './statusBar.class.js';
+
 /**
  * Represents the end boss enemy chicken with alert, attack, hurt and dead animations.
  * @extends MovableObject
  */
-class Endboss extends MovableObject {
+export class Endboss extends MovableObject {
   x = 2180;
   y = 50;
   height = 400;

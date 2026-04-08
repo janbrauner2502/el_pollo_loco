@@ -1,7 +1,7 @@
 /**
  * Represents a game level containing all enemies, clouds, background objects, collectables and coins.
  */
-class Level {
+export class Level {
   endboss;
   enemies;
   clouds;

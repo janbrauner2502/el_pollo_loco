@@ -1,8 +1,10 @@
+import { NormalChicken } from './normalChicken.class.js';
+
 /**
  * Represents a small chicken enemy. Uses smaller chicken images but inherits behavior from NormalChicken.
  * @extends NormalChicken
  */
-class SmallChicken extends NormalChicken {
+export class SmallChicken extends NormalChicken {
   WALKING_IMAGES = [
     "img/3_enemies_chicken/chicken_small/1_walk/1_w.png",
     "img/3_enemies_chicken/chicken_small/1_walk/2_w.png",

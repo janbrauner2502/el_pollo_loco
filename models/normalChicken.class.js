@@ -1,8 +1,10 @@
+import { MovableObject } from './movableObject.class.js';
+
 /**
  * Represents a normal-sized chicken enemy that walks to the left.
  * @extends MovableObject
  */
-class NormalChicken extends MovableObject {
+export class NormalChicken extends MovableObject {
   width = 50;
   height = 50;
   y = 380;

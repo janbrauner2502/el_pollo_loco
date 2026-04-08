@@ -1,8 +1,10 @@
+import { CollectableObject } from './collectableObject.class.js';
+
 /**
  * Represents a collectible coin in the game world.
  * @extends CollectableObject
  */
-class Coin extends CollectableObject {
+export class Coin extends CollectableObject {
   y;
   x;
   width = 100;

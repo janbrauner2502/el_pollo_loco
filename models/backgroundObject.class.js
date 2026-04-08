@@ -1,8 +1,10 @@
+import { DrawableObject } from './drawableObject.class.js';
+
 /**
  * Represents a static background layer image in the game world.
  * @extends DrawableObject
  */
-class BackgroundObject extends DrawableObject {
+export class BackgroundObject extends DrawableObject {
   width = 720;
   height = 480;
 

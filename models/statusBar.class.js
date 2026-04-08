@@ -1,8 +1,10 @@
+import { DrawableObject } from './drawableObject.class.js';
+
 /**
  * Represents a status bar (health, bottles or coins) displayed at the top of the screen.
  * @extends DrawableObject
  */
-class StatusBar extends DrawableObject {
+export class StatusBar extends DrawableObject {
   x = 20;
   y = 0;
   width = 200;

@@ -1,8 +1,10 @@
+import { MovableObject } from './movableObject.class.js';
+
 /**
  * Represents a cloud in the background that slowly drifts to the left.
  * @extends MovableObject
  */
-class Cloud extends MovableObject {
+export class Cloud extends MovableObject {
   x = 20;
   y = 20;
   width = 300;

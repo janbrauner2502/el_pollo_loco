@@ -1,8 +1,10 @@
+import { MovableObject } from './movableObject.class.js';
+
 /**
  * Represents a throwable salsa bottle that can be thrown by the character and splashes on impact.
  * @extends MovableObject
  */
-class ThrowableObject extends MovableObject {
+export class ThrowableObject extends MovableObject {
   height = 50;
   width = 50;
   offsetTop = 0;
@@ -12,6 +14,7 @@ class ThrowableObject extends MovableObject {
   acceleration = 3;
   isSplashing = false;
   throwInterval;
+  groundLevel = Infinity;
 
   THROW_IMAGES = [
     "img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png",

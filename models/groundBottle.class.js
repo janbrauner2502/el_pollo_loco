@@ -1,8 +1,10 @@
+import { CollectableObject } from './collectableObject.class.js';
+
 /**
  * Represents a collectible salsa bottle lying on the ground.
  * @extends CollectableObject
  */
-class GroundBottle extends CollectableObject {
+export class GroundBottle extends CollectableObject {
   y = 370;
   x = 0;
   width = 60;

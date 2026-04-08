@@ -1,8 +1,16 @@
+import { Character } from './character.class.js';
+import { StatusBar } from './statusBar.class.js';
+import { ThrowableObject } from './throwableObject.class.js';
+import { GroundBottle } from './groundBottle.class.js';
+import { Coin } from './coin.class.js';
+import { intervalManager } from './intervalManager.class.js';
+import { level1 } from '../levels/level1.js';
+
 /**
  * Represents the game world. Manages all game objects, collision detection,
  * rendering and the main game loop.
  */
-class World {
+export class World {
   character = new Character();
   statusBar = {};
   statusBarType = ["BOTTLE", "COIN", "HEART"];
@@ -211,8 +219,6 @@ class World {
       this.mirrorImage(object);
     }
     object.draw(this.ctx);
-    object.drawFrame(this.ctx);
-    object.drawHitBox(this.ctx);
 
     if (object.otherDirection) {
       this.ctx.restore();
