@@ -13,9 +13,40 @@
   </head>
   <body>
     <h1>El Pollo Loco</h1>
-
+<main>
     <canvas id="canvas"></canvas>
+  <div class="start-screen">
+    <header>
+      <div>
+        <button popovertarget="helpPopover" id="helpButton" class="active-button">
+        </button>
+      </div>
+      <div>
+        <button id="soundButton" class="active-button">
 
+        </button>
+        <button id="fullscreenButton" class="active-button">
+
+        </button>
+      </div>
+
+    </header>
+    <dialog popover id="helpPopover" class="help-popover">
+      <h2>Tastenbelegung</h2>
+      Taste A = Links <br>
+      Taste D = Rechts <br>
+      Leertaste = Springen <br>
+      Taste F = Werfen <br>
+
+
+    </dialog>
+  </div>
+  <footer>
+    <a href="impressum.html">Impressum</a>
+  </footer>
+
+
+</main>
     <script type="module" src="./js/game.js"></script>
   </body>
 </html>

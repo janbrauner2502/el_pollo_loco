@@ -14,6 +14,11 @@ body {
   background-image: url("img/background/ankurrabha-desert.png");
 }
 
+body:has([popover]:popover-open) {
+  pointer-events: none;
+  overflow: hidden;
+}
+
 h1 {
   font-size: 4rem;
 }
@@ -23,9 +28,169 @@ p {
 }
 
 canvas {
-  background-color: black;
-  border: 1px solid black;
+  /*background-color: black;*/
+  /*border: 1px solid black;*/
+  border-radius: 1.5rem;
+}
+
+main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 720px;
+  height: 480px;
+  border-radius: 1.5rem;
+}
+
+.start-screen {
+  z-index: 5;
+  position: absolute;
+  top: 0;
+  left: 0;
+  /*display: flex;*/
+  /*justify-content: center;*/
+  /*align-items: center;*/
+  width: 100%;
+  height: 100%;
+  background: url("img/9_intro_outro_screens/start/startscreen_1.png") center
+    center no-repeat;
+  background-size: 100% 100%;
+  border-radius: 1.5rem;
+}
+
+.help-popover {
+  padding: 1rem;
+  margin: 0;
+  inset: auto;
+  position: absolute;
+  top: anchor(bottom);
+  left: anchor(left);
+  position-anchor: --help-button;
   border-radius: 1rem;
+  border: none;
+  background-color: white;
+  line-height: 2;
+  margin-block-start: 0.5rem;
+  animation-name: RubberAnimation;
+  animation-duration: 500ms;
+  animation-timing-function: cubic-bezier(0.12, 0, 0.39, 0);
+
+  &::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(1px);
+  }
+}
+
+@keyframes RubberAnimation {
+  from {
+    transform: scale(1, 1);
+  }
+  30% {
+    transform: scale(1.2, 0.8);
+  }
+  50% {
+    transform: scale(0.8, 1.2);
+  }
+  70% {
+    transform: scale(1.1, 0.9);
+  }
+  to {
+    transform: scale(1, 1);
+  }
+}
+
+.help-button:popover-open {
+  display: grid;
+}
+
+header {
+  display: flex;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 4rem;
+  align-items: center;
+  justify-content: space-between;
+
+  div {
+    display: flex;
+    align-items: center;
+    margin: 0.5rem;
+    gap: 1rem;
+  }
+
+  button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background-color: rgba(0, 0, 0, 0.2);
+    height: 3rem;
+    width: 3rem;
+    border-radius: 50%;
+    object-fit: cover;
+
+    &:hover {
+      transition: all 200ms ease;
+      transform: scale(1.1);
+    }
+  }
+
+  .active-button {
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    transition: opacity 300ms ease;
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-repeat: no-repeat;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 300ms ease;
+      pointer-events: none;
+    }
+
+    &:active::after {
+      opacity: 1;
+    }
+  }
+
+  #helpButton {
+    anchor-name: --help-button;
+    background-image: url("assets/more_horizontal.svg");
+
+    &::after {
+      background-image: url("assets/more_vertical.svg");
+    }
+  }
+
+  #soundButton {
+    background-image: url("assets/sound_on.svg");
+
+    &::after {
+      background-image: url("assets/sound_off.svg");
+    }
+  }
+
+  #fullscreenButton {
+    background-image: url("assets/fullscreen_open.svg");
+
+    &::after {
+      background-image: url("assets/fullscreen_close.svg");
+    }
+  }
+}
+
+body:has([popover]:popover-open) #helpButton {
+  background-image: none;
+}
+
+body:has([popover]:popover-open) #helpButton::after {
+  opacity: 1;
 }
 
 footer {
