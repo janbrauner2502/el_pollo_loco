@@ -3,6 +3,24 @@
   src: url("font/Sancreek-Regular.ttf") format("truetype");
 }
 
+@keyframes RubberAnimation {
+  from {
+    transform: scale(1, 1);
+  }
+  30% {
+    transform: scale(1.2, 0.8);
+  }
+  50% {
+    transform: scale(0.8, 1.2);
+  }
+  70% {
+    transform: scale(1.1, 0.9);
+  }
+  to {
+    transform: scale(1, 1);
+  }
+}
+
 body {
   font-family: "Sancreek-Regular", sans-serif;
   display: flex;
@@ -33,12 +51,7 @@ p {
   margin: 1rem 0;
 }
 
-canvas {
-  /*background-color: black;*/
-  /*border: 1px solid black;*/
-  /*border-radius: 1.5rem;*/
-  background-color: black;
-}
+/* --- Layout --- */
 
 main {
   position: relative;
@@ -48,84 +61,6 @@ main {
   align-items: center;
   width: 720px;
   height: 480px;
-  /*border-radius: 1.5rem;*/
-}
-
-.gradient-border {
-  border: 0.5rem solid transparent;
-  border-radius: 1.5rem;
-  background:
-    linear-gradient(#ffffff, #ffffff) padding-box,
-    repeating-linear-gradient(
-        to bottom left,
-        #9f4e1f 0%,
-        #9f4e1f 25%,
-        #ff923d 50%,
-        #cd6526 75%,
-        #cd6526 100%
-      )
-      border-box;
-}
-
-.start-screen {
-  z-index: 5;
-  position: absolute;
-  top: 0;
-  left: 0;
-  /*display: flex;*/
-  /*justify-content: center;*/
-  /*align-items: center;*/
-  width: 100%;
-  height: 100%;
-  background: url("img/9_intro_outro_screens/start/startscreen_1.png") center
-    center no-repeat;
-  background-size: 100% 100%;
-  /*border-radius: 1.5rem;*/
-}
-
-.help-popover {
-  padding: 1rem;
-  margin: 0;
-  inset: auto;
-  position: absolute;
-  top: anchor(bottom);
-  left: anchor(left);
-  position-anchor: --help-button;
-  border-radius: 1.5rem;
-  border: none;
-  background-color: white;
-  line-height: 2;
-  margin-block-start: 0.5rem;
-  animation-name: RubberAnimation;
-  animation-duration: 500ms;
-  animation-timing-function: cubic-bezier(0.12, 0, 0.39, 0);
-
-  &::backdrop {
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(1px);
-  }
-}
-
-@keyframes RubberAnimation {
-  from {
-    transform: scale(1, 1);
-  }
-  30% {
-    transform: scale(1.2, 0.8);
-  }
-  50% {
-    transform: scale(0.8, 1.2);
-  }
-  70% {
-    transform: scale(1.1, 0.9);
-  }
-  to {
-    transform: scale(1, 1);
-  }
-}
-
-.help-button:popover-open {
-  display: grid;
 }
 
 header {
@@ -143,61 +78,6 @@ header {
     margin: 0.5rem;
     gap: 1rem;
   }
-
-  button {
-    background-repeat: no-repeat;
-    background-position: center;
-    cursor: pointer;
-    border: none;
-    outline: none;
-    background-color: rgba(0, 0, 0, 0.2);
-    height: 3rem;
-    width: 3rem;
-    border-radius: 50%;
-    object-fit: cover;
-
-    &:hover {
-      transition: all 200ms ease;
-      transform: scale(1.1);
-    }
-  }
-
-  #helpButton {
-    anchor-name: --help-button;
-    background-image: url("assets/info.svg");
-    background-repeat: no-repeat;
-    background-position: center;
-  }
-
-  #soundButton {
-    background-image: url("assets/sound_on.svg");
-    background-repeat: no-repeat;
-    background-position: center;
-
-    /*&::after {*/
-    /*  background-image: url("assets/sound_off.svg");*/
-    /*}*/
-  }
-
-  #fullscreenButton {
-    background-image: url("assets/fullscreen_open.svg");
-    background-repeat: no-repeat;
-    background-position: center;
-  }
-}
-
-main:fullscreen #fullscreenButton {
-  background-image: url("assets/fullscreen_close.svg");
-}
-
-.impressum-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: auto;
-  padding: 1rem;
-  height: auto;
-  background-color: rgba(0, 0, 0, 0.2);
 }
 
 footer {
@@ -207,8 +87,8 @@ footer {
   padding: 1rem 0;
   position: absolute;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.2);
   width: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
 
   a {
     text-decoration: none;
@@ -220,4 +100,180 @@ footer {
       color: white;
     }
   }
+}
+
+canvas {
+  background-color: black;
+}
+
+/* --- Buttons --- */
+
+button {
+  font-family: inherit;
+  width: auto;
+  height: 3rem;
+  background: linear-gradient(45deg, #ff923d, #ff7148);
+  color: #000000;
+  letter-spacing: 1px;
+  border-radius: 9999px;
+  padding: 14px 36px;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+    background: linear-gradient(45deg, #cd6526, #cd6526);
+    color: #ffffff;
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+header button {
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background-color: rgba(0, 0, 0, 0.2);
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+  object-fit: cover;
+  padding: 0;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+    transition: all 200ms ease;
+    transform: scale(1.1);
+  }
+}
+
+#playButton {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+}
+
+#infoButton {
+  anchor-name: --help-button;
+  background-image: url("assets/info.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#soundButton {
+  background-image: url("assets/sound_on.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#fullscreenButton {
+  background-image: url("assets/fullscreen_open.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* --- Start Screen --- */
+
+.start-screen {
+  z-index: 5;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("img/9_intro_outro_screens/start/startscreen_1.png") center
+    center no-repeat;
+  background-size: 100% 100%;
+}
+
+/* --- Gradient Border --- */
+
+.gradient-border {
+  border: 0.5rem solid transparent;
+  border-radius: 1.5rem;
+  background:
+    linear-gradient(#ffffff, #ffffff) padding-box,
+    repeating-linear-gradient(
+        to bottom left,
+        #9f4e1f 0%,
+        #9f4e1f 25%,
+        #ff923d 50%,
+        #cd6526 75%,
+        #cd6526 100%
+      )
+      border-box;
+}
+
+/* --- Info Popover --- */
+
+.info-popover {
+  padding: 1rem;
+  margin: 0;
+  inset: auto;
+  position: absolute;
+  top: anchor(bottom);
+  left: anchor(left);
+  position-anchor: --help-button;
+  border-radius: 1.5rem;
+  background-color: white;
+  line-height: 2;
+  margin-block-start: 0.5rem;
+  animation-name: RubberAnimation;
+  animation-duration: 500ms;
+  animation-timing-function: cubic-bezier(0.12, 0, 0.39, 0);
+
+  &::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(1px);
+  }
+}
+
+.help-button:popover-open {
+  display: grid;
+}
+
+/* --- Impressum --- */
+
+.impressum-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: auto;
+  height: auto;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* --- Fullscreen --- */
+
+main.game-active .start-screen {
+  display: none;
+}
+
+main.game-active #infoButton {
+  display: none;
+}
+
+main:fullscreen {
+  width: 100%;
+  height: 100%;
+  background-color: black;
+}
+
+main:fullscreen canvas {
+  width: 100%;
+  height: 100%;
+}
+
+main:fullscreen #fullscreenButton {
+  background-image: url("assets/fullscreen_close.svg");
 }

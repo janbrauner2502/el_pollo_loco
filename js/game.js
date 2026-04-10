@@ -5,7 +5,8 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 const fullscreen = document.getElementById("fullscreenButton");
-const mainContainer = document.getElementById("mainContainer");
+const mainContainer = document.getElementsByTagName("main")[0];
+const playButton = document.getElementById("playButton");
 
 fullscreen.addEventListener("click", () => {
   if (!document.fullscreenElement) {
@@ -15,6 +16,7 @@ fullscreen.addEventListener("click", () => {
   }
 });
 
+/* Open fullscreen */
 function openFullscreen(elem) {
   if (elem.requestFullscreen) {
     elem.requestFullscreen();
@@ -44,11 +46,13 @@ function closeFullscreen() {
  * Initializes the game once the DOM is fully loaded.
  * Sets up the canvas dimensions and creates a new World instance.
  */
-document.addEventListener("DOMContentLoaded", () => {
+playButton.addEventListener("click", () => {
   canvas = document.getElementById("canvas");
   canvas.width = 720;
   canvas.height = 480;
   world = new World(canvas, keyboard);
+  document.querySelector(".start-screen").style.display = "none";
+  mainContainer.classList.add("game-active");
 });
 
 /**
@@ -63,6 +67,7 @@ window.addEventListener("keydown", (event) => {
     keyboard.RIGHT = true;
   }
   if (event.code === "Space") {
+    event.preventDefault();
     keyboard.UP = true;
   }
   if (event.code === "KeyF") {

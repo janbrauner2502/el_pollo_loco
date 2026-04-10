@@ -13,18 +13,19 @@
   </head>
   <body>
     <h1>El Pollo Loco</h1>
-    <main id="mainContainer">
+    <main>
+      <header style="z-index: 10">
+        <div>
+          <button popovertarget="infoPopover" id="infoButton"></button>
+        </div>
+        <div>
+          <button id="soundButton"></button>
+          <button id="fullscreenButton"></button>
+        </div>
+      </header>
       <div class="start-screen">
-        <header>
-          <div>
-            <button popovertarget="helpPopover" id="helpButton"></button>
-          </div>
-          <div>
-            <button id="soundButton"></button>
-            <button id="fullscreenButton"></button>
-          </div>
-        </header>
-        <dialog popover id="helpPopover" class="help-popover">
+        <button id="playButton"><span>Start Game</span></button>
+        <dialog popover id="infoPopover" class="info-popover gradient-border">
           <h2>Tastenbelegung</h2>
           Taste A = Links <br />
           Taste D = Rechts <br />
