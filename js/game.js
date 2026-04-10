@@ -1,9 +1,44 @@
-import { Keyboard } from '../models/keyboard.class.js';
-import { World } from '../models/world.class.js';
+import { Keyboard } from "../models/keyboard.class.js";
+import { World } from "../models/world.class.js";
 
 let canvas;
 let world;
 let keyboard = new Keyboard();
+const fullscreen = document.getElementById("fullscreenButton");
+const mainContainer = document.getElementById("mainContainer");
+
+fullscreen.addEventListener("click", () => {
+  if (!document.fullscreenElement) {
+    openFullscreen(mainContainer);
+  } else {
+    closeFullscreen();
+  }
+});
+
+function openFullscreen(elem) {
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen();
+  } else if (elem.webkitRequestFullscreen) {
+    /* Safari */
+    elem.webkitRequestFullscreen();
+  } else if (elem.msRequestFullscreen) {
+    /* IE11 */
+    elem.msRequestFullscreen();
+  }
+}
+
+/* Close fullscreen */
+function closeFullscreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.webkitExitFullscreen) {
+    /* Safari */
+    document.webkitExitFullscreen();
+  } else if (document.msExitFullscreen) {
+    /* IE11 */
+    document.msExitFullscreen();
+  }
+}
 
 /**
  * Initializes the game once the DOM is fully loaded.

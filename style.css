@@ -20,17 +20,24 @@ body:has([popover]:popover-open) {
 }
 
 h1 {
+  margin-top: 0;
   font-size: 4rem;
+}
+
+h2 {
+  margin: 1rem 0;
 }
 
 p {
   font-size: 1.5rem;
+  margin: 1rem 0;
 }
 
 canvas {
   /*background-color: black;*/
   /*border: 1px solid black;*/
-  border-radius: 1.5rem;
+  /*border-radius: 1.5rem;*/
+  background-color: black;
 }
 
 main {
@@ -41,7 +48,23 @@ main {
   align-items: center;
   width: 720px;
   height: 480px;
+  /*border-radius: 1.5rem;*/
+}
+
+.gradient-border {
+  border: 0.5rem solid transparent;
   border-radius: 1.5rem;
+  background:
+    linear-gradient(#ffffff, #ffffff) padding-box,
+    repeating-linear-gradient(
+        to bottom left,
+        #9f4e1f 0%,
+        #9f4e1f 25%,
+        #ff923d 50%,
+        #cd6526 75%,
+        #cd6526 100%
+      )
+      border-box;
 }
 
 .start-screen {
@@ -57,7 +80,7 @@ main {
   background: url("img/9_intro_outro_screens/start/startscreen_1.png") center
     center no-repeat;
   background-size: 100% 100%;
-  border-radius: 1.5rem;
+  /*border-radius: 1.5rem;*/
 }
 
 .help-popover {
@@ -68,7 +91,7 @@ main {
   top: anchor(bottom);
   left: anchor(left);
   position-anchor: --help-button;
-  border-radius: 1rem;
+  border-radius: 1.5rem;
   border: none;
   background-color: white;
   line-height: 2;
@@ -122,6 +145,8 @@ header {
   }
 
   button {
+    background-repeat: no-repeat;
+    background-position: center;
     cursor: pointer;
     border: none;
     outline: none;
@@ -137,68 +162,50 @@ header {
     }
   }
 
-  .active-button {
-    background-repeat: no-repeat;
-    background-position: center;
-    position: relative;
-    transition: opacity 300ms ease;
-
-    &::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-repeat: no-repeat;
-      background-position: center;
-      opacity: 0;
-      transition: opacity 300ms ease;
-      pointer-events: none;
-    }
-
-    &:active::after {
-      opacity: 1;
-    }
-  }
-
   #helpButton {
     anchor-name: --help-button;
-    background-image: url("assets/more_horizontal.svg");
-
-    &::after {
-      background-image: url("assets/more_vertical.svg");
-    }
+    background-image: url("assets/info.svg");
+    background-repeat: no-repeat;
+    background-position: center;
   }
 
   #soundButton {
     background-image: url("assets/sound_on.svg");
+    background-repeat: no-repeat;
+    background-position: center;
 
-    &::after {
-      background-image: url("assets/sound_off.svg");
-    }
+    /*&::after {*/
+    /*  background-image: url("assets/sound_off.svg");*/
+    /*}*/
   }
 
   #fullscreenButton {
     background-image: url("assets/fullscreen_open.svg");
-
-    &::after {
-      background-image: url("assets/fullscreen_close.svg");
-    }
+    background-repeat: no-repeat;
+    background-position: center;
   }
 }
 
-body:has([popover]:popover-open) #helpButton {
-  background-image: none;
+main:fullscreen #fullscreenButton {
+  background-image: url("assets/fullscreen_close.svg");
 }
 
-body:has([popover]:popover-open) #helpButton::after {
-  opacity: 1;
+.impressum-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: auto;
+  padding: 1rem;
+  height: auto;
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 footer {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
-  position: fixed;
+  padding: 1rem 0;
+  position: absolute;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.2);
   width: 100%;
