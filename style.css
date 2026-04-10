@@ -162,6 +162,18 @@ header button {
   translate: -50% -50%;
 }
 
+#playAgainButton {
+  position: absolute;
+  bottom: 10%;
+  left: 25%;
+}
+
+#backToStartButton {
+  position: absolute;
+  bottom: 10%;
+  right: 25%;
+}
+
 #infoButton {
   anchor-name: --help-button;
   background-image: url("assets/info.svg");
@@ -193,6 +205,36 @@ header button {
   background: url("img/9_intro_outro_screens/start/startscreen_1.png") center
     center no-repeat;
   background-size: 100% 100%;
+}
+
+/* --- Game Over Screen --- */
+
+.game-over-screen {
+  z-index: 5;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("img/You won, you lost/You lost.png") center center no-repeat;
+  background-size: 100% auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.win-screen {
+  z-index: 5;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("img/You won, you lost/You Won B.png") center center no-repeat;
+  background-size: 100% auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.d-none {
+  display: none;
 }
 
 /* --- Gradient Border --- */

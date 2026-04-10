@@ -4,7 +4,10 @@ import { ThrowableObject } from "./throwableObject.class.js";
 import { GroundBottle } from "./groundBottle.class.js";
 import { Coin } from "./coin.class.js";
 import { intervalManager } from "./intervalManager.class.js";
-import { level1 } from "../levels/level1.js";
+import { createNewLevel } from "../levels/level1.js";
+
+const gameEndScreen = document.getElementById("gameEndScreen");
+const header = document.querySelector("header");
 
 /**
  * Represents the game world. Manages all game objects, collision detection,
@@ -15,12 +18,13 @@ export class World {
   statusBar = {};
   statusBarType = ["BOTTLE", "COIN", "HEART"];
   bottles = [];
-  level = level1;
+  level = createNewLevel();
   canvas;
   ctx;
   keyboard;
   camera_x = 0;
   canThrow = true;
+  gameOver = false;
 
   /**
    * Creates the game world, initializes canvas, keyboard, drawing and game logic.
@@ -60,17 +64,33 @@ export class World {
   }
 
   checkGameOver() {
-    if (this.character.isDead()) {
+    if (this.character.isDead() && !this.gameOver) {
+
       setTimeout(() => {
+        this.gameOver = true;
         intervalManager.clearAllIntervals();
+        this.showGameOverScreen();
       }, 500);
-      // this.showGameOverScreen();
-    } else if (this.level.endboss.isDead()) {
+    } else if (this.level.endboss.isDead() && !this.gameOver) {
+
       setTimeout(() => {
+        this.gameOver = true;
         intervalManager.clearAllIntervals();
+        this.showWinScreen();
       }, 1300);
-      // this.showWinScreen();
     }
+  }
+
+  showGameOverScreen() {
+    header.classList.add("d-none");
+    gameEndScreen.classList.remove("d-none");
+    gameEndScreen.classList.add("game-over-screen");
+  }
+
+  showWinScreen() {
+    header.classList.add("d-none");
+    gameEndScreen.classList.remove("d-none");
+    gameEndScreen.classList.add("win-screen");
   }
 
   /**
@@ -199,11 +219,12 @@ export class World {
     if (this.level.endboss.bossFirstSeen === true) {
       this.addToCanvas(this.level.endboss.statusBar);
     }
-
-    let self = this;
-    requestAnimationFrame(function () {
-      self.draw();
-    });
+    if (!this.gameOver) {
+      let self = this;
+      requestAnimationFrame(function () {
+        self.draw();
+      });
+    }
   }
 
   /**

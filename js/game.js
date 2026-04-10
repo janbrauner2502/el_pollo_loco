@@ -7,6 +7,8 @@ let keyboard = new Keyboard();
 const fullscreen = document.getElementById("fullscreenButton");
 const mainContainer = document.getElementsByTagName("main")[0];
 const playButton = document.getElementById("playButton");
+const playAgainButton = document.getElementById("playAgainButton");
+const gameEndScreen = document.getElementById("gameEndScreen");
 
 fullscreen.addEventListener("click", () => {
   if (!document.fullscreenElement) {
@@ -46,13 +48,21 @@ function closeFullscreen() {
  * Initializes the game once the DOM is fully loaded.
  * Sets up the canvas dimensions and creates a new World instance.
  */
-playButton.addEventListener("click", () => {
+function initGame() {
   canvas = document.getElementById("canvas");
   canvas.width = 720;
   canvas.height = 480;
   world = new World(canvas, keyboard);
   document.querySelector(".start-screen").style.display = "none";
   mainContainer.classList.add("game-active");
+  gameEndScreen.classList.add("d-none");
+}
+
+playButton.addEventListener("click", () => {
+  initGame();
+});
+playAgainButton.addEventListener("click", () => {
+  initGame();
 });
 
 /**

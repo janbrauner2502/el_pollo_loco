@@ -23,6 +23,7 @@
           <button id="fullscreenButton"></button>
         </div>
       </header>
+      <canvas id="canvas"></canvas>
       <div class="start-screen">
         <button id="playButton"><span>Start Game</span></button>
         <dialog popover id="infoPopover" class="info-popover gradient-border">
@@ -36,7 +37,12 @@
           <a href="impressum.html">Impressum</a>
         </footer>
       </div>
-      <canvas id="canvas"></canvas>
+      <div id="gameEndScreen" class="d-none">
+        <button id="playAgainButton"><span>Play Again</span></button>
+        <button id="backToStartButton"><span>Back to Start</span></button>
+      </div>
+
+
     </main>
     <script type="module" src="./js/game.js"></script>
   </body>
