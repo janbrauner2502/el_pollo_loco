@@ -8,6 +8,7 @@ const fullscreen = document.getElementById("fullscreenButton");
 const mainContainer = document.getElementsByTagName("main")[0];
 const playButton = document.getElementById("playButton");
 const playAgainButton = document.getElementById("playAgainButton");
+const backToStartButton = document.getElementById("backToStartButton");
 const gameEndScreen = document.getElementById("gameEndScreen");
 
 fullscreen.addEventListener("click", () => {
@@ -55,14 +56,20 @@ function initGame() {
   world = new World(canvas, keyboard);
   document.querySelector(".start-screen").style.display = "none";
   mainContainer.classList.add("game-active");
+  gameEndScreen.classList.remove("game-over-screen", "win-screen");
   gameEndScreen.classList.add("d-none");
 }
 
 playButton.addEventListener("click", () => {
   initGame();
 });
+
 playAgainButton.addEventListener("click", () => {
   initGame();
+});
+
+backToStartButton.addEventListener("click", () => {
+  window.location.href = "index.html";
 });
 
 /**

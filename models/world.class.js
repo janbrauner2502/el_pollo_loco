@@ -65,14 +65,12 @@ export class World {
 
   checkGameOver() {
     if (this.character.isDead() && !this.gameOver) {
-
       setTimeout(() => {
         this.gameOver = true;
         intervalManager.clearAllIntervals();
         this.showGameOverScreen();
       }, 500);
     } else if (this.level.endboss.isDead() && !this.gameOver) {
-
       setTimeout(() => {
         this.gameOver = true;
         intervalManager.clearAllIntervals();
