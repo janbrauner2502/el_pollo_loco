@@ -1,4 +1,4 @@
-import { intervalManager } from './intervalManager.class.js';
+import { intervalManager } from "./intervalManager.class.js";
 
 /**
  * Represents a drawable game object that can be rendered on the canvas.
@@ -71,10 +71,7 @@ export class DrawableObject {
   draw(ctx) {
     try {
       ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-    } catch (error) {
-      console.error("Error drawing image:", error);
-      console.log(`This image could not be drawn ${this.img.src}`);
-    }
+    } catch (_) {}
   }
 
   /**

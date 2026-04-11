@@ -13,59 +13,76 @@ import { Coin } from "../models/coin.class.js";
  */
 export function createNewLevel() {
   return new Level(
-    new Endboss(),
-    [
-      new NormalChicken(),
-      new NormalChicken(),
-      new NormalChicken(),
-      new SmallChicken(),
-      new SmallChicken(),
-      new SmallChicken(),
-    ],
-    [new Cloud(), new Cloud(), new Cloud(), new Cloud()],
-    (function () {
-      let objects = [];
-      [1, 2, 3, 4, 5].forEach((index) => {
-        let xValue = (index - 1) * 720;
-        let imgIndex = index % 2 === 0 ? "2" : "1";
-        objects.push(
-          new BackgroundObject("img/5_background/layers/air.png", xValue),
-        );
-        objects.push(
-          new BackgroundObject(
-            `img/5_background/layers/3_third_layer/${imgIndex}.png`,
-            xValue,
-          ),
-        );
-        objects.push(
-          new BackgroundObject(
-            `img/5_background/layers/2_second_layer/${imgIndex}.png`,
-            xValue,
-          ),
-        );
-        objects.push(
-          new BackgroundObject(
-            `img/5_background/layers/1_first_layer/${imgIndex}.png`,
-            xValue,
-          ),
-        );
-      });
-      return objects;
-    })(),
-
-    [
-      new GroundBottle(),
-      new GroundBottle(),
-      new GroundBottle(),
-      new GroundBottle(),
-      new GroundBottle(),
-      new Coin(),
-      new Coin(),
-      new Coin(),
-      new Coin(),
-      new Coin(),
-      new Coin(),
-      new Coin(),
-    ],
+    createEndboss(),
+    createEnemies(),
+    createClouds(),
+    createBackgroundObjects(),
+    createCollectables(),
   );
+
+  function createEndboss() {
+    return new Endboss();
+  }
+
+  function createEnemies() {
+    return [
+      new NormalChicken(),
+      new NormalChicken(),
+      new NormalChicken(),
+      new SmallChicken(),
+      new SmallChicken(),
+      new SmallChicken(),
+    ];
+  }
+
+  function createClouds() {
+    return [new Cloud(), new Cloud(), new Cloud(), new Cloud()];
+  }
+
+  function createBackgroundObjects() {
+    let objects = [];
+    [1, 2, 3, 4, 5].forEach((index) => {
+      let xValue = (index - 1) * 720;
+      let imgIndex = index % 2 === 0 ? "2" : "1";
+      objects.push(
+        new BackgroundObject("img/5_background/layers/air.png", xValue),
+      );
+      objects.push(
+        new BackgroundObject(
+          `img/5_background/layers/3_third_layer/${imgIndex}.png`,
+          xValue,
+        ),
+      );
+      objects.push(
+        new BackgroundObject(
+          `img/5_background/layers/2_second_layer/${imgIndex}.png`,
+          xValue,
+        ),
+      );
+      objects.push(
+        new BackgroundObject(
+          `img/5_background/layers/1_first_layer/${imgIndex}.png`,
+          xValue,
+        ),
+      );
+    });
+    return objects;
+  }
+
+  function createCollectables() {
+    return [
+      new GroundBottle(),
+      new GroundBottle(),
+      new GroundBottle(),
+      new GroundBottle(),
+      new GroundBottle(),
+      new Coin(),
+      new Coin(),
+      new Coin(),
+      new Coin(),
+      new Coin(),
+      new Coin(),
+      new Coin(),
+    ];
+  }
 }

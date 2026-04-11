@@ -1,4 +1,4 @@
-import { MovableObject } from './movableObject.class.js';
+import { MovableObject } from "./movableObject.class.js";
 
 /**
  * Represents the playable character Pepe with idle, walking, jumping, hurt and dead animations.
@@ -115,9 +115,6 @@ export class Character extends MovableObject {
           this.world.keyboard.RIGHT &&
           this.x + this.endPosition < this.world.level.level_end_x
         ) {
-          console.log(
-            `Character X: ${this.x}, World End X: ${this.world.level.level_end_x}`,
-          );
           this.moveRight();
           this.setLastKeyTime();
         }
@@ -126,9 +123,6 @@ export class Character extends MovableObject {
           this.moveLeft();
           this.otherDirection = true;
           this.setLastKeyTime();
-          console.log(
-            `Character X: ${this.x}, World End X: ${this.world.level.level_end_x}`,
-          );
         }
         //JUMP
         if (this.world.keyboard.UP && !this.isAboveGround()) {

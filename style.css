@@ -176,19 +176,19 @@ header button {
 
 #infoButton {
   anchor-name: --help-button;
-  background-image: url("assets/info.svg");
+  background-image: url("assets/icons/info.svg");
   background-repeat: no-repeat;
   background-position: center;
 }
 
 #soundButton {
-  background-image: url("assets/sound_on.svg");
+  background-image: url("assets/icons/sound_on.svg");
   background-repeat: no-repeat;
   background-position: center;
 }
 
 #fullscreenButton {
-  background-image: url("assets/fullscreen_open.svg");
+  background-image: url("assets/icons/fullscreen_open.svg");
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -216,9 +216,11 @@ header button {
   left: 0;
   width: 100%;
   height: 100%;
-  background: url("img/You won, you lost/You lost.png") no-repeat center center;
+  background: rgba(0, 0, 0, 0.3) url("img/You won, you lost/You lost.png") no-repeat center center;
   background-size: 100% auto;
 }
+
+/* --- Win Screen --- */
 
 .win-screen {
   z-index: 5;
@@ -227,7 +229,7 @@ header button {
   left: 0;
   width: 100%;
   height: 100%;
-  background: url("img/You won, you lost/You Won B.png") no-repeat center center;
+  background: rgba(0, 0, 0, 0.3) url("img/You won, you lost/You Won B.png") no-repeat center center;
   background-size: 100% auto;
 }
 
@@ -315,5 +317,5 @@ main:fullscreen canvas {
 }
 
 main:fullscreen #fullscreenButton {
-  background-image: url("assets/fullscreen_close.svg");
+  background-image: url("assets/icons/fullscreen_close.svg");
 }
