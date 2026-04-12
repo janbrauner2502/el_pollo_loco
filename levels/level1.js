@@ -20,10 +20,18 @@ export function createNewLevel() {
     createCollectables(),
   );
 
+  /**
+   * Creates the endboss instance for this level.
+   * @returns {Endboss} The endboss object.
+   */
   function createEndboss() {
     return new Endboss();
   }
 
+  /**
+   * Creates an array of normal and small chicken enemies.
+   * @returns {MovableObject[]} Array of enemy chicken objects.
+   */
   function createEnemies() {
     return [
       new NormalChicken(),
@@ -35,10 +43,18 @@ export function createNewLevel() {
     ];
   }
 
+  /**
+   * Creates an array of cloud objects for the background.
+   * @returns {Cloud[]} Array of cloud objects.
+   */
   function createClouds() {
     return [new Cloud(), new Cloud(), new Cloud(), new Cloud()];
   }
 
+  /**
+   * Creates all background layer objects (air, third, second and first layer) for each screen segment.
+   * @returns {BackgroundObject[]} Array of background objects.
+   */
   function createBackgroundObjects() {
     let objects = [];
     [1, 2, 3, 4, 5].forEach((index) => {
@@ -69,6 +85,10 @@ export function createNewLevel() {
     return objects;
   }
 
+  /**
+   * Creates an array of collectable items (ground bottles and coins).
+   * @returns {CollectableObject[]} Array of collectable objects.
+   */
   function createCollectables() {
     return [
       new GroundBottle(),

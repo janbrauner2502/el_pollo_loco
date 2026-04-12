@@ -63,6 +63,9 @@ export class World {
     }, 30);
   }
 
+  /**
+   * Checks whether the game is over (character dead or endboss dead) and shows the appropriate end screen.
+   */
   checkGameOver() {
     if (this.character.isDead() && !this.gameOver) {
       setTimeout(() => {
@@ -79,12 +82,18 @@ export class World {
     }
   }
 
+  /**
+   * Displays the game-over screen when the character has died.
+   */
   showGameOverScreen() {
     header.classList.add("d-none");
     gameEndScreen.classList.remove("d-none");
     gameEndScreen.classList.add("game-over-screen");
   }
 
+  /**
+   * Displays the win screen when the endboss has been defeated.
+   */
   showWinScreen() {
     header.classList.add("d-none");
     gameEndScreen.classList.remove("d-none");
@@ -227,7 +236,7 @@ export class World {
 
   /**
    * Adds an array of drawable objects to the canvas.
-   * @param {Endboss} objects - The objects to be drawn.
+   * @param {DrawableObject[]} objects - The array of objects to be drawn.
    */
   addObjectsToCanvas(objects) {
     objects.forEach((object) => {

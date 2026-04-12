@@ -25,7 +25,7 @@
       </header>
       <canvas id="canvas"></canvas>
       <div class="start-screen">
-        <button id="playButton"><span>Start Game</span></button>
+        <button id="startGameButton"><span>Start Game</span></button>
         <dialog popover id="infoPopover" class="info-popover gradient-border">
           <h2>Tastenbelegung</h2>
           Taste A = Links <br />
@@ -41,9 +41,18 @@
         <button id="playAgainButton"><span>Play Again</span></button>
         <button id="backToStartButton"><span>Back to Start</span></button>
       </div>
-
-
+      <section>
+        <div>
+          <button id="leftButton"></button>
+          <button id="rightButton"></button>
+        </div>
+        <div>
+          <button id="jumpButton"></button>
+          <button id="throwButton"></button>
+        </div>
+      </section>
     </main>
+
     <script type="module" src="./js/game.js"></script>
   </body>
 </html>

@@ -48,7 +48,7 @@ export class MovableObject extends DrawableObject {
   }
 
   /**
-   * Reduces the object's energy by 5 and records the time of the hit.
+   * Reduces the object's energy by 10 and records the time of the hit.
    * Energy cannot drop below 0.
    */
   hit() {
@@ -61,6 +61,10 @@ export class MovableObject extends DrawableObject {
     }
   }
 
+  /**
+   * Reduces the object's energy by 20 when hit by a thrown bottle.
+   * Energy cannot drop below 0.
+   */
   hitByBottle() {
     this.energy -= 20;
     if (this.energy < 0) {

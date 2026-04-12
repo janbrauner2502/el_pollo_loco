@@ -6,7 +6,7 @@ let world;
 let keyboard = new Keyboard();
 const fullscreen = document.getElementById("fullscreenButton");
 const mainContainer = document.getElementsByTagName("main")[0];
-const playButton = document.getElementById("playButton");
+const playButton = document.getElementById("startGameButton");
 const playAgainButton = document.getElementById("playAgainButton");
 const backToStartButton = document.getElementById("backToStartButton");
 const gameEndScreen = document.getElementById("gameEndScreen");
@@ -19,7 +19,10 @@ fullscreen.addEventListener("click", () => {
   }
 });
 
-/* Open fullscreen */
+/**
+ * Opens the browser fullscreen mode for the given element.
+ * @param {HTMLElement} elem - The DOM element to display in fullscreen.
+ */
 function openFullscreen(elem) {
   if (elem.requestFullscreen) {
     elem.requestFullscreen();
@@ -32,7 +35,9 @@ function openFullscreen(elem) {
   }
 }
 
-/* Close fullscreen */
+/**
+ * Closes the browser fullscreen mode.
+ */
 function closeFullscreen() {
   if (document.exitFullscreen) {
     document.exitFullscreen();
@@ -110,3 +115,60 @@ window.addEventListener("keyup", (event) => {
     keyboard.THROW = false;
   }
 });
+
+/**
+ * Registers touchstart and touchend event listeners on the mobile control buttons
+ * to set and reset the corresponding keyboard flags.
+ */
+function mobilBtnTouchEvents() {
+  document
+    .getElementById("leftButton")
+    .addEventListener("touchstart", (event) => {
+      event.preventDefault();
+      keyboard.LEFT = true;
+    });
+  document
+    .getElementById("rightButton")
+    .addEventListener("touchstart", (event) => {
+      event.preventDefault();
+      keyboard.RIGHT = true;
+    });
+  document
+    .getElementById("jumpButton")
+    .addEventListener("touchstart", (event) => {
+      event.preventDefault();
+      keyboard.UP = true;
+    });
+  document
+    .getElementById("throwButton")
+    .addEventListener("touchstart", (event) => {
+      event.preventDefault();
+      keyboard.THROW = true;
+    });
+
+  document
+    .getElementById("leftButton")
+    .addEventListener("touchend", (event) => {
+      event.preventDefault();
+      keyboard.LEFT = false;
+    });
+  document
+    .getElementById("rightButton")
+    .addEventListener("touchend", (event) => {
+      event.preventDefault();
+      keyboard.RIGHT = false;
+    });
+  document
+    .getElementById("jumpButton")
+    .addEventListener("touchend", (event) => {
+      event.preventDefault();
+      keyboard.UP = false;
+    });
+  document
+    .getElementById("throwButton")
+    .addEventListener("touchend", (event) => {
+      event.preventDefault();
+      keyboard.THROW = false;
+    });
+}
+mobilBtnTouchEvents();
