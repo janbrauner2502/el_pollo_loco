@@ -8,6 +8,7 @@ import { createNewLevel } from "../levels/level1.js";
 
 const gameEndScreen = document.getElementById("gameEndScreen");
 const header = document.querySelector("header");
+const touchBtnSection = document.getElementsByTagName("section")[0];
 
 /**
  * Represents the game world. Manages all game objects, collision detection,
@@ -89,6 +90,7 @@ export class World {
     header.classList.add("d-none");
     gameEndScreen.classList.remove("d-none");
     gameEndScreen.classList.add("game-over-screen");
+    touchBtnSection.classList.add("d-none");
   }
 
   /**
@@ -98,6 +100,7 @@ export class World {
     header.classList.add("d-none");
     gameEndScreen.classList.remove("d-none");
     gameEndScreen.classList.add("win-screen");
+    touchBtnSection.classList.add("d-none");
   }
 
   /**

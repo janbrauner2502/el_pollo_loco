@@ -1,22 +1,53 @@
 import { Keyboard } from "../models/keyboard.class.js";
 import { World } from "../models/world.class.js";
 
+/** @type {HTMLCanvasElement} The main game canvas element. */
 let canvas;
+/** @type {World} The current game world instance. */
 let world;
+/** @type {Keyboard} Tracks the current state of keyboard and touch input. */
 let keyboard = new Keyboard();
+/** @type {HTMLElement} The fullscreen toggle button. */
 const fullscreen = document.getElementById("fullscreenButton");
+/** @type {HTMLElement} The main container element used for fullscreen mode. */
 const mainContainer = document.getElementsByTagName("main")[0];
+/** @type {HTMLElement} The start game button on the start screen. */
 const playButton = document.getElementById("startGameButton");
+/** @type {HTMLElement} The "Play Again" button on the game-end screen. */
 const playAgainButton = document.getElementById("playAgainButton");
+/** @type {HTMLElement} The "Back to Start" button on the game-end screen. */
 const backToStartButton = document.getElementById("backToStartButton");
+/** @type {HTMLElement} The game-end screen overlay element. */
 const gameEndScreen = document.getElementById("gameEndScreen");
+/** @type {HTMLElement} The section containing mobile touch control buttons. */
+const touchBtnSection = document.getElementsByTagName("section")[0];
+/** @type {MediaQueryList} Media query that matches viewports up to 1440px wide. */
+const mobileMediaQuery = window.matchMedia("(width <= 1440px)");
 
+/**
+ * Toggles browser fullscreen mode on click of the fullscreen button.
+ * Opens fullscreen if not active, closes it otherwise.
+ */
 fullscreen.addEventListener("click", () => {
   if (!document.fullscreenElement) {
     openFullscreen(mainContainer);
   } else {
     closeFullscreen();
   }
+});
+
+/**
+ * Re-evaluates the mobile fullscreen state whenever the device orientation changes.
+ */
+window.matchMedia("(orientation: landscape)").addEventListener("change", () => {
+  checkFullscreenMobile();
+});
+
+/**
+ * Re-evaluates the mobile fullscreen state whenever the viewport width crosses the 1440px threshold.
+ */
+mobileMediaQuery.addEventListener("change", () => {
+  checkFullscreenMobile();
 });
 
 /**
@@ -51,10 +82,25 @@ function closeFullscreen() {
 }
 
 /**
- * Initializes the game once the DOM is fully loaded.
- * Sets up the canvas dimensions and creates a new World instance.
+ * Initializes the game by checking for touch support.
+ * If touch input is available, the mobile control buttons are shown.
+ * Then starts the game via {@link startGame}.
  */
 function initGame() {
+  const isTouch = hasTouchSupport();
+  if (isTouch) {
+    touchBtnSection.classList.remove("d-none");
+    startGame();
+  } else {
+    startGame();
+  }
+}
+
+/**
+ * Sets up the canvas with fixed dimensions, creates a new {@link World} instance,
+ * hides the start screen, and resets the game-end screen for a new game session.
+ */
+function startGame() {
   canvas = document.getElementById("canvas");
   canvas.width = 720;
   canvas.height = 480;
@@ -65,14 +111,23 @@ function initGame() {
   gameEndScreen.classList.add("d-none");
 }
 
+/**
+ * Starts a new game when the play button on the start screen is clicked.
+ */
 playButton.addEventListener("click", () => {
   initGame();
 });
 
+/**
+ * Restarts the game when the "Play Again" button on the end screen is clicked.
+ */
 playAgainButton.addEventListener("click", () => {
   initGame();
 });
 
+/**
+ * Navigates back to the start page when the "Back to Start" button is clicked.
+ */
 backToStartButton.addEventListener("click", () => {
   window.location.href = "index.html";
 });
@@ -120,7 +175,7 @@ window.addEventListener("keyup", (event) => {
  * Registers touchstart and touchend event listeners on the mobile control buttons
  * to set and reset the corresponding keyboard flags.
  */
-function mobilBtnTouchEvents() {
+function mobileBtnTouchEvents() {
   document
     .getElementById("leftButton")
     .addEventListener("touchstart", (event) => {
@@ -171,4 +226,31 @@ function mobilBtnTouchEvents() {
       keyboard.THROW = false;
     });
 }
-mobilBtnTouchEvents();
+/**
+ * Checks whether the current device supports touch input.
+ * @returns {boolean} True if touch input is supported, false otherwise.
+ */
+function hasTouchSupport() {
+  return "ontouchstart" in window || navigator.maxTouchPoints > 0;
+}
+
+/**
+ * Checks orientation, screen size and touch support and toggles the
+ * 'fullscreen-mobile' CSS class on the main container accordingly.
+ */
+function checkFullscreenMobile() {
+  const isLandscape = window.matchMedia("(orientation: landscape)").matches;
+  const isLargeScreen = mobileMediaQuery.matches;
+  const isTouch = hasTouchSupport();
+  if (isLandscape && isLargeScreen && isTouch) {
+    mainContainer.classList.add("fullscreen-mobile");
+    console.log("fullscreen-mobile aktiviert");
+  } else {
+    mainContainer.classList.remove("fullscreen-mobile");
+    console.log("fullscreen-mobile deaktiviert");
+  }
+}
+
+mobileBtnTouchEvents();
+hasTouchSupport();
+checkFullscreenMobile();
