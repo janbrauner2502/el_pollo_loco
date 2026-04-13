@@ -10,6 +10,8 @@ const playButton = document.getElementById("startGameButton");
 const playAgainButton = document.getElementById("playAgainButton");
 const backToStartButton = document.getElementById("backToStartButton");
 const gameEndScreen = document.getElementById("gameEndScreen");
+const touchBtnSection = document.getElementsByTagName("section")[0];
+const mobileMediaQuery = window.matchMedia("(width <= 1440px)");
 
 fullscreen.addEventListener("click", () => {
   if (!document.fullscreenElement) {
@@ -17,6 +19,16 @@ fullscreen.addEventListener("click", () => {
   } else {
     closeFullscreen();
   }
+});
+
+// Bei Orientierungswechsel prüfen
+window.matchMedia("(orientation: landscape)").addEventListener("change", () => {
+  checkFullscreenMobile();
+});
+
+// Bei Änderung der Bildschirmbreite (z.B. Fenstergröße) prüfen
+mobileMediaQuery.addEventListener("change", () => {
+  checkFullscreenMobile();
 });
 
 /**
@@ -51,10 +63,25 @@ function closeFullscreen() {
 }
 
 /**
- * Initializes the game once the DOM is fully loaded.
- * Sets up the canvas dimensions and creates a new World instance.
+ * Initializes the game by checking for touch support.
+ * If touch input is available, the mobile control buttons are shown.
+ * Then starts the game via {@link startGame}.
  */
 function initGame() {
+  const isTouch = hasTouchSupport();
+  if (isTouch) {
+    touchBtnSection.classList.remove("d-none");
+    startGame();
+  } else {
+    startGame();
+  }
+}
+
+/**
+ * Sets up the canvas with fixed dimensions, creates a new {@link World} instance,
+ * hides the start screen, and resets the game-end screen for a new game session.
+ */
+function startGame() {
   canvas = document.getElementById("canvas");
   canvas.width = 720;
   canvas.height = 480;
@@ -120,7 +147,7 @@ window.addEventListener("keyup", (event) => {
  * Registers touchstart and touchend event listeners on the mobile control buttons
  * to set and reset the corresponding keyboard flags.
  */
-function mobilBtnTouchEvents() {
+function mobileBtnTouchEvents() {
   document
     .getElementById("leftButton")
     .addEventListener("touchstart", (event) => {
@@ -171,4 +198,31 @@ function mobilBtnTouchEvents() {
       keyboard.THROW = false;
     });
 }
-mobilBtnTouchEvents();
+/**
+ * Checks whether the current device supports touch input.
+ * @returns {boolean} True if touch input is supported, false otherwise.
+ */
+function hasTouchSupport() {
+  return "ontouchstart" in window || navigator.maxTouchPoints > 0;
+}
+
+/**
+ * Checks orientation, screen size and touch support and toggles the
+ * 'fullscreen-mobile' CSS class on the main container accordingly.
+ */
+function checkFullscreenMobile() {
+  const isLandscape = window.matchMedia("(orientation: landscape)").matches;
+  const isLargeScreen = mobileMediaQuery.matches;
+  const isTouch = hasTouchSupport();
+  if (isLandscape && isLargeScreen && isTouch) {
+    mainContainer.classList.add("fullscreen-mobile");
+    console.log("fullscreen-mobile aktiviert");
+  } else {
+    mainContainer.classList.remove("fullscreen-mobile");
+    console.log("fullscreen-mobile deaktiviert");
+  }
+}
+
+mobileBtnTouchEvents();
+hasTouchSupport();
+checkFullscreenMobile();
