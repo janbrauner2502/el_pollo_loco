@@ -21,6 +21,13 @@
   }
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
 body {
   font-family: "Sancreek-Regular", sans-serif;
   display: flex;
@@ -28,7 +35,6 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  margin: 0;
   background-image: url("img/background/ankurrabha-desert.png");
   background-size: cover;
 }
@@ -336,9 +342,7 @@ section button {
   background-color: white;
   line-height: 2;
   margin-block-start: 0.5rem;
-  animation-name: RubberAnimation;
-  animation-duration: 500ms;
-  animation-timing-function: cubic-bezier(0.12, 0, 0.39, 0);
+  animation: RubberAnimation 500ms forwards cubic-bezier(0.12, 0, 0.39, 0);
 
   &::backdrop {
     background-color: rgba(0, 0, 0, 0.5);
@@ -385,4 +389,34 @@ main:fullscreen canvas {
 
 main:fullscreen #fullscreenButton {
   background-image: url("assets/icons/fullscreen_close.svg");
+}
+
+.rotate-screen {
+  padding: 0;
+  margin: 0;
+  width: 25%;
+  height: 25%;
+  z-index: 1000;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  background: url("assets/icons/rotate_screen.svg") no-repeat center center;
+  background-size: contain;
+  border: none;
+  animation: rotateScreen 4s  infinite;
+
+  &::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(1px);
+  }
+}
+
+@keyframes rotateScreen {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
 }

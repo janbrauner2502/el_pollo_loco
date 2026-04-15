@@ -23,6 +23,14 @@ const gameEndScreen = document.getElementById("gameEndScreen");
 const touchBtnSection = document.getElementsByTagName("section")[0];
 /** @type {MediaQueryList} Media query that matches viewports up to 1440px wide. */
 const mobileMediaQuery = window.matchMedia("(width <= 1440px)");
+/** @type {HTMLElement} The page header element. */
+const header = document.querySelector("header");
+/** @type {HTMLElement} The dialog prompting the user to rotate their screen. */
+const rotateScreenDialog = document.getElementById("rotateScreen");
+/** @type {boolean} Whether the current device supports touch input. */
+const isTouch = hasTouchSupport();
+/** @type {MediaQueryList} Media query that matches landscape orientation. */
+const screenOrientation = window.matchMedia("(orientation: landscape)");
 
 /**
  * Toggles browser fullscreen mode on click of the fullscreen button.
@@ -39,8 +47,9 @@ fullscreen.addEventListener("click", () => {
 /**
  * Re-evaluates the mobile fullscreen state whenever the device orientation changes.
  */
-window.matchMedia("(orientation: landscape)").addEventListener("change", () => {
+screenOrientation.addEventListener("change", () => {
   checkFullscreenMobile();
+  checkScreenOrientation();
 });
 
 /**
@@ -109,6 +118,7 @@ function startGame() {
   mainContainer.classList.add("game-active");
   gameEndScreen.classList.remove("game-over-screen", "win-screen");
   gameEndScreen.classList.add("d-none");
+  header.classList.remove("d-none");
 }
 
 /**
@@ -239,18 +249,31 @@ function hasTouchSupport() {
  * 'fullscreen-mobile' CSS class on the main container accordingly.
  */
 function checkFullscreenMobile() {
-  const isLandscape = window.matchMedia("(orientation: landscape)").matches;
+  const isLandscape = screenOrientation.matches;
   const isLargeScreen = mobileMediaQuery.matches;
-  const isTouch = hasTouchSupport();
   if (isLandscape && isLargeScreen && isTouch) {
     mainContainer.classList.add("fullscreen-mobile");
-    console.log("fullscreen-mobile aktiviert");
   } else {
     mainContainer.classList.remove("fullscreen-mobile");
-    console.log("fullscreen-mobile deaktiviert");
+  }
+}
+
+/**
+ * Checks the current screen orientation and touch support.
+ * If the device is in portrait mode and supports touch input,
+ * a dialog prompting the user to rotate the screen is shown.
+ * In landscape mode, the dialog is closed.
+ */
+function checkScreenOrientation() {
+  const isLandscape = screenOrientation.matches;
+  if (!isLandscape && isTouch) {
+    rotateScreenDialog.showModal();
+  } else {
+    rotateScreenDialog.close();
   }
 }
 
 mobileBtnTouchEvents();
 hasTouchSupport();
 checkFullscreenMobile();
+checkScreenOrientation();

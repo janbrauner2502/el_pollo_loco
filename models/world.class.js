@@ -6,8 +6,11 @@ import { Coin } from "./coin.class.js";
 import { intervalManager } from "./intervalManager.class.js";
 import { createNewLevel } from "../levels/level1.js";
 
+/** @type {HTMLElement} The game end screen overlay element. */
 const gameEndScreen = document.getElementById("gameEndScreen");
+/** @type {HTMLElement} The page header element. */
 const header = document.querySelector("header");
+/** @type {HTMLElement} The section containing mobile touch control buttons. */
 const touchBtnSection = document.getElementsByTagName("section")[0];
 
 /**
