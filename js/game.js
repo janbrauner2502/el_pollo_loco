@@ -1,5 +1,10 @@
 import { Keyboard } from "../models/keyboard.class.js";
-import { World } from "../models/world.class.js";
+import {
+  World,
+  gameEndScreen,
+  header,
+  touchBtnSection,
+} from "../models/world.class.js";
 
 /** @type {HTMLCanvasElement} The main game canvas element. */
 let canvas;
@@ -17,14 +22,8 @@ const playButton = document.getElementById("startGameButton");
 const playAgainButton = document.getElementById("playAgainButton");
 /** @type {HTMLElement} The "Back to Start" button on the game-end screen. */
 const backToStartButton = document.getElementById("backToStartButton");
-/** @type {HTMLElement} The game-end screen overlay element. */
-const gameEndScreen = document.getElementById("gameEndScreen");
-/** @type {HTMLElement} The section containing mobile touch control buttons. */
-const touchBtnSection = document.getElementsByTagName("section")[0];
 /** @type {MediaQueryList} Media query that matches viewports up to 1440px wide. */
 const mobileMediaQuery = window.matchMedia("(width <= 1440px)");
-/** @type {HTMLElement} The page header element. */
-const header = document.querySelector("header");
 /** @type {HTMLElement} The dialog prompting the user to rotate their screen. */
 const rotateScreenDialog = document.getElementById("rotateScreen");
 /** @type {boolean} Whether the current device supports touch input. */

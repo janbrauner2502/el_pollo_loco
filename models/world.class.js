@@ -7,11 +7,11 @@ import { intervalManager } from "./intervalManager.class.js";
 import { createNewLevel } from "../levels/level1.js";
 
 /** @type {HTMLElement} The game end screen overlay element. */
-const gameEndScreen = document.getElementById("gameEndScreen");
+export const gameEndScreen = document.getElementById("gameEndScreen");
 /** @type {HTMLElement} The page header element. */
-const header = document.querySelector("header");
+export const header = document.querySelector("header");
 /** @type {HTMLElement} The section containing mobile touch control buttons. */
-const touchBtnSection = document.getElementsByTagName("section")[0];
+export const touchBtnSection = document.getElementsByTagName("section")[0];
 
 /**
  * Represents the game world. Manages all game objects, collision detection,
