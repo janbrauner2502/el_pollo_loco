@@ -26,8 +26,6 @@ const backToStartButton = document.getElementById("backToStartButton");
 const mobileMediaQuery = window.matchMedia("(width <= 1440px)");
 /** @type {HTMLElement} The dialog prompting the user to rotate their screen. */
 const rotateScreenDialog = document.getElementById("rotateScreen");
-/** @type {boolean} Whether the current device supports touch input. */
-const isTouch = hasTouchSupport();
 /** @type {MediaQueryList} Media query that matches landscape orientation. */
 const screenOrientation = window.matchMedia("(orientation: landscape)");
 
@@ -47,6 +45,11 @@ fullscreen.addEventListener("click", () => {
  * Re-evaluates the mobile fullscreen state whenever the device orientation changes.
  */
 screenOrientation.addEventListener("change", () => {
+  checkFullscreenMobile();
+  checkScreenOrientation();
+});
+
+window.addEventListener("resize", () => {
   checkFullscreenMobile();
   checkScreenOrientation();
 });
@@ -250,7 +253,8 @@ function hasTouchSupport() {
 function checkFullscreenMobile() {
   const isLandscape = screenOrientation.matches;
   const isLargeScreen = mobileMediaQuery.matches;
-  if (isLandscape && isLargeScreen && isTouch) {
+  const touchSupported = hasTouchSupport();
+  if (isLandscape && isLargeScreen && touchSupported) {
     mainContainer.classList.add("fullscreen-mobile");
   } else {
     mainContainer.classList.remove("fullscreen-mobile");
@@ -265,10 +269,11 @@ function checkFullscreenMobile() {
  */
 function checkScreenOrientation() {
   const isLandscape = screenOrientation.matches;
+  const isTouch = hasTouchSupport();
   if (!isLandscape && isTouch) {
-    rotateScreenDialog.showModal();
+    if (!rotateScreenDialog.open) rotateScreenDialog.showModal();
   } else {
-    rotateScreenDialog.close();
+    if (rotateScreenDialog.open) rotateScreenDialog.close();
   }
 }
 
