@@ -6,6 +6,8 @@ import {
   touchBtnSection,
 } from "../models/world.class.js";
 
+import { bgm, playSound, jump, throwBottle, walk } from "./audio.js";
+
 /** @type {HTMLCanvasElement} The main game canvas element. */
 let canvas;
 /** @type {World} The current game world instance. */
@@ -121,6 +123,7 @@ function startGame() {
   gameEndScreen.classList.remove("game-over-screen", "win-screen");
   gameEndScreen.classList.add("d-none");
   header.classList.remove("d-none");
+  playSound(bgm);
 }
 
 /**
@@ -150,16 +153,20 @@ backToStartButton.addEventListener("click", () => {
  */
 window.addEventListener("keydown", (event) => {
   if (event.code === "KeyA") {
+    if (!keyboard.LEFT) playSound(walk);
     keyboard.LEFT = true;
   }
   if (event.code === "KeyD") {
+    if (!keyboard.RIGHT) playSound(walk);
     keyboard.RIGHT = true;
   }
   if (event.code === "Space") {
+    if (!keyboard.UP) playSound(jump);
     event.preventDefault();
     keyboard.UP = true;
   }
   if (event.code === "KeyF") {
+    if (!keyboard.THROW) playSound(throwBottle);
     keyboard.THROW = true;
   }
 });
@@ -170,15 +177,19 @@ window.addEventListener("keydown", (event) => {
  */
 window.addEventListener("keyup", (event) => {
   if (event.code === "KeyA") {
+    walk.pause();
     keyboard.LEFT = false;
   }
   if (event.code === "KeyD") {
+    walk.pause();
     keyboard.RIGHT = false;
   }
   if (event.code === "Space") {
+    jump.pause();
     keyboard.UP = false;
   }
   if (event.code === "KeyF") {
+    throwBottle.pause();
     keyboard.THROW = false;
   }
 });
@@ -191,24 +202,28 @@ function mobileBtnTouchEvents() {
   document
     .getElementById("leftButton")
     .addEventListener("touchstart", (event) => {
+      playSound(walk);
       event.preventDefault();
       keyboard.LEFT = true;
     });
   document
     .getElementById("rightButton")
     .addEventListener("touchstart", (event) => {
+      playSound(walk);
       event.preventDefault();
       keyboard.RIGHT = true;
     });
   document
     .getElementById("jumpButton")
     .addEventListener("touchstart", (event) => {
+      playSound(jump);
       event.preventDefault();
       keyboard.UP = true;
     });
   document
     .getElementById("throwButton")
     .addEventListener("touchstart", (event) => {
+      playSound(throwBottle);
       event.preventDefault();
       keyboard.THROW = true;
     });
@@ -216,12 +231,14 @@ function mobileBtnTouchEvents() {
   document
     .getElementById("leftButton")
     .addEventListener("touchend", (event) => {
+      walk.pause();
       event.preventDefault();
       keyboard.LEFT = false;
     });
   document
     .getElementById("rightButton")
     .addEventListener("touchend", (event) => {
+      walk.pause();
       event.preventDefault();
       keyboard.RIGHT = false;
     });

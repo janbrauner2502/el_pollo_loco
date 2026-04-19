@@ -5,6 +5,16 @@ import { GroundBottle } from "./groundBottle.class.js";
 import { Coin } from "./coin.class.js";
 import { intervalManager } from "./intervalManager.class.js";
 import { createNewLevel } from "../levels/level1.js";
+import {
+  bgm,
+  characterDeath,
+  chickenHit,
+  collect_bottle,
+  collect_coin,
+  endbossDeath,
+  endbossHit,
+  hit,
+} from "../js/audio.js";
 
 /** @type {HTMLElement} The game end screen overlay element. */
 export const gameEndScreen = document.getElementById("gameEndScreen");
@@ -72,13 +82,19 @@ export class World {
    */
   checkGameOver() {
     if (this.character.isDead() && !this.gameOver) {
+      bgm.pause();
+      bgm.currentTime = 0;
       setTimeout(() => {
+        characterDeath.play();
         this.gameOver = true;
         intervalManager.clearAllIntervals();
         this.showGameOverScreen();
       }, 500);
     } else if (this.level.endboss.isDead() && !this.gameOver) {
+      bgm.pause();
+      bgm.currentTime = 0;
       setTimeout(() => {
+        endbossDeath.play();
         this.gameOver = true;
         intervalManager.clearAllIntervals();
         this.showWinScreen();
@@ -145,11 +161,13 @@ export class World {
       if (this.character.isColliding(enemy) && !this.character.isDead()) {
         if (isFallingDown < 0 && !enemy.isDead()) {
           enemy.hit();
+          chickenHit.play();
           this.character.speedY = 15;
           setTimeout(() => {
             this.level.enemies = this.level.enemies.filter((e) => e !== enemy);
           }, 1500);
         } else if (!enemy.isDead()) {
+          hit.play();
           this.character.hit();
           this.statusBar["HEART"].setPercentage(this.character.energy);
         }
@@ -160,6 +178,7 @@ export class World {
       this.character.isColliding(this.level.endboss) &&
       !this.level.endboss.isDead()
     ) {
+      hit.play();
       this.character.hit();
       this.statusBar["HEART"].setPercentage(this.character.energy);
     }
@@ -171,6 +190,7 @@ export class World {
         }
       });
       if (bottle.isColliding(this.level.endboss) && !bottle.isSplashing) {
+        endbossHit.play();
         this.level.endboss.hitByBottle();
         bottle.bottleSplash();
       }
@@ -185,6 +205,7 @@ export class World {
           this.character.collectedBottles < 100 &&
           !collectable.collected
         ) {
+          collect_bottle.play();
           this.character.collectedBottles += 20;
           this.statusBar["BOTTLE"].setCollected(
             this.character.collectedBottles,
@@ -199,6 +220,7 @@ export class World {
           collectable instanceof Coin &&
           this.character.collectedCoins < 100
         ) {
+          collect_coin.play();
           this.character.collectedCoins += 20;
           this.statusBar["COIN"].setCollected(this.character.collectedCoins);
 
