@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Sancreek-Regular";
-  src: url("font/Sancreek-Regular.ttf") format("truetype");
+  src: url("assets/font/Sancreek-Regular.ttf") format("truetype");
 }
 
 @keyframes RubberAnimation {

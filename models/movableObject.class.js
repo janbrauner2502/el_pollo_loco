@@ -1,27 +1,18 @@
-import { DrawableObject } from './drawableObject.class.js';
+import { DrawableObject } from "./drawableObject.class.js";
 
 /**
  * Represents a movable game object that can move, animate, collide and be affected by gravity.
  * @extends DrawableObject
  */
 export class MovableObject extends DrawableObject {
-  /** @type {number} The index of the current animation frame. */
   currentImage = 0;
-  /** @type {number} The horizontal movement speed of the object. */
   speed = 0.2;
-  /** @type {boolean} Whether the object is facing the opposite (left) direction. */
   otherDirection = false;
-  /** @type {number} The vertical speed used for jumping and gravity. */
   speedY;
-  /** @type {number} The current energy/health of the object (0–100). */
   energy = 100;
-  /** @type {number} Timestamp (ms) of the last time the object was hit. */
   lastHit = 0;
-  /** @type {Object<string, HTMLImageElement>} Cache mapping image paths to preloaded Image objects. */
   imageCache = {};
-  /** @type {number} Timestamp (ms) of the last key press (used for idle detection). */
   lastKey;
-  /** @type {number} The ground level y-position for gravity calculations. */
   groundLevel = 230;
 
   /**

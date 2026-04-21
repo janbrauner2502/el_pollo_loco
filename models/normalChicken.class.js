@@ -1,4 +1,4 @@
-import { MovableObject } from './movableObject.class.js';
+import { MovableObject } from "./movableObject.class.js";
 
 /**
  * Represents a normal-sized chicken enemy that walks to the left.
@@ -45,20 +45,10 @@ export class NormalChicken extends MovableObject {
   animation() {
     this.intervalManager.setInterval(() => {
       if (this.isDead()) return;
-      else if (this.movesRight) {
-        if (this.x >= 3500 - this.width) {
-          this.movesRight = false;
-        } else {
-          this.moveRight();
-          this.otherDirection = true;
-        }
+      if (this.movesRight) {
+        this.handleChickenMovesRight();
       } else {
-        if (this.x < 100) {
-          this.movesRight = true;
-        } else {
-          this.otherDirection = false;
-          this.moveLeft();
-        }
+        this.handleChickenMovesLeft();
       }
     }, 1000 / 60);
   }
@@ -72,5 +62,29 @@ export class NormalChicken extends MovableObject {
         this.playAnimation(this.DEAD_IMAGE);
       } else this.playAnimation(this.WALKING_IMAGES);
     }, 150);
+  }
+
+  /**
+   * Handles movement to the right, flipping direction at the boundary.
+   */
+  handleChickenMovesRight() {
+    if (this.x >= 3500 - this.width) {
+      this.movesRight = false;
+    } else {
+      this.moveRight();
+      this.otherDirection = true;
+    }
+  }
+
+  /**
+   * Handles movement to the left, flipping direction at the boundary.
+   */
+  handleChickenMovesLeft() {
+    if (this.x < 100) {
+      this.movesRight = true;
+    } else {
+      this.otherDirection = false;
+      this.moveLeft();
+    }
   }
 }

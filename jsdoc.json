@@ -1,0 +1,15 @@
+{
+  "tags": {
+    "allowUnknownTags": true
+  },
+  "source": {
+    "include": ["./js", "./models", "./levels"],
+    "includePattern": ".+\\.js$",
+    "excludePattern": "(node_modules|test)"
+  },
+  "opts": {
+    "destination": "./out/",
+    "recurse": true,
+    "private": false
+  }
+}

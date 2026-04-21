@@ -5,27 +5,16 @@ import { intervalManager } from "./intervalManager.class.js";
  * Serves as the base class for all visible objects in the game.
  */
 export class DrawableObject {
-  /** @type {HTMLImageElement} The current image to be drawn. */
   img;
-  /** @type {Object<string, HTMLImageElement>} Cache mapping image paths to preloaded Image objects. */
   imageCache = {};
-  /** @type {number} The height of the object in pixels. */
   height = 150;
-  /** @type {number} The width of the object in pixels. */
   width = 100;
-  /** @type {number} The x-position of the object on the canvas. */
   x;
-  /** @type {number} The y-position of the object on the canvas. */
   y;
-  /** @type {number} The top offset for hitbox collision detection. */
   offsetTop;
-  /** @type {number} The bottom offset for hitbox collision detection. */
   offsetBottom;
-  /** @type {number} The left offset for hitbox collision detection. */
   offsetLeft;
-  /** @type {number} The right offset for hitbox collision detection. */
   offsetRight;
-  /** @type {number} The index of the current animation frame. */
   currentImage = 0;
   intervalManager = intervalManager;
 

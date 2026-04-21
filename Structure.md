@@ -20,7 +20,26 @@ DrawableObject
 Keyboard          (standalone)
 Level             (standalone)
 World             (standalone)
+IntervalManager   (standalone)
 ```
+
+---
+
+## IntervalManager
+> Manages all game intervals centrally so they can be cleared at once (e.g. on game over).
+
+### Properties
+| Name | Type | Default |
+|---|---|---|
+| `intervals` | `Set<number>` | `new Set()` |
+
+### Methods
+| Method | Parameters | Returns | Description |
+|---|---|---|---|
+| `constructor()` | – | – | Creates a new IntervalManager with an empty set of interval IDs |
+| `setInterval(fn, delay)` | `fn: Function, delay: number` | `number` | Registers a new interval and returns its ID |
+| `clearAllIntervals()` | – | `void` | Clears all tracked intervals at once |
+| `clearInterval(id)` | `id: number` | `void` | Clears a single interval by its ID |
 
 ---
 
@@ -41,6 +60,7 @@ World             (standalone)
 | `offsetLeft` | `number` | – |
 | `offsetRight` | `number` | – |
 | `currentImage` | `number` | `0` |
+| `intervalManager` | `IntervalManager` | shared instance |
 
 ### Methods
 | Method | Parameters | Returns | Description |
@@ -69,6 +89,7 @@ World             (standalone)
 | `lastHit` | `number` | `0` |
 | `imageCache` | `Object` | `{}` |
 | `lastKey` | `number` | – |
+| `groundLevel` | `number` | `230` |
 
 ### Methods
 | Method | Parameters | Returns | Description |
@@ -77,11 +98,12 @@ World             (standalone)
 | `moveLeft()` | – | `void` | Moves the object left by its speed |
 | `jump()` | – | `number` | Sets speedY to 25 to initiate a jump |
 | `playAnimation(images)` | `images: string[]` | `void` | Cycles through the given image array (overrides DrawableObject) |
-| `hit()` | – | `void` | Reduces energy by 5 and records the hit time |
+| `hit()` | – | `void` | Reduces energy by 10 and records the hit time (only if not already hurt) |
+| `hitByBottle()` | – | `void` | Reduces energy by 20 when hit by a thrown bottle |
 | `isDead()` | – | `boolean` | Returns true if energy equals 0 |
 | `isHurt()` | – | `boolean` | Returns true if last hit was less than 1s ago |
 | `applyGravity()` | – | `void` | Applies gravity via interval using acceleration |
-| `isAboveGround()` | – | `boolean` | Returns true if above ground level (always true for ThrowableObject) |
+| `isAboveGround()` | – | `boolean` | Returns true if above ground level |
 | `setLastKeyTime()` | – | `void` | Records the current timestamp as the time of the last key press |
 | `longIdle()` | – | `boolean` | Returns true if no key press for more than 10 seconds |
 
@@ -104,12 +126,13 @@ World             (standalone)
 | `offsetBottom` | `number` | `40` |
 | `offsetLeft` | `number` | `20` |
 | `offsetRight` | `number` | `20` |
+| `endPosition` | `number` | `width + x` |
 | `collectedBottles` | `number` | `0` |
 | `collectedCoins` | `number` | `0` |
 | `world` | `World` | – |
 | `IDLE_IMAGES` | `string[]` | 10 frames |
 | `LONG_IDLE_IMAGES` | `string[]` | 10 frames |
-| `WALKING_IMAGES` | `string[]` | 6 frames |
+| `WALKING_IMAGES` | `string[]` | 5 frames |
 | `JUMPING_IMAGES` | `string[]` | 10 frames |
 | `HURT_IMAGES` | `string[]` | 3 frames |
 | `DEAD_IMAGES` | `string[]` | 7 frames |
@@ -118,7 +141,11 @@ World             (standalone)
 | Method | Parameters | Returns | Description |
 |---|---|---|---|
 | `constructor()` | – | – | Loads all images, starts animation and gravity |
-| `animate()` | – | `void` | Handles keyboard input and animation state (dead, hurt, walking, jumping, idle, long idle) |
+| `animate()` | – | `void` | Starts movement and animation loops; delegates to handler methods |
+| `handleMoveRight()` | – | `void` | Handles movement to the right when RIGHT key is pressed |
+| `handleMoveLeft()` | – | `void` | Handles movement to the left when LEFT key is pressed |
+| `handleJump()` | – | `void` | Handles jump when UP key is pressed and character is on ground |
+| `handleCharacterAnimations()` | – | `void` | Selects animation based on state (dead, hurt, walking, jumping, idle, long idle) |
 
 ---
 
@@ -172,16 +199,19 @@ World             (standalone)
 ### Properties
 | Name | Type | Default |
 |---|---|---|
-| `x` | `number` | `2000` |
+| `x` | `number` | `2180` |
 | `y` | `number` | `50` |
 | `height` | `number` | `400` |
 | `width` | `number` | `300` |
-| `speed` | `number` | `0.15` |
+| `speed` | `number` | – |
 | `offsetTop` | `number` | `70` |
 | `offsetBottom` | `number` | `50` |
 | `offsetLeft` | `number` | `20` |
 | `offsetRight` | `number` | `20` |
 | `energy` | `number` | `100` |
+| `statusBar` | `StatusBar` | `new StatusBar("ENDBOSS")` |
+| `bossFirstSeen` | `boolean` | `false` |
+| `world` | `World` | – |
 | `ENDBOSS_WALK_IMAGES` | `string[]` | 4 frames |
 | `ENDBOSS_ALERT_IMAGES` | `string[]` | 8 frames |
 | `ENDBOSS_ATTACK_IMAGES` | `string[]` | 8 frames |
@@ -192,7 +222,9 @@ World             (standalone)
 | Method | Parameters | Returns | Description |
 |---|---|---|---|
 | `constructor()` | – | – | Loads all animation images and starts the animation loop |
-| `animate()` | – | `void` | Selects animation based on state (dead, hurt or alert) |
+| `animate()` | – | `void` | Selects animation and movement based on distance to character |
+| `endbossMovesLeft(distance)` | `distance: number` | `void` | Handles endboss behavior when character is to the left |
+| `endbossMovesRight()` | – | `void` | Handles endboss behavior when character is to the right |
 
 ---
 
@@ -325,7 +357,7 @@ World             (standalone)
 ---
 
 ## StatusBar `extends DrawableObject`
-> Displays a percentage-based status bar (health, coin, bottles).
+> Displays a percentage-based status bar (health, coin, bottles, endboss).
 
 ### Properties
 | Name | Type | Default |
@@ -340,12 +372,13 @@ World             (standalone)
 | `STATUSBAR_COIN_IMAGES` | `string[]` | 6 images |
 | `STATUSBAR_HEART_IMAGES` | `string[]` | 6 images |
 | `STATUSBAR_BOTTLE_IMAGES` | `string[]` | 6 images |
+| `STATUSBAR_ENDBOSS_IMAGES` | `string[]` | 6 images |
 
 ### Methods
 | Method | Parameters | Returns | Description |
 |---|---|---|---|
 | `constructor(type)` | `type: string` | – | Loads all bar images for the given type and sets initial display |
-| `setStatusbar(type)` | `type: string` | `void` | Initializes the status bar image based on type (HEART, COIN, BOTTLE) |
+| `setStatusbar(type)` | `type: string` | `void` | Initializes the status bar image based on type (HEART, COIN, BOTTLE, ENDBOSS) |
 | `setPercentage(percentage)` | `percentage: number` | `void` | Updates percentage and displayed image |
 | `setCollected(collected)` | `collected: number` | `void` | Updates collected count and displayed image |
 | `resolveImageIndex(percentage)` | `percentage: number` | `number` | Returns image index (0–5) for the given percentage |
@@ -393,6 +426,7 @@ World             (standalone)
 |---|---|---|
 | `character` | `Character` | The player character |
 | `statusBar` | `Object` | Object holding StatusBar instances keyed by type (`BOTTLE`, `COIN`, `HEART`) |
+| `statusBarType` | `string[]` | Array of status bar types `["BOTTLE", "COIN", "HEART"]` |
 | `bottles` | `ThrowableObject[]` | Active thrown bottles |
 | `level` | `Level` | The current level |
 | `canvas` | `HTMLCanvasElement` | The game canvas |
@@ -400,13 +434,33 @@ World             (standalone)
 | `keyboard` | `Keyboard` | The keyboard input handler |
 | `camera_x` | `number` | Horizontal camera offset |
 | `canThrow` | `boolean` | Flags if a bottle can be thrown |
+| `gameOver` | `boolean` | Whether the game has ended |
 
 ### Methods
 | Method | Parameters | Returns | Description |
 |---|---|---|---|
 | `constructor(canvas, keyboard)` | `canvas: HTMLCanvasElement, keyboard: Keyboard` | – | Initializes status bars, drawing, world reference and game loop |
-| `setWorld()` | – | `void` | Passes world reference to the character |
-| `run()` | – | `void` | Starts the main game loop (collisions and throw checks) |
-| `checkThrowObject()` | – | `void` | Creates a bottle if THROW key is pressed and character has collected bottles |
-| `checkCollisions()` | – | `void` | Checks character vs. enemies, bottle vs. enemies/endboss, and character vs. collectables (GroundBottle, Coin) |
-| `draw()`
+| `setWorld()` | – | `void` | Passes world reference to the character and endboss |
+| `run()` | – | `void` | Starts the main game loop (collisions, throw checks and game result checks) |
+| `checkGameResult()` | – | `void` | Checks if character or endboss is dead and triggers appropriate end screen |
+| `generateGameOver()` | – | `void` | Handles game over state when character dies |
+| `generateGameWin()` | – | `void` | Handles win state when endboss dies |
+| `showGameOverScreen()` | – | `void` | Displays the game-over screen |
+| `showWinScreen()` | – | `void` | Displays the win screen |
+| `checkThrowObject()` | – | `void` | Checks if THROW key is pressed and bottle can be thrown |
+| `throwCollectedBottle()` | – | `void` | Creates and throws a new bottle, updates bottle count and status bar |
+| `checkCollisions()` | – | `void` | Delegates to specific collision detection methods |
+| `detectCollisionCharEnemy()` | – | `void` | Checks character vs. enemies collisions |
+| `hitEnemy(enemy)` | `enemy: MovableObject` | `void` | Handles hitting an enemy by jumping on it |
+| `getHitByEnemy()` | – | `void` | Handles character being hit by an enemy |
+| `detectCollisionCharEndboss()` | – | `void` | Checks character vs. endboss collision |
+| `detectCollisionBottleEnemy()` | – | `void` | Checks thrown bottles vs. enemies and endboss collisions |
+| `detectCollisionCharCollectables()` | – | `void` | Checks character vs. collectables collisions |
+| `collectBottle(collectable)` | `collectable: CollectableObject` | `void` | Handles collecting a bottle |
+| `collectCoin(collectable)` | `collectable: CollectableObject` | `void` | Handles collecting a coin |
+| `draw()` | – | `void` | Clears and redraws all game objects onto the canvas |
+| `generateEndbossStatusbar()` | – | `void` | Adds endboss status bar to canvas if boss has been seen |
+| `requestNextFrame()` | – | `void` | Requests the next animation frame if game is not over |
+| `addObjectsToCanvas(objects)` | `objects: DrawableObject[]` | `void` | Adds an array of drawable objects to the canvas |
+| `addToCanvas(object)` | `object: DrawableObject` | `void` | Adds a single drawable object, applying mirroring if needed |
+| `mirrorImage(object)` | `object: DrawableObject` | `void` | Mirrors an object's image horizontally |
