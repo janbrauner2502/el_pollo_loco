@@ -24,6 +24,7 @@ const allSounds = [
   throwBottle,
   jump,
   chickenHit,
+  buyBottle,
   bgm,
 ];
 
