@@ -154,12 +154,14 @@ window.addEventListener("keydown", (event) => {
     keyboard.RIGHT = true;
   }
   if (event.code === "Space") {
-    // if (!keyboard.UP) playSound(jump);
     event.preventDefault();
     keyboard.UP = true;
   }
   if (event.code === "KeyF") {
     keyboard.THROW = true;
+  }
+  if (event.code === "KeyS") {
+    keyboard.BUY = true;
   }
 });
 
@@ -181,6 +183,9 @@ window.addEventListener("keyup", (event) => {
   }
   if (event.code === "KeyF") {
     keyboard.THROW = false;
+  }
+  if (event.code === "KeyS") {
+    keyboard.BUY = false;
   }
 });
 
@@ -216,6 +221,12 @@ function mobileBtnTouchEvents() {
       event.preventDefault();
       keyboard.THROW = true;
     });
+  document
+    .getElementById("buyButton")
+    .addEventListener("touchstart", (event) => {
+      event.preventDefault();
+      keyboard.BUY = true;
+    });
 
   document
     .getElementById("leftButton")
@@ -243,6 +254,10 @@ function mobileBtnTouchEvents() {
       event.preventDefault();
       keyboard.THROW = false;
     });
+  document.getElementById("buyButton").addEventListener("touchend", (event) => {
+    event.preventDefault();
+    keyboard.BUY = false;
+  });
 }
 /**
  * Checks whether the current device supports touch input.

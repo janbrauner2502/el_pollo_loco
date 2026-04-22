@@ -68,10 +68,11 @@ h1 {
 
 h2 {
   margin: 1rem 0;
+  font-size: 1.5rem;
 }
 
 p {
-  font-size: 1.5rem;
+  font-size: 1rem;
   margin: 1rem 0;
 }
 
@@ -222,18 +223,6 @@ section button {
   translate: -50% -50%;
 }
 
-#playAgainButton {
-  position: absolute;
-  bottom: 10%;
-  left: 25%;
-}
-
-#backToStartButton {
-  position: absolute;
-  bottom: 10%;
-  right: 25%;
-}
-
 #infoButton {
   anchor-name: --help-button;
   background-image: url("assets/icons/info.svg");
@@ -279,6 +268,12 @@ section button {
   rotate: 90deg;
 }
 
+#buyButton {
+  background-image: url("assets/icons/money.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 /* --- Start Screen --- */
 
 .start-screen {
@@ -298,6 +293,19 @@ section button {
     width: 100%;
   }
 }
+
+/* --- End Screen Button Wrapper --- */
+
+.btn-wrapper {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  translate: -50% 0;
+  gap: 2rem;
+  width: max-content;
+  }
 
 /* --- Game Over Screen --- */
 

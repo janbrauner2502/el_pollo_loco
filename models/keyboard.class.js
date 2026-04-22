@@ -7,4 +7,5 @@ export class Keyboard {
   RIGHT = false;
   UP = false;
   THROW = false;
+  BUY = false;
 }

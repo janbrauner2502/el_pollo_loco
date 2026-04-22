@@ -104,6 +104,9 @@ export function createNewLevel() {
       new Coin(),
       new Coin(),
       new Coin(),
+      new Coin(),
+      new Coin(),
+      new Coin(),
     ];
   }
 }

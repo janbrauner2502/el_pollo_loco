@@ -8,6 +8,7 @@ export const characterDeath = new Audio("assets/audio/game_over.wav");
 export const throwBottle = new Audio("assets/audio/throw.wav");
 export const jump = new Audio("assets/audio/jump.wav");
 export const chickenHit = new Audio("assets/audio/c_hit_5.wav");
+export const buyBottle = new Audio("assets/audio/buy_bottle.mp3");
 export const bgm = new Audio("assets/audio/bgm.mp3");
 
 let isMuted = localStorage.getItem("isMuted") === "true";

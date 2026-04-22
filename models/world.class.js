@@ -16,6 +16,7 @@ import {
   hit,
   playSound,
   throwBottle,
+  buyBottle,
 } from "../js/audio.js";
 
 export const gameEndScreen = document.getElementById("gameEndScreen");
@@ -73,6 +74,7 @@ export class World {
       this.checkCollisions();
       this.checkThrowObject();
       this.checkGameResult();
+      this.changeCoinsToBottle();
     }, 30);
   }
 
@@ -193,6 +195,11 @@ export class World {
     this.detectCollisionCharCollectables();
   }
 
+  /**
+   * Detects collisions between the character and regular enemies.
+   * If the character is falling onto a living enemy from above, the enemy
+   * is hit and the character bounces upward. Otherwise, the character takes damage.
+   */
   detectCollisionCharEnemy() {
     const isFallingDown = this.character.speedY;
     this.level.enemies.forEach((enemy) => {
@@ -243,7 +250,7 @@ export class World {
       !this.level.endboss.isDead()
     ) {
       hit.play();
-      this.character.hit();
+      this.character.hitByEndboss();
       this.statusBar["HEART"].setPercentage(this.character.energy);
     }
   }
@@ -308,6 +315,25 @@ export class World {
         (collected) => collected !== collectable,
       );
     }
+  }
+
+  /**
+   * Converts 2 collected coins into 1 bottles when the change key is pressed
+   * and the character has enough coins without exceeding the bottle limit.
+   */
+  changeCoinsToBottle() {
+    if (
+      this.keyboard.BUY &&
+      this.character.collectedCoins >= 40 &&
+      this.character.collectedBottles <= 80
+    ) {
+      buyBottle.play();
+      this.character.collectedCoins -= 40;
+      this.statusBar["COIN"].setCollected(this.character.collectedCoins);
+      this.character.collectedBottles += 20;
+      this.statusBar["BOTTLE"].setCollected(this.character.collectedBottles);
+    }
+    this.keyboard.BUY = false;
   }
 
   /**
