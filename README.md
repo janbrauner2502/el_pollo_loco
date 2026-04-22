@@ -42,30 +42,6 @@ open index.html
 # or use a local server like Live Server in VS Code
 ```
 
-## 🏗️ Project Structure
-
-```
-el_pollo_loco/
-├── index.html          # Main HTML file
-├── style.css           # Styles
-├── js/
-│   ├── game.js         # Game initialization & input handling
-│   └── audio.js        # Sound management
-├── models/             # Game object classes
-│   ├── world.class.js          # Main game controller
-│   ├── character.class.js      # Player character (Pepe)
-│   ├── endboss.class.js        # Final boss enemy
-│   ├── movableObject.class.js  # Base class for moving objects
-│   ├── drawableObject.class.js # Base class for drawable objects
-│   └── ...                     # Other game objects
-├── levels/
-│   └── level1.js       # Level configuration
-├── assets/
-│   └── audio/          # Sound effects & music
-├── img/                # Sprites & images
-└── font/               # Custom fonts
-```
-
 ## ✨ Features
 
 - 🎨 Smooth sprite animations
@@ -86,17 +62,6 @@ el_pollo_loco/
 ## 📖 Documentation
 
 Class structure and API documentation can be found in [Structure.md](Structure.md).
-
-To generate JSDoc documentation:
-```bash
-npm run docs
-```
-
-## 📸 Screenshots
-
-| Start Screen | Gameplay | Boss Fight |
-|--------------|----------|------------|
-| ![Start](img/9_intro_outro_screens/start/startscreen_1.png) | *In-game* | *Endboss* |
 
 ## 🎵 Audio Credits
 
