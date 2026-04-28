@@ -33,7 +33,7 @@ Simply open `index.html` in your browser – no build process required!
 ### Local Development
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/el_pollo_loco.git
+git clone https://github.com/janbrauner2502/el_pollo_loco.git
 
 # Navigate to project directory
 cd el_pollo_loco
