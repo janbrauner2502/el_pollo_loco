@@ -20,6 +20,7 @@ A fun 2D jump-and-run game built with vanilla JavaScript and HTML5 Canvas. Help 
 | `D` | Move Right |
 | `Space` | Jump |
 | `F` | Throw Bottle |
+| `S` | Get a Bottle for 2 Coins |
 
 ### Mobile
 Touch controls are available on mobile devices with on-screen buttons for movement, jumping, and throwing.
@@ -58,14 +59,6 @@ open index.html
 - **Vanilla JavaScript (ES6+)** – Game logic with ES modules
 - **CSS3** – UI styling and animations
 - **No external game frameworks** – Built from scratch!
-
-## 📖 Documentation
-
-Class structure and API documentation can be found in [Structure.md](Structure.md).
-
-## 🎵 Audio Credits
-
-Background music and sound effects are included in the `assets/audio/` folder.
 
 ## 📄 License
 
